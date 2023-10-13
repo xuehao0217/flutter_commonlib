@@ -21,6 +21,9 @@ class InputWidget extends StatefulWidget {
   final double iconSize;
 
   final TextInputType keyboardType;
+
+  final FontWeight fontWeight;
+  final FontWeight hintFontWeight;
   final ValueChanged<String>? onTextChanged;
 
   InputWidget({
@@ -37,6 +40,8 @@ class InputWidget extends StatefulWidget {
     this.iconSize = 24,
     this.UnderlineColor = Colors.grey,
     this.keyboardType = TextInputType.number,
+    this.fontWeight = FontWeight.normal,
+    this.hintFontWeight = FontWeight.normal,
   }) : super(key: key);
 
   @override
@@ -73,6 +78,7 @@ class _InputWidgetState extends State<InputWidget> {
         fontFamily: 'DINPRO',
         fontSize: widget.fontSize,
         color: widget.textColor,
+        fontWeight: widget.fontWeight,
       ),
       decoration: InputDecoration(
         labelText: '',
@@ -81,6 +87,7 @@ class _InputWidgetState extends State<InputWidget> {
           fontFamily: 'DINPRO',
           fontSize: widget.fontSize,
           color: widget.hintColor,
+          fontWeight: widget.hintFontWeight,
         ),
         hintText: widget.hintText,
         // 设置提示文字
