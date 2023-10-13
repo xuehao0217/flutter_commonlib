@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 
 import '../helpter/status_utils.dart';
 import '../widget/common_widget.dart';
+import '../widget/input_widget.dart';
 import 'cameras_page.dart';
 import 'vm/home_view_model.dart';
 
@@ -52,7 +53,7 @@ class _HomePage extends BaseStatefulWidget<HomeViewModel> {
 
   @override
   Widget buildPageContent(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
         const SizedBox(
           height: 15,
@@ -109,13 +110,14 @@ class _HomePage extends BaseStatefulWidget<HomeViewModel> {
           width: double.infinity,
           height: 50,
           onPressed: () async {
-                Get2Named(RouterRULConfig.watermark);
+            Get2Named(RouterRULConfig.watermark);
           },
           child: const Text(
             "拍照打水印",
             style: TextStyle(color: Colors.white, fontSize: 16),
           ),
         ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+
         Swiper(
           viewportFraction: 0.8,
           scale: 0.9,
