@@ -65,7 +65,7 @@ class _InputWidgetState extends State<InputWidget> {
       //是否自动对焦
       autofocus: true,
       //设置密码 true：是密码 false：不是秘密
-      obscureText: _obscureText,
+      obscureText: widget.isPassword ?  _obscureText:false,
       //文本对齐样式
       textAlign: TextAlign.start,
 
