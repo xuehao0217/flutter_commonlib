@@ -65,7 +65,7 @@ class _InputWidgetState extends State<InputWidget> {
       //是否自动对焦
       autofocus: true,
       //设置密码 true：是密码 false：不是秘密
-      obscureText: widget.isPassword ?  _obscureText:false,
+      obscureText: widget.isPassword ? _obscureText : false,
       //文本对齐样式
       textAlign: TextAlign.start,
 
@@ -97,6 +97,12 @@ class _InputWidgetState extends State<InputWidget> {
             color: widget.UnderlineColor, // 下划线颜色
             width: 0.5, // 下划线宽度
           ),
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+              color: widget.UnderlineColor, // 下划线颜色（焦点状态）
+              width: 0.5 // 下划线宽度
+              ), // 设置无焦点下划线颜色
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
