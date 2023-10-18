@@ -151,7 +151,7 @@ class _WatermarkPage extends BaseStatefulWidget<WatermarkViewModel> {
   Future generateImage() async {
     final boundary =
         globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
-    final image = await boundary.toImage(pixelRatio: 3); // 调整分辨率
+    final image = await boundary.toImage(pixelRatio: 1); // 调整分辨率
     image
         .toByteData(format: ImageByteFormat.png)
         .then((value) => {_saveImage(value!.buffer.asUint8List())});
@@ -187,38 +187,28 @@ class _WatermarkPage extends BaseStatefulWidget<WatermarkViewModel> {
     double aspectRatio = imageWidth / imageHeight; // 图片宽高比
     double containerHeight = screenWidth / aspectRatio;
 
-    final widgetToCapture = Stack(
-      alignment: Alignment.center, // 子部件在堆叠中的对齐方式
-      children: <Widget>[
-        Container(
-          width: screenWidth, // 宽度充满全屏
-          height: containerHeight, // 根据计算的高度
-          child: Image.file(
-            File(path)
-          ),
+    final widgetToCapture = ConstraintLayout(
+      children: [
+       Image.file(File(path)).applyConstraint(
+          id: cId("img"),
+          top: parent.top,
+          width: matchParent,
         ),
-        Positioned(
-          bottom: 20,
-          right: 20,
-          child: Container(
-            height: 50,
-            color: Colors.green,
-            child: const Text(
-              '我是水印',
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
+        const Text(
+          "我是水印",
+          style: TextStyle(color: Colors.red, fontSize: 15),
+        ).applyConstraint(
+          right: cId("img").right,
+          bottom: cId("img").bottom,
+          margin: EdgeInsets.only(bottom: 20,right: 20)
+        )
       ],
     );
     final Uint8List? imageUint8List =
         await ImageLoaderUtils.createImageFromWidget(context, widgetToCapture,
-            wait: const Duration(milliseconds: 800),
-            imageSize: Size(imageWidth.toDouble(), imageHeight),
-            logicalSize: Size(imageWidth * 0.9, imageHeight * 0.9));
+            wait: const Duration(milliseconds: 300),
+            imageSize: Size(imageWidth, imageHeight),
+            logicalSize: Size(screenWidth , containerHeight));
 
     if (imageUint8List != null) {
       setState(() {
