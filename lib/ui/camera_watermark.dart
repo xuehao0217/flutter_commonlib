@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'dart:ui';
 
+import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -94,7 +95,7 @@ class _WatermarkPage extends BaseStatefulWidget<WatermarkViewModel> {
           backgroundColor: Colors.blue,
           width: double.infinity,
           height: 50,
-          onPressed: ()  {
+          onPressed: () {
             getImageToImage();
           },
           child: const Text(
@@ -117,6 +118,9 @@ class _WatermarkPage extends BaseStatefulWidget<WatermarkViewModel> {
     setState(() {
       if (pickedFile != null) {
         _image.value = pickedFile.path;
+        WidgetUtil.getImageWH(localUrl: pickedFile.path).then((Rect rect) {
+          print("rect: " + rect.toString());
+        });
       } else {
         SmartDialog.showToast('没有选择任何图片');
       }
@@ -133,7 +137,8 @@ class _WatermarkPage extends BaseStatefulWidget<WatermarkViewModel> {
 
   Future _saveImage(Uint8List generatedImage) async {
     final directory = await getApplicationDocumentsDirectory();
-    var file = await File('${directory.path}/my_image.png')
+    var file = await File(
+            '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.png')
         .writeAsBytes(generatedImage);
     setState(() {
       showToast(file.path);
@@ -159,32 +164,47 @@ class _WatermarkPage extends BaseStatefulWidget<WatermarkViewModel> {
       // 手机选择图库
       //   source: ImageSource.gallery,
     );
-    setState(() {
-      if (pickedFile != null) {
-        captureWidgetToImage(context, pickedFile.path);
-      } else {
-        SmartDialog.showToast('没有选择任何图片');
-      }
-    });
+
+    if (pickedFile != null) {
+      showLoading();
+      final image = File(pickedFile.path);
+      final imageBytes = await image.readAsBytes();
+      final decodedImage = await decodeImageFromList(imageBytes);
+      setState(() {
+        var imageWidth = decodedImage.width.toDouble();
+        var imageHeight = decodedImage.height.toDouble();
+        // showToast("imageWidth==${imageWidth}   imageHeight=${imageHeight} ");
+        captureWidgetToImage(context, pickedFile.path, imageWidth, imageHeight);
+      });
+    } else {
+      SmartDialog.showToast('没有选择任何图片');
+    }
   }
 
   //widget不能在页面展示，需要在后台构建指定的UI，获取widget的截图并生成图片保存起来。
-  void captureWidgetToImage(BuildContext context, String path) async {
+  void captureWidgetToImage(BuildContext context, String path, double imageWidth, double imageHeight) async {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double aspectRatio = imageWidth / imageHeight; // 图片宽高比
+    double containerHeight = screenWidth / aspectRatio;
+
     final widgetToCapture = Stack(
       alignment: Alignment.center, // 子部件在堆叠中的对齐方式
       children: <Widget>[
         Container(
-          width: double.infinity,
-          child: Image.file(File(path)),
+          width: screenWidth, // 宽度充满全屏
+          height: containerHeight, // 根据计算的高度
+          child: Image.file(
+            File(path)
+          ),
         ),
         Positioned(
           bottom: 20,
           right: 20,
           child: Container(
-            width: 50,
+            height: 50,
             color: Colors.green,
             child: const Text(
-              'Stack Example',
+              '我是水印',
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,
@@ -194,16 +214,16 @@ class _WatermarkPage extends BaseStatefulWidget<WatermarkViewModel> {
         ),
       ],
     );
-
     final Uint8List? imageUint8List =
         await ImageLoaderUtils.createImageFromWidget(context, widgetToCapture,
-            wait: const Duration(milliseconds: 1000),
-            imageSize: const Size(200, 200),
-            logicalSize: const Size(220, 220));
+            wait: const Duration(milliseconds: 800),
+            imageSize: Size(imageWidth.toDouble(), imageHeight),
+            logicalSize: Size(imageWidth * 0.9, imageHeight * 0.9));
 
     if (imageUint8List != null) {
       setState(() {
         _saveImage(imageUint8List);
+        hideLoading();
       });
       print('Image captured successfully.');
     } else {
