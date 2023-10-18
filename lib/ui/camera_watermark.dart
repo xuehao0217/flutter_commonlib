@@ -117,11 +117,11 @@ class _WatermarkPage extends BaseStatefulWidget<WatermarkViewModel> {
 
   Future _saveImage(Uint8List generatedImage) async {
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/my_image.png');
-    var file2 = await file.writeAsBytes(generatedImage);
+    var file = await File('${directory.path}/my_image.png')
+        .writeAsBytes(generatedImage);
     setState(() {
-      showToast(file2.path);
-      saveImagePath.value = file2.path;
+      showToast(file.path);
+      saveImagePath.value = file.path;
     });
   }
 
@@ -131,10 +131,8 @@ class _WatermarkPage extends BaseStatefulWidget<WatermarkViewModel> {
     final boundary =
         globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
     final image = await boundary.toImage(pixelRatio: 3); // 调整分辨率
-    final byteData = await image.toByteData(format: ImageByteFormat.png);
-    final uint8list = byteData!.buffer.asUint8List();
-    setState(() {
-      _saveImage(uint8list);
-    });
+    image
+        .toByteData(format: ImageByteFormat.png)
+        .then((value) => {_saveImage(value!.buffer.asUint8List())});
   }
 }
