@@ -67,4 +67,5 @@ class ImageLoaderUtils {
 
     return byteData?.buffer.asUint8List();
   }
+
 }

@@ -143,6 +143,7 @@ class _WatermarkPage extends BaseStatefulWidget<WatermarkViewModel> {
     setState(() {
       showToast(file.path);
       saveImagePath.value = file.path;
+      hideLoading();
     });
   }
 
@@ -170,26 +171,33 @@ class _WatermarkPage extends BaseStatefulWidget<WatermarkViewModel> {
       final image = File(pickedFile.path);
       final imageBytes = await image.readAsBytes();
       final decodedImage = await decodeImageFromList(imageBytes);
-      setState(() {
-        var imageWidth = decodedImage.width.toDouble();
-        var imageHeight = decodedImage.height.toDouble();
-        // showToast("imageWidth==${imageWidth}   imageHeight=${imageHeight} ");
-        captureWidgetToImage(context, pickedFile.path, imageWidth, imageHeight);
-      });
+      var imageWidth = decodedImage.width.toDouble();
+      var imageHeight = decodedImage.height.toDouble();
+      // showToast("imageWidth==${imageWidth}   imageHeight=${imageHeight} ");
+      captureWidgetToImage(context, pickedFile.path, imageWidth, imageHeight);
     } else {
       SmartDialog.showToast('没有选择任何图片');
     }
   }
 
   //widget不能在页面展示，需要在后台构建指定的UI，获取widget的截图并生成图片保存起来。
-  void captureWidgetToImage(BuildContext context, String path, double imageWidth, double imageHeight) async {
+  void captureWidgetToImage(BuildContext context, String path,
+      double imageWidth, double imageHeight) async {
     double screenWidth = MediaQuery.of(context).size.width;
     double aspectRatio = imageWidth / imageHeight; // 图片宽高比
     double containerHeight = screenWidth / aspectRatio;
 
+    final imageProvider = FileImage(File(path));
     final widgetToCapture = ConstraintLayout(
       children: [
-       Image.file(File(path)).applyConstraint(
+        // Image.file(File(path)).applyConstraint(
+        //   id: cId("img"),
+        //   top: parent.top,
+        //   width: matchParent,
+        // ),
+        Image(
+          image: imageProvider,
+        ).applyConstraint(
           id: cId("img"),
           top: parent.top,
           width: matchParent,
@@ -198,26 +206,27 @@ class _WatermarkPage extends BaseStatefulWidget<WatermarkViewModel> {
           "我是水印",
           style: TextStyle(color: Colors.red, fontSize: 15),
         ).applyConstraint(
-          right: cId("img").right,
-          bottom: cId("img").bottom,
-          margin: EdgeInsets.only(bottom: 20,right: 20)
-        )
+            right: cId("img").right,
+            bottom: cId("img").bottom,
+            margin: EdgeInsets.only(bottom: 20, right: 20))
       ],
     );
-    final Uint8List? imageUint8List =
-        await ImageLoaderUtils.createImageFromWidget(context, widgetToCapture,
-            wait: const Duration(milliseconds: 300),
-            imageSize: Size(imageWidth, imageHeight),
-            logicalSize: Size(screenWidth , containerHeight));
 
-    if (imageUint8List != null) {
-      setState(() {
+    var _imageStream = imageProvider.resolve(ImageConfiguration.empty);
+    _imageStream?.addListener(
+        ImageStreamListener((ImageInfo info, bool synchronousCall) async {
+      final Uint8List? imageUint8List =
+          await ImageLoaderUtils.createImageFromWidget(context, widgetToCapture,
+              imageSize: Size(imageWidth * 0.5, imageHeight * 0.5),
+              // imageSize: Size(screenWidth * 2, containerHeight * 2),
+              logicalSize: Size(screenWidth, containerHeight));
+      if (imageUint8List != null) {
         _saveImage(imageUint8List);
-        hideLoading();
-      });
-      print('Image captured successfully.');
-    } else {
-      print('Image capture failed.');
-    }
+        print('Image captured successfully.');
+      } else {
+        print('Image capture failed.');
+      }
+    }));
+
   }
 }
