@@ -48,6 +48,8 @@ class HomeViewModel extends BaseViewModel {
   }
 
 
+  ///https://blog.csdn.net/LeftStrang/article/details/116354401
+
   void downApkFunction(String apkUrl) async {
     final status = await Permission.storage.request();
     if (status != PermissionStatus.granted) {
@@ -55,7 +57,8 @@ class HomeViewModel extends BaseViewModel {
     } else {
       String savePath = await getPhoneLocalPath();
       String appName = "dw.apk";
-      await HttpUtils.instance.dio.download(apkUrl, "$savePath$appName",
+      String filePath="$savePath/$appName";
+      await HttpUtils.instance.dio.download(apkUrl, filePath,
           onReceiveProgress: (received, total) {
         if (total != -1) {
           ///当前下载的百分比例
