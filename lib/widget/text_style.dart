@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 const FontWeightMedium = FontWeight.w500;
 const FontWeightDEF = FontWeight.w400;
+const FontWeightSemibold = FontWeight.w600;
+
 
 class XText extends StatelessWidget {
   final String text;
