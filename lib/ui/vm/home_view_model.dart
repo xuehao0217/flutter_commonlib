@@ -241,7 +241,7 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<int> _getCacheSize() async {
-    Directory cacheDir = await getApplicationCacheDirectory();
+    Directory cacheDir = await getTemporaryDirectory();
     int cacheSize = 0;
     try {
       List<FileSystemEntity> fileList = cacheDir.listSync(recursive: true);
@@ -258,7 +258,7 @@ class HomeViewModel extends BaseViewModel {
   }
 
   void clearCache() async {
-    Directory cacheDir = await getApplicationCacheDirectory();
+    Directory cacheDir = await getTemporaryDirectory();
     // 列出目录中的文件
     List<FileSystemEntity> files = cacheDir.listSync(recursive: true);
     for (FileSystemEntity file in files) {

@@ -27,9 +27,9 @@ class _HomePage extends BaseStatefulWidget<HomeViewModel> {
   @override
   void onPageShow() {
     super.onPageShow();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
       viewModel.getCacheSizeAsync();
-    });
+    // });
   }
 
   @override
