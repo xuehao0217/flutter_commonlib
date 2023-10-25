@@ -27,9 +27,10 @@ class _HomePage extends BaseStatefulWidget<HomeViewModel> {
   void onPageShow() {
     super.onPageShow();
   }
-
   @override
-  void initData() {}
+  void initData() {
+    viewModel.getCacheSize();
+  }
 
   @override
   bool showTitleBar() => false;
@@ -117,6 +118,36 @@ class _HomePage extends BaseStatefulWidget<HomeViewModel> {
             style: TextStyle(color: Colors.white, fontSize: 16),
           ),
         ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        CommonButton(
+          elevation: 2,
+          circular: 10,
+          backgroundColor: Colors.blue,
+          width: double.infinity,
+          height: 50,
+          onPressed: () async {
+            viewModel.showDownloadDialog();
+          },
+          child: const Text(
+            "版本更新",
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+
+        CommonButton(
+          elevation: 2,
+          circular: 10,
+          backgroundColor: Colors.blue,
+          width: double.infinity,
+          height: 50,
+          onPressed: () async {
+            viewModel.clearCache();
+          },
+          child:  Text(
+            "当前缓存 ${viewModel.cacheSize}",
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+
 
         Swiper(
           viewportFraction: 0.8,

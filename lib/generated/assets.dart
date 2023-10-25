@@ -2,6 +2,11 @@
 class R {
   R._();
 
+  static const String assetsIcLogo = 'assets/ic_logo.jpeg';
+  static const String assetsIcUpgrade = 'assets/ic_upgrade.png';
   static const String assetsIconBackBlack = 'assets/icon_back_black.png';
+  static const String fontsDinpro = 'assets/fonts/dinpro.ttf';
+  static const String fontsDinproBold = 'assets/fonts/dinpro_bold.ttf';
+  static const String fontsDinproMedium = 'assets/fonts/dinpro_medium.ttf';
 
 }
