@@ -2,6 +2,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_commonlib/helpter/widget_ext_helper.dart';
 import 'package:flutter_commonlib/widget/common_widget.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
@@ -38,7 +39,7 @@ abstract class BasePageStatelessWidget extends StatelessWidget {
               height: 44,
             ),
           Expanded(
-            child: buildContent(context),
+            child: buildContent(context).intoContainer(color:  setPageBgColor()),
           )
         ],
       ),
