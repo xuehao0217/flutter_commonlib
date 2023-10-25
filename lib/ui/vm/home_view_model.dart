@@ -56,7 +56,6 @@ class HomeViewModel extends BaseViewModel {
     }, onfinally: onfinally);
   }
 
-
   ///https://blog.csdn.net/LeftStrang/article/details/116354401
   var currentProgress = 0.0.obs;
   var total_obs = 0.obs;
@@ -67,7 +66,8 @@ class HomeViewModel extends BaseViewModel {
     if (status != PermissionStatus.granted) {
       print('storage permission not granted');
     } else {
-      await HttpUtils.instance.dio.download(apkUrl, filePath, onReceiveProgress: (received, total) {
+      await HttpUtils.instance.dio.download(apkUrl, filePath,
+          onReceiveProgress: (received, total) {
         if (total != -1) {
           ///当前下载的百分比例
           print("${(received / total * 100).toStringAsFixed(0)}%");
@@ -123,7 +123,7 @@ class HomeViewModel extends BaseViewModel {
                 height: 454,
                 top: parent.top,
               ),
-              Image.asset(R.assetsIconBackBlack).click(() {
+              Icon(Icons.clear,color: Colors.white,).click(() {
                 SmartDialog.dismiss();
               }).applyConstraint(
                   size: 24,
@@ -234,17 +234,13 @@ class HomeViewModel extends BaseViewModel {
     );
   }
 
-
-
-
   var cacheSize = "0M".obs;
 
-  void getCache(){
-    view.showToast("getCache");
-    getCacheSize().then((value) => {cacheSize.value = "${value}M"});
+  void getCacheSizeAsync() {
+    _getCacheSize().then((value) => {cacheSize.value = "${value}M"});
   }
 
-  Future<int> getCacheSize() async {
+  Future<int> _getCacheSize() async {
     Directory cacheDir = await getApplicationCacheDirectory();
     int cacheSize = 0;
     try {
@@ -258,12 +254,10 @@ class HomeViewModel extends BaseViewModel {
     } catch (e) {
       print('Error calculating cache size: $e');
     }
-
-    return cacheSize~/(1024*1024);
+    return cacheSize ~/ (1024 * 1024);
   }
 
-
-  void clearCache() async{
+  void clearCache() async {
     Directory cacheDir = await getApplicationCacheDirectory();
     // 列出目录中的文件
     List<FileSystemEntity> files = cacheDir.listSync(recursive: true);
@@ -273,8 +267,6 @@ class HomeViewModel extends BaseViewModel {
         file.deleteSync();
       }
     }
-    cacheSize.value = "0M";
-    view.showToast("清除成功");
+    getCacheSizeAsync();
   }
-
 }

@@ -8,6 +8,7 @@ import 'package:flutter_commonlib/base/mvvm/base_stateful_widget.dart';
 import 'package:flutter_commonlib/helpter/widget_ext_helper.dart';
 import 'package:flutter_commonlib/router/router_config.dart';
 import 'package:flutter_commonlib/widget/common_list_view.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:get/get.dart';
 
@@ -26,11 +27,13 @@ class _HomePage extends BaseStatefulWidget<HomeViewModel> {
   @override
   void onPageShow() {
     super.onPageShow();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      viewModel.getCacheSizeAsync();
+    });
   }
+
   @override
-  void initData() {
-    viewModel.getCacheSize();
-  }
+  void initData() {}
 
   @override
   bool showTitleBar() => false;
@@ -133,21 +136,21 @@ class _HomePage extends BaseStatefulWidget<HomeViewModel> {
           ),
         ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
 
-        CommonButton(
-          elevation: 2,
-          circular: 10,
-          backgroundColor: Colors.blue,
-          width: double.infinity,
-          height: 50,
-          onPressed: () async {
-            viewModel.clearCache();
-          },
-          child:  Text(
-            "当前缓存 ${viewModel.cacheSize}",
-            style: TextStyle(color: Colors.white, fontSize: 16),
-          ),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
-
+        Obx(() => CommonButton(
+              elevation: 2,
+              circular: 10,
+              backgroundColor: Colors.blue,
+              width: double.infinity,
+              height: 50,
+              onPressed: () async {
+                viewModel.clearCache();
+              },
+              child: Text(
+                "当前缓存 ${viewModel.cacheSize}",
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ).intoPadding(
+                const EdgeInsets.only(bottom: 15, left: 15, right: 15))),
 
         Swiper(
           viewportFraction: 0.8,
