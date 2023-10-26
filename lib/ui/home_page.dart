@@ -136,6 +136,22 @@ class _HomePage extends BaseStatefulWidget<HomeViewModel> {
           ),
         ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
 
+        CommonButton(
+          elevation: 2,
+          circular: 10,
+          backgroundColor: Colors.blue,
+          width: double.infinity,
+          height: 50,
+          onPressed: () async {
+            Get2Named(RouterRULConfig.loading_state);
+          },
+          child: const Text(
+            "Loading State",
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+
+
         Obx(() => CommonButton(
               elevation: 2,
               circular: 10,

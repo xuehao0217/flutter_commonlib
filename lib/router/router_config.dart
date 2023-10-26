@@ -9,6 +9,7 @@ import 'package:rxdart/rxdart.dart';
 import '../ui/camera_watermark.dart';
 import '../ui/cameras_page.dart';
 import '../ui/home_page.dart';
+import '../ui/loading_state_page.dart';
 import '../ui/permission_widget.dart';
 
 class RouterRULConfig {
@@ -20,6 +21,8 @@ class RouterRULConfig {
   static const permission = "/permission";
   static const camera = "/camera";
   static const watermark = "/watermark";
+
+  static const loading_state = "/loading_state";
 }
 
 
@@ -31,6 +34,7 @@ final List<GetPage>  pages = [
   GetPage(name: RouterRULConfig.list, page: () => CommonListPage(),transition: Transition.zoom),
   GetPage(name: RouterRULConfig.permission, page: () => PermissionHandlerWidget()),
   GetPage(name: RouterRULConfig.watermark, page: () => WatermarkPage()),
+  GetPage(name: RouterRULConfig.loading_state, page: () => LoadingStatePage()),
 ];
 
 
