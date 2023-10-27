@@ -27,7 +27,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   intl: ^0.18.1     #日期格式化
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.6
   common_utils: ^2.1.0    #https://pub-web.flutter-io.cn/packages/common_utils
   flustars: ^2.0.1
   event_bus: ^2.0.0 #https://pub-web.flutter-io.cn/packages/event_bus/example
@@ -35,26 +35,26 @@ dependencies:
   sprintf: ^7.0.0
   dio: ^5.2.1+1
   get: ^4.6.5   #https://pub-web.flutter-io.cn/packages/get
-  logger: ^ 2.0.1   # https://pub-web.flutter-io.cn/packages/logger
+  logger: ^2.0.2+1   # https://pub-web.flutter-io.cn/packages/logger
   flutterlifecyclehooks : ^3.0.2
   cached_network_image: ^3.2.3    #https://pub-web.flutter-io.cn/packages/cached_network_image
-  flutter_smart_dialog: ^4.9.3+2  #https://juejin.cn/post/7026150456673959943  #使用例子 https://xdd666t.github.io/flutter_use/web/index.html#/smartDialog?dialogType=CustomDialogLocation
+  flutter_smart_dialog: ^4.9.4  #https://juejin.cn/post/7026150456673959943  #使用例子 https://xdd666t.github.io/flutter_use/web/index.html#/smartDialog?dialogType=CustomDialogLocation
   # platform_device_id: ^1.0.1
-  package_info_plus: ^4.0.2
+  package_info_plus: ^4.2.0   #https://pub-web.flutter-io.cn/packages/package_info_plus
   #webview_flutter: ^4.2.2
   card_swiper: ^3.0.1   #https://pub-web.flutter-io.cn/packages/card_swiper/install
   flutter_constraintlayout: ^1.7.0-stable   #https://github.com/hackware1993/Flutter_ConstraintLayout/blob/master/README_CN.md
   #  easy_refresh: ^3.3.2+1 #https://pub.dev/packages/easy_refresh/example
   pull_to_refresh: ^2.0.0  #https://github.com/peng8350/flutter_pulltorefresh
-  permission_handler: ^10.4.3 #https://pub-web.flutter-io.cn/packages/permission_handler/example
-  device_info: ^2.0.3   #https://pub-web.flutter-io.cn/packages/device_info/example
+  permission_handler: ^11.0.1 #https://pub-web.flutter-io.cn/packages/permission_handler/example
+  device_info_plus: ^9.1.0   #https://pub-web.flutter-io.cn/packages/device_info_plus/example
   flutter_statusbarcolor_ns: ^0.5.0  #https://pub.dev/packages/flutter_statusbarcolor_ns/example
   #  camera: ^0.10.5+3   #https://pub.dev/packages/camera/example
-  image_picker: ^1.0.4
+  image_picker: ^1.0.4    #https://pub-web.flutter-io.cn/packages/image_picker
   video_player: ^2.7.2
-  path_provider: ^2.1.1
-  flutter_native_splash: ^2.3.3
-  install_plugin: '^2.1.0'
+  path_provider: ^2.1.1   #https://pub-web.flutter-io.cn/packages/path_provider
+  flutter_native_splash: ^2.3.4   #https://pub-web.flutter-io.cn/packages/flutter_native_splash
+  install_plugin: ^2.1.0
 
 dev_dependencies:
   flutter_test:
