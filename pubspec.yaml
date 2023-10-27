@@ -55,6 +55,9 @@ dependencies:
   path_provider: ^2.1.1   #https://pub-web.flutter-io.cn/packages/path_provider
   flutter_native_splash: ^2.3.4   #https://pub-web.flutter-io.cn/packages/flutter_native_splash
   install_plugin: ^2.1.0
+  url_launcher: ^6.2.1  #https://pub-web.flutter-io.cn/packages/url_launcher/install
+  flutter_local_notifications: ^16.1.0 #https://pub-web.flutter-io.cn/packages/flutter_local_notifications/install
+  photo_view: ^0.14.0  #https://pub-web.flutter-io.cn/packages/photo_view
 
 dev_dependencies:
   flutter_test:
