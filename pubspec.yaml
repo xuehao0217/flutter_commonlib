@@ -32,7 +32,6 @@ dependencies:
   flustars: ^2.0.1
   event_bus: ^2.0.0 #https://pub-web.flutter-io.cn/packages/event_bus/example
   rxdart: ^0.27.7 #https://pub-web.flutter-io.cn/packages/rxdart/example
-  sprintf: ^7.0.0
   dio: ^5.2.1+1
   get: ^4.6.5   #https://pub-web.flutter-io.cn/packages/get
   logger: ^2.0.2+1   # https://pub-web.flutter-io.cn/packages/logger
