@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   common_utils: ^2.1.0    #https://pub-web.flutter-io.cn/packages/common_utils
   flustars: ^2.0.1
+  sprintf: ^7.0.0    #https://pub-web.flutter-io.cn/packages/sprintf
   event_bus: ^2.0.0 #https://pub-web.flutter-io.cn/packages/event_bus/example
   rxdart: ^0.27.7 #https://pub-web.flutter-io.cn/packages/rxdart/example
   dio: ^5.2.1+1
