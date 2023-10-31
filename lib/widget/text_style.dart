@@ -16,8 +16,7 @@ class XText extends StatelessWidget {
   final FontWeight fontWeight;
   final Color textColor;
 
-  XText({
-    required this.text,
+  XText(this.text,{
     this.fontSize = 16.0,
     this.fontWeight = FontWeight.normal,
     this.textColor = Colors.black,

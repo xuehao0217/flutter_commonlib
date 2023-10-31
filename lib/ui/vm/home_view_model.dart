@@ -144,8 +144,7 @@ class HomeViewModel extends BaseViewModel {
                 },
                 circular: 6,
                 backgroundColor: cl_203295,
-                child: XText(
-                  text: currentProgress.value == 100
+                child: XText(currentProgress.value == 100
                       ? "立即安装"
                       : !isDownLoad.value
                           ? "有新版本啦"
@@ -155,8 +154,7 @@ class HomeViewModel extends BaseViewModel {
                 ),
               ).applyConstraint(
                   bottomCenterTo: parent, margin: EdgeInsets.only(bottom: 44)),
-              XText(
-                text: "建议在wifi环境进行下载",
+              XText("建议在wifi环境进行下载",
               ).applyConstraint(
                   bottomCenterTo: parent, margin: EdgeInsets.only(bottom: 16)),
               Column(
@@ -164,16 +162,14 @@ class HomeViewModel extends BaseViewModel {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      XText(
-                        text: "有新版本啦",
+                      XText("有新版本啦",
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
                       Container(
                         width: 8,
                       ),
-                      XText(
-                        text: "新版本",
+                      XText("新版本",
                         textColor: cl_203295,
                         fontSize: 12,
                       )
@@ -199,16 +195,14 @@ class HomeViewModel extends BaseViewModel {
                   margin: EdgeInsets.only(top: 190)),
               Column(
                 children: [
-                  XText(
-                    text: "正在下载更新包",
+                  XText("正在下载更新包",
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),
                   Container(
                     height: 20,
                   ),
-                  XText(
-                    text: "${currentProgress.toStringAsFixed(0)}%",
+                  XText("${currentProgress.toStringAsFixed(0)}%",
                     fontSize: 20,
                     textColor: cl_203295,
                     fontWeight: FontWeight.w600,
