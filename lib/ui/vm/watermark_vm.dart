@@ -113,6 +113,7 @@ class WatermarkViewModel extends BaseViewModel {
       ],
     );
 
+    //_imageStream.removeListener(listener) 记得removeListener
     var _imageStream = imageProvider.resolve(ImageConfiguration.empty);
     _imageStream?.addListener(
         ImageStreamListener((ImageInfo info, bool synchronousCall) async {
