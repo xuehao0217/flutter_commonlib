@@ -100,7 +100,7 @@ class CommonListWidget extends StatelessWidget {
     return footer?.length ?? 0;
   }
 
-  Widget getListView() => ListView.builder(
+  Widget getListView() => ListView.separated(
         itemCount: getHeaderCount() + itemCount + getFooterCount(),
         padding: padding,
         controller: scrollController,
@@ -112,6 +112,12 @@ class CommonListWidget extends StatelessWidget {
           } else {
             return itemBuilder(context, index - getHeaderCount());
           }
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return const VerticalDivider(
+            width: 16.0,
+            color: Colors.transparent,
+          );
         },
       );
 }
