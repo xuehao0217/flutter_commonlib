@@ -8,6 +8,7 @@ import 'package:get/get_core/src/get_main.dart';
 extension ClickExt on Widget {
   Widget click(VoidCallback click) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: click,
       child: this,
     );
