@@ -114,10 +114,7 @@ class CommonListWidget extends StatelessWidget {
           }
         },
         separatorBuilder: (BuildContext context, int index) {
-          return const VerticalDivider(
-            width: 16.0,
-            color: Colors.transparent,
-          );
+          return const Divider(height: 16,);
         },
       );
 }

@@ -45,6 +45,7 @@ class _CommonListPage extends BaseStatefulWidget<HomeViewModel> {
   @override
   Widget buildPageContent(BuildContext context) {
     return CommonListWidget(
+      padding: const EdgeInsets.only(left: 15,right:15),
         controller: controller,
         enableRefresh: true,
         enableLoad: true,
@@ -103,7 +104,7 @@ class _CommonListPage extends BaseStatefulWidget<HomeViewModel> {
               viewModel.homeDatas[index].title,
               style: const TextStyle(color: Colors.white),
             ).intoPadding(const EdgeInsets.only(left: 15, right: 15)),
-          ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15));
+          );
 
           // Text(viewModel.rxBanner.toString(),
           //         style: const TextStyle(fontSize: 12))
