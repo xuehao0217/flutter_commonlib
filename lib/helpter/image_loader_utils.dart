@@ -26,8 +26,8 @@ class ImageLoaderUtils {
     final renderView = RenderView(
         child: RenderPositionedBox(
             alignment: Alignment.center, child: repaintBoundary),
-        configuration: ViewConfiguration(
-          size: logicalSize,
+        configuration: const ViewConfiguration(
+          // size: logicalSize,
           devicePixelRatio: 1,
         ),
         view: View.of(context) //PlatformDispatcher.instance.views.first,
