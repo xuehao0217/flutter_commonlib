@@ -44,77 +44,91 @@ class _CommonListPage extends BaseStatefulWidget<HomeViewModel> {
 
   @override
   Widget buildPageContent(BuildContext context) {
-    return CommonListWidget(
-      padding: const EdgeInsets.only(left: 15,right:15),
-        controller: controller,
-        enableRefresh: true,
-        enableLoad: true,
-        itemCount: viewModel.homeDatas.length,
-        onRefresh: () {
-          viewModel.getHomeData(() {
-            setState(() {
-              controller.refreshCompleted();
-            });
-          }, refresh: true);
-        },
-        onLoad: () {
-          viewModel.getHomeData(() {
-            setState(() {
-              if (viewModel.homeDatas.length > 70) {
-                controller.loadComplete();
-                controller.loadNoData();
-              } else {
-                controller.loadComplete();
-              }
-            });
-          });
-        },
-        header: [
-          Column(
-            children: [
-              Obx(() => Swiper(
-                    autoplay: true,
-                    duration: 2000,
-                    viewportFraction: 0.8,
-                    scale: 0.9,
-                    itemBuilder: (BuildContext context, int index) {
-                      return CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: viewModel.banner[index].imagePath,
-                      ).intoClipRRect(16);
-                    },
-                    itemCount: viewModel.banner.length,
-                    pagination: SwiperPagination(),
-                  ).intoContainer(width: double.infinity, height: 250)),
-              const SizedBox(
-                height: 15,
-              ),
+    return Stack(
+      children: [
+        CommonListWidget(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            controller: controller,
+            enableRefresh: true,
+            enableLoad: true,
+            itemCount: viewModel.homeDatas.length,
+            onRefresh: () {
+              viewModel.getHomeData(() {
+                setState(() {
+                  controller.refreshCompleted();
+                });
+              }, refresh: true);
+            },
+            onLoad: () {
+              viewModel.getHomeData(() {
+                setState(() {
+                  if (viewModel.homeDatas.length > 70) {
+                    controller.loadComplete();
+                    controller.loadNoData();
+                  } else {
+                    controller.loadComplete();
+                  }
+                });
+              });
+            },
+            header: [
+              Column(
+                children: [
+                  Obx(() => Swiper(
+                        autoplay: true,
+                        duration: 2000,
+                        viewportFraction: 0.8,
+                        scale: 0.9,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            imageUrl: viewModel.banner[index].imagePath,
+                          ).intoClipRRect(16);
+                        },
+                        itemCount: viewModel.banner.length,
+                        pagination: SwiperPagination(),
+                      ).intoContainer(width: double.infinity, height: 250)),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                ],
+              )
             ],
-          )
-        ],
-        itemBuilder: (context, index) {
-          return CommonButton(
-            elevation: 2,
-            circular: 10,
-            backgroundColor: Colors.blue,
-            width: double.infinity,
-            height: 50,
-            onPressed: () {},
-            child: Text(
-              viewModel.homeDatas[index].title,
-              style: const TextStyle(color: Colors.white),
-            ).intoPadding(const EdgeInsets.only(left: 15, right: 15)),
-          );
+            itemBuilder: (context, index) {
+              return CommonButton(
+                elevation: 2,
+                circular: 10,
+                backgroundColor: Colors.blue,
+                width: double.infinity,
+                height: 50,
+                onPressed: () {},
+                child: Text(
+                  viewModel.homeDatas[index].title,
+                  style: const TextStyle(color: Colors.white),
+                ).intoPadding(const EdgeInsets.only(left: 15, right: 15)),
+              );
 
-          // Text(viewModel.rxBanner.toString(),
-          //         style: const TextStyle(fontSize: 12))
-          //     .clickInkWell(() {}),
+              // Text(viewModel.rxBanner.toString(),
+              //         style: const TextStyle(fontSize: 12))
+              //     .clickInkWell(() {}),
 
-          // CachedNetworkImage(
-          //   imageUrl: "http://via.placeholder.com/350x150",
-          //   placeholder: (context, url) => CircularProgressIndicator(),
-          //   errorWidget: (context, url, error) => Icon(Icons.error),
-          // ),
-        });
+              // CachedNetworkImage(
+              //   imageUrl: "http://via.placeholder.com/350x150",
+              //   placeholder: (context, url) => CircularProgressIndicator(),
+              //   errorWidget: (context, url, error) => Icon(Icons.error),
+              // ),
+            }), // 右下角的圆形按钮
+        Positioned(
+          bottom: 16,
+          right: 16,
+          child: FloatingActionButton(
+            onPressed: () {
+              controller.requestRefresh();
+            },
+            child: Icon(Icons.upload),
+          ),
+        ),
+      ],
+    );
   }
 }
