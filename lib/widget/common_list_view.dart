@@ -1,6 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_constraintlayout/flutter_constraintlayout.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:scrollview_observer/scrollview_observer.dart';
 
 /// 创 建 人: xueh
 /// 创建日期: 2023/7/15 11:16
@@ -9,9 +13,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 // typedef onRefreshCallback = void Function(RefreshController refreshController);
 // typedef onLoadCallback = void Function(RefreshController refreshController);
 
+typedef VisibleIndexListCallback = void Function(List<int>);
+
 class CommonListWidget extends StatelessWidget {
-  final List<Widget>? header;
-  final List<Widget>? footer;
   final int itemCount;
   final ScrollController? scrollController;
   final IndexedWidgetBuilder itemBuilder;
@@ -22,6 +26,9 @@ class CommonListWidget extends StatelessWidget {
   final RefreshController? _controller;
   final bool enableRefresh, enableLoad, initialRefresh;
 
+  final VisibleIndexListCallback? visibleIndexListCallback;
+  final Widget? separatorLine;
+
   // final onRefreshCallback? onRefresh;
   // final onLoadCallback? onLoad;
 
@@ -29,8 +36,6 @@ class CommonListWidget extends StatelessWidget {
     this.onLoad,
     this.onRefresh,
     required this.itemBuilder,
-    this.header,
-    this.footer,
     this.itemCount = 0,
     this.scrollController,
     this.padding,
@@ -38,6 +43,8 @@ class CommonListWidget extends StatelessWidget {
     this.enableLoad = false,
     this.initialRefresh = true,
     RefreshController? controller,
+    this.separatorLine,
+    this.visibleIndexListCallback,
   }) : _controller = controller;
 
   @override
@@ -113,35 +120,88 @@ class CommonListWidget extends StatelessWidget {
             // onLoading: () {
             //   onLoad?.call(_controller);
             // },
-            child: getListView(),
+            child: _buildContentView(),
           ))
-      : getListView();
+      : _buildContentView();
 
-  int getHeaderCount() {
-    return header?.length ?? 0;
+  Widget _buildContentView() {
+    return ListViewObserver(
+      child: _buildListView(),
+      sliverListContexts: () {
+        return [if (_sliverListViewContext != null) _sliverListViewContext!];
+      },
+      onObserveAll: (resultMap) {
+        final model = resultMap[_sliverListViewContext];
+        if (model == null) return;
+        debugPrint('ScrollviewObserverPage visible -- ${model.visible}');
+        debugPrint(
+            'ScrollviewObserverPage firstChild.index -- ${model.firstChild?.index}');
+        debugPrint(
+            'ScrollviewObserverPage displaying -- ${model.displayingChildIndexList}');
+        visibleIndexListCallback?.call(model.displayingChildIndexList);
+      },
+    );
   }
 
-  int getFooterCount() {
-    return footer?.length ?? 0;
+  BuildContext? _sliverListViewContext;
+  ListView _buildListView() {
+    return ListView.separated(
+      padding: padding,
+      controller: scrollController,
+      itemBuilder: (ctx, index) {
+        // 在 builder 回调中，将 BuildContext 记录起来
+        if (_sliverListViewContext != ctx) {
+          _sliverListViewContext = ctx;
+        }
+        return itemBuilder(ctx, index);
+      },
+      separatorBuilder: (ctx, index) {
+        return separatorLine ??
+            const Divider(
+              height: 16,
+            );
+      },
+      itemCount: itemCount,
+    );
   }
 
-  Widget getListView() => ListView.separated(
-        itemCount: getHeaderCount() + itemCount + getFooterCount(),
-        padding: padding,
-        controller: scrollController,
-        itemBuilder: (BuildContext context, int index) {
-          if (index < getHeaderCount()) {
-            return header?[index];
-          } else if (index > getHeaderCount() + itemCount - 1) {
-            return footer?[index - getHeaderCount() - itemCount];
-          } else {
-            return itemBuilder(context, index - getHeaderCount());
-          }
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const Divider(
-            height: 16,
-          );
-        },
-      );
+
+
+  // var visibleIndexs = List<int>;
+  // Widget getNotificationListenerListView(ListView listView) {
+  //   return NotificationListener(
+  //     onNotification: (ScrollNotification notification) {
+  //       //1.监听事件的类型
+  //       if (notification is ScrollStartNotification) {
+  //         print("开始滚动...");
+  //       } else if (notification is ScrollUpdateNotification) {
+  //         //当前滚动的位置和总长度
+  //         final currentPixel = notification.metrics.pixels;
+  //         final totalPixel = notification.metrics.maxScrollExtent;
+  //         double progress = currentPixel / totalPixel;
+  //         print(
+  //             "正在滚动：${notification.metrics.pixels} - ${notification.metrics.maxScrollExtent}");
+  //       } else if (notification is ScrollEndNotification) {
+  //         print("滚动结束....");
+  //         visibleIndexListCallback?.call(visibleIndexList);
+  //       }
+  //       return false;
+  //     },
+  //     child: ListViewObserver(
+  //       child: _buildListView(),
+  //       sliverListContexts: () {
+  //         return [if (_sliverListViewContext != null) _sliverListViewContext!];
+  //       },
+  //       onObserveAll: (resultMap) {
+  //         final model = resultMap[_sliverListViewContext];
+  //         if (model == null) return;
+  //         debugPrint('ScrollviewObserverPage visible -- ${model.visible}');
+  //         debugPrint(
+  //             'ScrollviewObserverPage firstChild.index -- ${model.firstChild?.index}');
+  //         debugPrint(
+  //             'ScrollviewObserverPage displaying -- ${model.displayingChildIndexList}');
+  //       },
+  //     ),
+  //   );
+  // }
 }

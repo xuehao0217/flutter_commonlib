@@ -12,6 +12,7 @@ import '../ui/home_page.dart';
 import '../ui/loading_state_page.dart';
 import '../ui/permission_widget.dart';
 import '../ui/scroll_index_page.dart';
+import '../ui/scrollview_observer_page.dart';
 
 class RouterRULConfig {
   static const main = "/mian";
@@ -26,6 +27,7 @@ class RouterRULConfig {
   static const loading_state = "/loading_state";
 
   static const scroll_index = "/scroll_index";
+  static const scrollview_observe = "/scrollview_observe";
 }
 
 
@@ -39,6 +41,7 @@ final List<GetPage>  pages = [
   GetPage(name: RouterRULConfig.watermark, page: () => WatermarkPage()),
   GetPage(name: RouterRULConfig.loading_state, page: () => LoadingStatePage()),
   GetPage(name: RouterRULConfig.scroll_index, page: () => ScrollIndexPage()),
+  GetPage(name: RouterRULConfig.scrollview_observe, page: () => ScrollviewObserverPage()),
 ];
 
 
