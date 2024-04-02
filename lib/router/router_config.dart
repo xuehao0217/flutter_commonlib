@@ -11,6 +11,7 @@ import '../ui/cameras_page.dart';
 import '../ui/home_page.dart';
 import '../ui/loading_state_page.dart';
 import '../ui/permission_widget.dart';
+import '../ui/scroll_index_page.dart';
 
 class RouterRULConfig {
   static const main = "/mian";
@@ -23,6 +24,8 @@ class RouterRULConfig {
   static const watermark = "/watermark";
 
   static const loading_state = "/loading_state";
+
+  static const scroll_index = "/scroll_index";
 }
 
 
@@ -35,6 +38,7 @@ final List<GetPage>  pages = [
   GetPage(name: RouterRULConfig.permission, page: () => PermissionHandlerWidget()),
   GetPage(name: RouterRULConfig.watermark, page: () => WatermarkPage()),
   GetPage(name: RouterRULConfig.loading_state, page: () => LoadingStatePage()),
+  GetPage(name: RouterRULConfig.scroll_index, page: () => ScrollIndexPage()),
 ];
 
 
