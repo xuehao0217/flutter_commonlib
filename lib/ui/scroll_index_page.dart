@@ -4,6 +4,7 @@ import 'package:flutter_commonlib/base/base_page_stateless_widget.dart';
 import 'package:flutter_commonlib/base/mvvm/base_stateless_widget.dart';
 import 'package:flutter_commonlib/base/mvvm/base_view_abs.dart';
 import 'package:flutter_commonlib/base/mvvm/base_view_model.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
 import '../base/base_page_stateful_widget.dart';
 import '../widget/scroll_index_widget.dart';
@@ -37,6 +38,7 @@ class _ScrollIndexPage   extends BasePgaeStatefulWidget{
   void _WhenScrollStops(first,last) {
     // 在这里执行您想要的操作
     print('滑动已停止  当前第一个可见元素下标 $first 当前最后一个可见元素下标 $last');
+    SmartDialog.showToast("当前第一个可见元素下标 $first 当前最后一个可见元素下标 $last");
   }
 
 
