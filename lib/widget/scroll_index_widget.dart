@@ -3,6 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+///https://juejin.cn/post/7348247657284517938
+///貌似只能对ListView.builder 准确
+
+
 typedef ViewPortCallback = void Function(int firstIndex, int lastIndex);
 
 class ScrollIndexWidget extends StatelessWidget {
