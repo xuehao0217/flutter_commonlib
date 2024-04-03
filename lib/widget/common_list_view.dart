@@ -77,7 +77,7 @@ class CommonListWidget extends StatelessWidget {
   }
 
   Widget getListWidget() => enableRefresh || enableLoad
-      ? _buildListViewObserverView()
+      ? _buildNotificationListenerListView()
       : _buildListViewObserverView();
 
   Widget _buildRefresh() {
@@ -173,7 +173,7 @@ class CommonListWidget extends StatelessWidget {
 
   List<int> visibleIndexs = [];
 
-  Widget getNotificationListenerListView() {
+  Widget _buildNotificationListenerListView() {
     return NotificationListener(
         onNotification: (ScrollNotification notification) {
           //1.监听事件的类型
