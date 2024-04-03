@@ -15,7 +15,7 @@ class MsgPage extends StatefulWidget {
   State<StatefulWidget> createState() => _MsgPage();
 }
 
-class _MsgPage extends BaseStatefulWidget<HomeViewModel> {
+class _MsgPage extends BaseStatefulWidget<MsgPage,HomeViewModel> {
   @override
   String setTitle() => "消息";
 

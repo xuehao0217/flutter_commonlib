@@ -15,7 +15,7 @@ class LoadingStatePage extends StatefulWidget {
   State<StatefulWidget> createState() => _LoadingState();
 }
 
-class _LoadingState  extends BaseStatefulWidget<LoadingStateViewModel> {
+class _LoadingState  extends BaseStatefulWidget<LoadingStatePage,LoadingStateViewModel> {
   @override
   Widget buildPageContent(BuildContext context) {
     return Column(

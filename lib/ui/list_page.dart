@@ -18,7 +18,7 @@ class CommonListPage extends StatefulWidget {
   State<StatefulWidget> createState() => _CommonListPage();
 }
 
-class _CommonListPage extends BaseStatefulWidget<HomeViewModel> {
+class _CommonListPage extends BaseStatefulWidget<CommonListPage,HomeViewModel> {
   @override
   void onPageShow() {
     super.onPageShow();

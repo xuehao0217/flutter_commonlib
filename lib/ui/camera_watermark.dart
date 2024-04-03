@@ -24,7 +24,7 @@ class WatermarkPage extends StatefulWidget {
   State<StatefulWidget> createState() => _WatermarkPage();
 }
 
-class _WatermarkPage extends BaseStatefulWidget<WatermarkViewModel> {
+class _WatermarkPage extends BaseStatefulWidget<WatermarkPage,WatermarkViewModel> {
   @override
   Widget buildPageContent(BuildContext context) {
     return Obx(() => ListView(

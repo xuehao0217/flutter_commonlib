@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => _HomePage();
 }
 
-class _HomePage extends BaseStatefulWidget<HomeViewModel> {
+class _HomePage extends BaseStatefulWidget<HomePage,HomeViewModel> {
   @override
   void onPageShow() {
     super.onPageShow();

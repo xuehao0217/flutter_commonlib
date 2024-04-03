@@ -10,7 +10,7 @@ import 'base_view_abs.dart';
 import 'base_view_model.dart';
 
 
-abstract class BaseStatefulWidget<VM extends BaseViewModel> extends BasePgaeStatefulWidget implements AbsBaseView {
+abstract class BaseStatefulWidget<W extends StatefulWidget,VM extends BaseViewModel> extends BasePgaeStatefulWidget<W> implements AbsBaseView {
   VM createViewModel();
 
   late VM viewModel;
