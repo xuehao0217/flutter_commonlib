@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_constraintlayout/flutter_constraintlayout.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
@@ -76,57 +77,61 @@ class CommonListWidget extends StatelessWidget {
   }
 
   Widget getListWidget() => enableRefresh || enableLoad
-      ? RefreshConfiguration(
-          // 配置默认底部指示器
-          headerTriggerDistance: 80.0,
-          // 头部触发刷新的越界距离
-          springDescription:
-              const SpringDescription(stiffness: 170, damping: 16, mass: 1.9),
-          // 自定义回弹动画,三个属性值意义请查询flutter api
-          maxOverScrollExtent: 100,
-          //头部最大可以拖动的范围,如果发生冲出视图范围区域,请设置这个属性
-          maxUnderScrollExtent: 0,
-          // 底部最大可以拖动的范围
-          enableScrollWhenRefreshCompleted: true,
-          //这个属性不兼容PageView和TabBarView,如果你特别需要TabBarView左右滑动,你需要把它设置为true
-          enableLoadingWhenFailed: true,
-          //在加载失败的状态下,用户仍然可以通过手势上拉来触发加载更多
-          hideFooterWhenNotFull: false,
-          // Viewport不满一屏时,禁用上拉加载更多功能
-          enableBallisticLoad: true,
-          // 可以通过惯性滑动触发加载更多
-          child: SmartRefresher(
-            enablePullUp: true,
-            enablePullDown: true,
-            header: const ClassicHeader(
-              refreshingText: "加载中...",
-              releaseText: "放开刷新",
-              completeText: "刷新完成",
-              idleText: "下拉刷新",
-            ),
-            footer: const ClassicFooter(
-              loadingText: "加载中...",
-              noDataText: "到底了~",
-              idleText: "加载完成",
-              failedText: "加载失败",
-              // canLoadingText: "canLoadingText",
-            ),
-            controller: _controller ?? RefreshController(initialRefresh: true),
-            onLoading: onLoad,
-            onRefresh: onRefresh,
-            // onRefresh: () {
-            //   onRefresh?.call(_controller);
-            // },
-            // onLoading: () {
-            //   onLoad?.call(_controller);
-            // },
-            child: _buildContentView(),
-          ))
-      : _buildContentView();
+      ? _buildListViewObserverView()
+      : _buildListViewObserverView();
 
-  Widget _buildContentView() {
+  Widget _buildRefresh() {
+    return RefreshConfiguration(
+        // 配置默认底部指示器
+        headerTriggerDistance: 80.0,
+        // 头部触发刷新的越界距离
+        springDescription:
+            const SpringDescription(stiffness: 170, damping: 16, mass: 1.9),
+        // 自定义回弹动画,三个属性值意义请查询flutter api
+        maxOverScrollExtent: 100,
+        //头部最大可以拖动的范围,如果发生冲出视图范围区域,请设置这个属性
+        maxUnderScrollExtent: 0,
+        // 底部最大可以拖动的范围
+        enableScrollWhenRefreshCompleted: true,
+        //这个属性不兼容PageView和TabBarView,如果你特别需要TabBarView左右滑动,你需要把它设置为true
+        enableLoadingWhenFailed: true,
+        //在加载失败的状态下,用户仍然可以通过手势上拉来触发加载更多
+        hideFooterWhenNotFull: false,
+        // Viewport不满一屏时,禁用上拉加载更多功能
+        enableBallisticLoad: true,
+        // 可以通过惯性滑动触发加载更多
+        child: SmartRefresher(
+          enablePullUp: true,
+          enablePullDown: true,
+          header: const ClassicHeader(
+            refreshingText: "加载中...",
+            releaseText: "放开刷新",
+            completeText: "刷新完成",
+            idleText: "下拉刷新",
+          ),
+          footer: const ClassicFooter(
+            loadingText: "加载中...",
+            noDataText: "到底了~",
+            idleText: "加载完成",
+            failedText: "加载失败",
+            // canLoadingText: "canLoadingText",
+          ),
+          controller: _controller ?? RefreshController(initialRefresh: true),
+          onLoading: onLoad,
+          onRefresh: onRefresh,
+          // onRefresh: () {
+          //   onRefresh?.call(_controller);
+          // },
+          // onLoading: () {
+          //   onLoad?.call(_controller);
+          // },
+          child: _buildListView(),
+        ));
+  }
+
+  Widget _buildListViewObserverView() {
     return ListViewObserver(
-      child: _buildListView(),
+      child: _buildRefresh(),
       sliverListContexts: () {
         return [if (_sliverListViewContext != null) _sliverListViewContext!];
       },
@@ -138,12 +143,13 @@ class CommonListWidget extends StatelessWidget {
             'ScrollviewObserverPage firstChild.index -- ${model.firstChild?.index}');
         debugPrint(
             'ScrollviewObserverPage displaying -- ${model.displayingChildIndexList}');
-        visibleIndexListCallback?.call(model.displayingChildIndexList);
+        visibleIndexs = model.displayingChildIndexList;
       },
     );
   }
 
   BuildContext? _sliverListViewContext;
+
   ListView _buildListView() {
     return ListView.separated(
       padding: padding,
@@ -165,43 +171,27 @@ class CommonListWidget extends StatelessWidget {
     );
   }
 
+  List<int> visibleIndexs = [];
 
-
-  // var visibleIndexs = List<int>;
-  // Widget getNotificationListenerListView(ListView listView) {
-  //   return NotificationListener(
-  //     onNotification: (ScrollNotification notification) {
-  //       //1.监听事件的类型
-  //       if (notification is ScrollStartNotification) {
-  //         print("开始滚动...");
-  //       } else if (notification is ScrollUpdateNotification) {
-  //         //当前滚动的位置和总长度
-  //         final currentPixel = notification.metrics.pixels;
-  //         final totalPixel = notification.metrics.maxScrollExtent;
-  //         double progress = currentPixel / totalPixel;
-  //         print(
-  //             "正在滚动：${notification.metrics.pixels} - ${notification.metrics.maxScrollExtent}");
-  //       } else if (notification is ScrollEndNotification) {
-  //         print("滚动结束....");
-  //         visibleIndexListCallback?.call(visibleIndexList);
-  //       }
-  //       return false;
-  //     },
-  //     child: ListViewObserver(
-  //       child: _buildListView(),
-  //       sliverListContexts: () {
-  //         return [if (_sliverListViewContext != null) _sliverListViewContext!];
-  //       },
-  //       onObserveAll: (resultMap) {
-  //         final model = resultMap[_sliverListViewContext];
-  //         if (model == null) return;
-  //         debugPrint('ScrollviewObserverPage visible -- ${model.visible}');
-  //         debugPrint(
-  //             'ScrollviewObserverPage firstChild.index -- ${model.firstChild?.index}');
-  //         debugPrint(
-  //             'ScrollviewObserverPage displaying -- ${model.displayingChildIndexList}');
-  //       },
-  //     ),
-  //   );
-  // }
+  Widget getNotificationListenerListView() {
+    return NotificationListener(
+        onNotification: (ScrollNotification notification) {
+          //1.监听事件的类型
+          if (notification is ScrollStartNotification) {
+            print("开始滚动...");
+          } else if (notification is ScrollUpdateNotification) {
+            //当前滚动的位置和总长度
+            final currentPixel = notification.metrics.pixels;
+            final totalPixel = notification.metrics.maxScrollExtent;
+            double progress = currentPixel / totalPixel;
+            print(
+                "正在滚动：${notification.metrics.pixels} - ${notification.metrics.maxScrollExtent}");
+          } else if (notification is ScrollEndNotification) {
+            print("滚动结束....");
+            visibleIndexListCallback?.call(visibleIndexs);
+          }
+          return false;
+        },
+        child: _buildListViewObserverView());
+  }
 }
