@@ -94,13 +94,11 @@ class _MsgPage extends BaseStatefulWidget<HomeViewModel> {
             TabBar(
                 tabAlignment: TabAlignment.start,
                 tabs: tabsString.map((tabData) {
-                  return Tab(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 8), // 设置Tab的内边距
-                      alignment: Alignment.center,
-                      child: Text(tabData), // 使用数组中的数据来作为Tab的文本
-                    ),
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8, vertical: 8), // 设置Tab的内边距
+                    alignment: Alignment.center,
+                    child: Text(tabData), // 使用数组中的数据来作为Tab的文本
                   );
                 }).toList(),
                 indicatorPadding:
