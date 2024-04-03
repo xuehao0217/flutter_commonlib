@@ -4,9 +4,18 @@ import 'package:flutter_commonlib/base/base_page_stateless_widget.dart';
 import 'package:flutter_commonlib/base/mvvm/base_stateless_widget.dart';
 import 'package:flutter_commonlib/base/mvvm/base_view_abs.dart';
 import 'package:flutter_commonlib/base/mvvm/base_view_model.dart';
+import 'package:flutter_commonlib/ui/vm/home_view_model.dart';
 import 'package:flutter_commonlib/widget/tab_widget.dart';
+import 'package:get/get.dart';
 
-class MsgPage extends BasePageStatelessWidget {
+import '../base/mvvm/base_stateful_widget.dart';
+
+
+class MsgPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _MsgPage();
+}
+class _MsgPage extends  BaseStatefulWidget<HomeViewModel> {
   @override
   String setTitle() => "消息";
 
@@ -24,11 +33,11 @@ class MsgPage extends BasePageStatelessWidget {
     const Tab(text: 'EEEEEE'),
     const Tab(text: 'FFFFFF'),
     const Tab(text: 'GGGGGG'),
-  ];
+  ].obs;
 
   @override
-  Widget buildContent(BuildContext context) {
-    return DefaultTabController(
+  Widget buildPageContent(BuildContext context) {
+    return Obx(() => DefaultTabController(
         length: tabs.length,
         child: Column(
           children: [
@@ -65,9 +74,29 @@ class MsgPage extends BasePageStatelessWidget {
                 child: TabBarView(
                     children: tabs
                         .map((Tab tab) =>
-                            Center(child: Text(tab.text.toString())))
+                        Center(child: Text(tab.text.toString())))
                         .toList())),
           ],
-        ));
+        )));
+  }
+
+  @override
+  HomeViewModel createViewModel()=>HomeViewModel();
+
+  final List<Tab> tabs2 = <Tab>[
+    const Tab(text: 'HHHHHHH'),
+    const Tab(text: 'IIIIIII'),
+    const Tab(text: 'GGGGG'),
+    const Tab(text: 'KKKKK'),
+    const Tab(text: 'L'),
+    const Tab(text: 'm'),
+    const Tab(text: 'NNNN'),
+  ];
+  @override
+  void initData() {
+    Future.delayed(Duration(seconds: 2), () {
+      tabs.addAll(tabs2);
+      showToast("数据刷新完成");
+    });
   }
 }
