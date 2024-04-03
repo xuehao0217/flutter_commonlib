@@ -10,12 +10,12 @@ import 'package:get/get.dart';
 
 import '../base/mvvm/base_stateful_widget.dart';
 
-
 class MsgPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _MsgPage();
 }
-class _MsgPage extends  BaseStatefulWidget<HomeViewModel> {
+
+class _MsgPage extends BaseStatefulWidget<HomeViewModel> {
   @override
   String setTitle() => "消息";
 
@@ -35,6 +35,19 @@ class _MsgPage extends  BaseStatefulWidget<HomeViewModel> {
     const Tab(text: 'GGGGGG'),
   ].obs;
 
+  final List<String> tabsString = [
+    'AAAAAA',
+    'BBBBBB',
+    'CCCCCC',
+    'DDDDDD',
+    'EEEEEE',
+    'AAAAAA',
+    'BBBBBB',
+    'CCCCCC',
+    'DDDDDD',
+    'EEEEEE',
+  ];
+
   @override
   Widget buildPageContent(BuildContext context) {
     return Obx(() => DefaultTabController(
@@ -44,12 +57,16 @@ class _MsgPage extends  BaseStatefulWidget<HomeViewModel> {
             TabBar(
               tabAlignment: TabAlignment.start,
               tabs: tabs,
-              labelStyle:const TextStyle(fontSize: 18),   // 选中tab文字样式
-              unselectedLabelStyle:const TextStyle(fontSize: 18),// 非选中tab文字样式
+              labelStyle: const TextStyle(fontSize: 18),
+              // 选中tab文字样式
+              unselectedLabelStyle: const TextStyle(fontSize: 18),
+              // 非选中tab文字样式
               // indicatorPadding: const EdgeInsets.symmetric(vertical: 8),
               isScrollable: true,
-              labelColor: Colors.black,  // 选中
-              unselectedLabelColor: Colors.black,//非选中
+              labelColor: Colors.black,
+              // 选中
+              unselectedLabelColor: Colors.black,
+              //非选中
               indicator: const MyTabIndicator(
                   borderSide: BorderSide(color: Colors.blue, width: 3),
                   indicatorWidth: 30,
@@ -58,32 +75,62 @@ class _MsgPage extends  BaseStatefulWidget<HomeViewModel> {
             TabBar(
                 tabAlignment: TabAlignment.start,
                 tabs: tabs,
-                indicatorPadding: const EdgeInsets.symmetric(vertical: 8),
+                indicatorPadding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: -10),
                 isScrollable: true,
                 labelColor: Colors.white,
                 unselectedLabelColor: Colors.black,
-                labelStyle:const TextStyle(fontSize: 18),   // 选中tab文字样式
-                unselectedLabelStyle:const TextStyle(fontSize: 18),// 非选中tab文字样式
+                labelStyle: const TextStyle(fontSize: 18),
+                // 选中tab文字样式
+                unselectedLabelStyle: const TextStyle(fontSize: 18),
+                // 非选中tab文字样式
                 indicatorWeight: 1,
                 indicator: ShapeDecoration(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(18),
                   ),
                   color: Colors.green,
                 )),
-
+            TabBar(
+                tabAlignment: TabAlignment.start,
+                tabs: tabsString.map((tabData) {
+                  return Tab(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 8), // 设置Tab的内边距
+                      alignment: Alignment.center,
+                      child: Text(tabData), // 使用数组中的数据来作为Tab的文本
+                    ),
+                  );
+                }).toList(),
+                indicatorPadding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: -10),
+                isScrollable: true,
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.black,
+                labelStyle: const TextStyle(fontSize: 18),
+                // 选中tab文字样式
+                unselectedLabelStyle: const TextStyle(fontSize: 18),
+                // 非选中tab文字样式
+                indicatorWeight: 1,
+                indicator: ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  color: Colors.green,
+                )),
             Expanded(
                 child: TabBarView(
                     children: tabs
                         .map((Tab tab) =>
-                        Center(child: Text(tab.text.toString())))
+                            Center(child: Text(tab.text.toString())))
                         .toList())),
           ],
         )));
   }
 
   @override
-  HomeViewModel createViewModel()=>HomeViewModel();
+  HomeViewModel createViewModel() => HomeViewModel();
 
   final List<Tab> tabs2 = <Tab>[
     const Tab(text: 'HHHHHHH'),
@@ -94,6 +141,7 @@ class _MsgPage extends  BaseStatefulWidget<HomeViewModel> {
     const Tab(text: 'm'),
     const Tab(text: 'NNNN'),
   ];
+
   @override
   void initData() {
     Future.delayed(Duration(seconds: 2), () {
