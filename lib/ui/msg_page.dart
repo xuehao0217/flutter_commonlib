@@ -42,6 +42,7 @@ class _MsgPage extends  BaseStatefulWidget<HomeViewModel> {
         child: Column(
           children: [
             TabBar(
+              tabAlignment: TabAlignment.start,
               tabs: tabs,
               labelStyle:const TextStyle(fontSize: 18),   // 选中tab文字样式
               unselectedLabelStyle:const TextStyle(fontSize: 18),// 非选中tab文字样式
@@ -55,6 +56,7 @@ class _MsgPage extends  BaseStatefulWidget<HomeViewModel> {
                   indicatorBottom: 10),
             ),
             TabBar(
+                tabAlignment: TabAlignment.start,
                 tabs: tabs,
                 indicatorPadding: const EdgeInsets.symmetric(vertical: 8),
                 isScrollable: true,
