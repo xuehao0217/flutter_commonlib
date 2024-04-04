@@ -15,7 +15,7 @@ class ScrollIndexPage extends StatefulWidget {
   State<StatefulWidget> createState() => _ScrollIndexPage();
 }
 
-class _ScrollIndexPage   extends BasePgaeStatefulWidget{
+class _ScrollIndexPage   extends BasePgaeStatefulWidget<ScrollIndexPage>{
   ScrollController _scrollController = ScrollController();
 
   @override
@@ -87,7 +87,7 @@ class _ScrollIndexPage   extends BasePgaeStatefulWidget{
           setState(() {
             _progress = (progress*100).toInt();
           });
-          print("正在滚动：${notification.metrics.pixels} - ${notification.metrics.maxScrollExtent}");
+          print("正在滚动： ${_progress}%   ${notification.metrics.pixels} - ${notification.metrics.maxScrollExtent}");
         }else if(notification is ScrollEndNotification){
           print("滚动结束....");
         }
