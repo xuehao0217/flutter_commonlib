@@ -57,6 +57,7 @@ class _CommonListPage extends BaseStatefulWidget<CommonListPage,HomeViewModel> {
         CommonListWidget(
             scrollController: _scrollController,
             visibleIndexListCallback: (indexs) {
+              showToast("visibleIndexListCallback===${indexs}");
               print("visibleIndexListCallback===${indexs}");
             },
             padding: const EdgeInsets.only(left: 15, right: 15),
