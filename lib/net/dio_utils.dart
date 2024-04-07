@@ -115,7 +115,7 @@ class HttpUtils {
     String url, {
     NetSuccessCallback<T?>? onSuccess,
     NetErrorCallback? onError,
-    VoidCallback? onfinally,
+    VoidCallback? onFinally,
     Object? params,
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
@@ -137,7 +137,7 @@ class HttpUtils {
     }, onError: (dynamic e) {
       _cancelLogPrint(e, url);
       _onError(e.code, e.msg, onError);
-    }).whenComplete(() => onfinally?.call());
+    }).whenComplete(() => onFinally?.call());
   }
 
   /// 统一处理(onSuccess返回T对象，onSuccessList返回 List<T>)
@@ -146,7 +146,7 @@ class HttpUtils {
     String url, {
     NetSuccessCallback<T?>? onSuccess,
     NetErrorCallback? onError,
-    VoidCallback? onfinally,
+    VoidCallback? onFinally,
     Object? params,
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
@@ -170,7 +170,7 @@ class HttpUtils {
     }, onError: (dynamic e) {
       _cancelLogPrint(e, url);
       _onError(e.code, e.msg, onError);
-    }, onDone: onfinally);
+    }, onDone: onFinally);
   }
 
   void _cancelLogPrint(dynamic e, String url) {

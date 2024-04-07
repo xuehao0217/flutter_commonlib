@@ -30,7 +30,6 @@ abstract class BaseViewModel<V extends AbsBaseView> extends GetxController {
     dispose();
   }
 
-
   late CancelToken _cancelToken;
 
   void dispose() {
@@ -41,12 +40,13 @@ abstract class BaseViewModel<V extends AbsBaseView> extends GetxController {
   }
 
   /// 返回Future 适用于刷新，加载更多
-  Future<dynamic> requestNetwork<T>(Method method, {
+  Future<dynamic> requestNetwork<T>(
+    Method method, {
     required String url,
     bool showLoading = false,
     NetSuccessCallback<T?>? onSuccess,
     NetErrorCallback? onError,
-    VoidCallback? onfinally,
+    VoidCallback? onFinally,
     dynamic params,
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
@@ -55,32 +55,27 @@ abstract class BaseViewModel<V extends AbsBaseView> extends GetxController {
     if (showLoading) {
       view.showLoading();
     }
-    return HttpUtils.instance.requestNetwork<T>(
-      method,
-      url,
-      params: params,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken ?? _cancelToken,
-      onSuccess: (data) {
-        if (showLoading) {
-          view.hideLoading();
-        }
-        onSuccess?.call(data);
-      },
-      onError: (code, msg) {
-        _onError(code, msg, onError);
-      },
-      onfinally: onfinally
-    );
+    return HttpUtils.instance.requestNetwork<T>(method, url,
+        params: params,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken ?? _cancelToken, onSuccess: (data) {
+      if (showLoading) {
+        view.hideLoading();
+      }
+      onSuccess?.call(data);
+    }, onError: (code, msg) {
+      _onError(code, msg, onError);
+    }, onFinally: onFinally);
   }
 
-  void asyncRequestNetwork<T>(Method method, {
+  void asyncRequestNetwork<T>(
+    Method method, {
     required String url,
     bool showLoading = false,
     NetSuccessCallback<T?>? onSuccess,
     NetErrorCallback? onError,
-    VoidCallback? onfinally,
+    VoidCallback? onFinally,
     dynamic params,
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
@@ -105,7 +100,7 @@ abstract class BaseViewModel<V extends AbsBaseView> extends GetxController {
       onError: (code, msg) {
         _onError(code, msg, onError);
       },
-      onfinally:onfinally,
+      onFinally: onFinally,
     );
   }
 
