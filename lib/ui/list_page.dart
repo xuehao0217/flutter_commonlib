@@ -18,7 +18,8 @@ class CommonListPage extends StatefulWidget {
   State<StatefulWidget> createState() => _CommonListPage();
 }
 
-class _CommonListPage extends BaseStatefulWidget<CommonListPage,HomeViewModel> {
+class _CommonListPage
+    extends BaseStatefulWidget<CommonListPage, HomeViewModel> {
   @override
   void onPageShow() {
     super.onPageShow();
@@ -43,46 +44,32 @@ class _CommonListPage extends BaseStatefulWidget<CommonListPage,HomeViewModel> {
   @override
   void dispose() {
     super.dispose();
-    controller.dispose();
+    viewModel.controller.dispose();
     _scrollController.dispose();
   }
 
-  final controller = RefreshController(initialRefresh: true);
   var _scrollController = ScrollController();
 
   @override
   Widget buildPageContent(BuildContext context) {
     return Stack(
       children: [
-        CommonListWidget(
+        Obx(() => CommonListWidget(
             scrollController: _scrollController,
             visibleIndexListCallback: (indexs) {
               showToast("visibleIndexListCallback===${indexs}");
               print("visibleIndexListCallback===${indexs}");
             },
             padding: const EdgeInsets.only(left: 15, right: 15),
-            controller: controller,
+            controller: viewModel.controller,
             enableRefresh: true,
             enableLoad: true,
             itemCount: viewModel.homeDatas.length,
             onRefresh: () {
-              viewModel.getHomeData(() {
-                setState(() {
-                  controller.refreshCompleted();
-                });
-              }, refresh: true);
+              viewModel.getHomeData(refresh: true);
             },
             onLoad: () {
-              viewModel.getHomeData(() {
-                setState(() {
-                  if (viewModel.homeDatas.length > 70) {
-                    controller.loadComplete();
-                    controller.loadNoData();
-                  } else {
-                    controller.loadComplete();
-                  }
-                });
-              });
+              viewModel.getHomeData();
             },
             // header: [
             //   Column(
@@ -130,13 +117,13 @@ class _CommonListPage extends BaseStatefulWidget<CommonListPage,HomeViewModel> {
               //   placeholder: (context, url) => CircularProgressIndicator(),
               //   errorWidget: (context, url, error) => Icon(Icons.error),
               // ),
-            }), // 右下角的圆形按钮
+            })), // 右下角的圆形按钮
         Positioned(
           bottom: 16,
           right: 16,
           child: FloatingActionButton(
             onPressed: () {
-              controller.requestRefresh();
+              viewModel.controller.requestRefresh();
             },
             child: Icon(Icons.upload),
           ),

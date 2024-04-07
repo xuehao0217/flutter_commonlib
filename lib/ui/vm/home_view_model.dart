@@ -13,6 +13,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:install_plugin/install_plugin.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../api/http_api.dart';
 import '../../base/mvvm/base_view_model.dart';
@@ -39,22 +40,30 @@ class HomeViewModel extends BaseViewModel {
   var page = 0;
   var homeDatas = <HomeListDatas>[].obs;
 
-  void getHomeData(VoidCallback? onfinally, {bool refresh = false}) {
+  final controller = RefreshController(initialRefresh: true);
+  void getHomeData({bool refresh = false}) {
     if (refresh) {
       page = 0;
     } else {
       page++;
     }
-    requestNetwork<HomeListEntity>(Method.get,
-        showLoading: true, url: '/article/list/$page/json', onSuccess: (data) {
+    requestNetwork<HomeListEntity>(Method.get, showLoading: true, url: '/article/list/$page/json', onSuccess: (data) {
       if (refresh) {
         homeDatas.value.clear();
         homeDatas.value = data!.datas;
+        controller.refreshCompleted();
       } else {
-        homeDatas.value.addAll(data!.datas);
+        homeDatas.addAll(data!.datas);
+        if (homeDatas.length > 90) {
+          controller.loadComplete();
+          controller.loadNoData();
+        } else {
+          controller.loadComplete();
+        }
       }
-    }, onfinally: onfinally);
+    });
   }
+
 
   ///https://blog.csdn.net/LeftStrang/article/details/116354401
   var currentProgress = 0.0.obs;
