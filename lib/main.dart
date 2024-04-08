@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_commonlib/router/router_config.dart';
 import 'package:flutter_commonlib/ui/home_page.dart';
 import 'package:flutter_commonlib/ui/msg_page.dart';
@@ -18,7 +21,14 @@ import 'net/dio_utils.dart';
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  runApp( MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  //限制竖屏
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(MyApp());
+  });
 }
 class MyApp extends StatelessWidget {
   MyApp({super.key}) {
@@ -58,14 +68,21 @@ class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() => _MainPage();
 }
 
-class _MainPage extends BasePgaeStatefulWidget{
+class _MainPage extends BasePgaeStatefulWidget with WidgetsBindingObserver{
   @override
   void initState() {
     super.initState();
     initialization();
+    WidgetsBinding.instance.addObserver(this);
   }
   void initialization() async {
     FlutterNativeSplash.remove();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
@@ -103,6 +120,31 @@ class _MainPage extends BasePgaeStatefulWidget{
   bool showTitleBar() =>false;
   @override
   bool showStatusBar() =>false;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        // 处理应用恢复到前台的逻辑
+        print("didChangeAppLifecycleState  处理应用恢复到前台的逻辑");
+        break;
+      case AppLifecycleState.inactive:
+        // 处理应用即将进入后台的逻辑
+        print("didChangeAppLifecycleState  处理应用即将进入后台的逻辑");
+        break;
+      case AppLifecycleState.paused:
+        // 处理应用进入后台的逻辑，如保存数据、暂停定时任务等
+        print("didChangeAppLifecycleState 处理应用进入后台的逻辑，如保存数据、暂停定时任务等");
+        break;
+      case AppLifecycleState.detached:
+        // 处理应用终止或关闭的逻辑
+        print("didChangeAppLifecycleState 处理应用终止或关闭的逻辑");
+        break;
+      case AppLifecycleState.hidden:
+    }
+  }
+
+
 }
 
 
