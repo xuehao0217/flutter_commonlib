@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 import 'dart:ui';
 
 // import 'package:crypto/crypto.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -21,17 +22,22 @@ class ImageLoaderUtils {
     imageSize ??= View.of(context).physicalSize;
 
     assert(logicalSize.aspectRatio == imageSize.aspectRatio,
-    'logicalSize and imageSize must not be the same');
+        'logicalSize and imageSize must not be the same');
 
     final renderView = RenderView(
         child: RenderPositionedBox(
             alignment: Alignment.center, child: repaintBoundary),
-        configuration: const ViewConfiguration(
+        configuration: ViewConfiguration(
+          // physicalConstraints: BoxConstraints(maxHeight: logicalSize.height, maxWidth: logicalSize.width),
+          logicalConstraints: BoxConstraints(
+            maxHeight: logicalSize.height,
+            maxWidth: logicalSize.width,
+          ),
           // size: logicalSize,
           devicePixelRatio: 1,
         ),
         view: View.of(context) //PlatformDispatcher.instance.views.first,
-    );
+        );
 
     final pipelineOwner = PipelineOwner();
     final buildOwner = BuildOwner(focusManager: FocusManager());
@@ -67,5 +73,4 @@ class ImageLoaderUtils {
 
     return byteData?.buffer.asUint8List();
   }
-
 }
