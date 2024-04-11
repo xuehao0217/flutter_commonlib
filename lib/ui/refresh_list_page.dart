@@ -49,6 +49,15 @@ class _RefreshListPage
   Widget buildPageContent(BuildContext context) {
     return Stack(
       children: [
+        // Text(viewModel.rxBanner.toString(),
+        //         style: const TextStyle(fontSize: 12))
+        //     .clickInkWell(() {}),
+
+        // CachedNetworkImage(
+        //   imageUrl: "http://via.placeholder.com/350x150",
+        //   placeholder: (context, url) => CircularProgressIndicator(),
+        //   errorWidget: (context, url, error) => Icon(Icons.error),
+        // ),
         Obx(() => CommonListWidget(
             visibleIndexListCallback: (indexs) {
               showToast("visibleIndexListCallback===${indexs}");

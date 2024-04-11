@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_commonlib/main.dart';
-import 'package:flutter_commonlib/ui/list_page.dart';
 import 'package:flutter_commonlib/ui/msg_page.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
@@ -17,7 +16,6 @@ import '../ui/scrollview_observer_page.dart';
 
 class RouterRULConfig {
   static const main = "/mian";
-  static const list = "/list";
   static const list_refensh = "/list_refensh";
   static const home = "/home";
   static const msg = "/msg";
@@ -38,7 +36,6 @@ final List<GetPage>  pages = [
   GetPage(name: RouterRULConfig.home, page: () => HomePage() ),
   GetPage(name: RouterRULConfig.msg, page: () => MsgPage()),
   GetPage(name: RouterRULConfig.my, page: () => MyApp()),
-  GetPage(name: RouterRULConfig.list, page: () => CommonListPage(),transition: Transition.zoom),
   GetPage(name: RouterRULConfig.permission, page: () => PermissionHandlerWidget()),
   GetPage(name: RouterRULConfig.watermark, page: () => WatermarkPage()),
   GetPage(name: RouterRULConfig.loading_state, page: () => LoadingStatePage()),

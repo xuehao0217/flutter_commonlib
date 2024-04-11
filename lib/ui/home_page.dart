@@ -69,20 +69,6 @@ class _HomePage extends BaseStatefulWidget<HomePage,HomeViewModel> {
           width: double.infinity,
           height: 50,
           onPressed: () {
-            Get2Named(RouterRULConfig.list);
-          },
-          child: const Text(
-            "CommonList 使用",
-            style: TextStyle(color: Colors.white, fontSize: 16),
-          ),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
-        CommonButton(
-          elevation: 2,
-          circular: 10,
-          backgroundColor: Colors.blue,
-          width: double.infinity,
-          height: 50,
-          onPressed: () {
             Get2Named(RouterRULConfig.list_refensh);
           },
           child: const Text(
