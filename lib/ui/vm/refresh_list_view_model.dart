@@ -11,7 +11,7 @@ class RefreshListViewModel extends BaseRefreshViewModel<HomeListDatas> {
   }
   void getDatas({bool refresh = false}) {
     getRefreshLoadData<HomeListEntity>(
-        url: "/article/list/$pageIndex/json",
+        url: "/article/list/$currentPageIndex/json",
         success: (data) {
           onRequestData(refresh, data!.datas);
         },
