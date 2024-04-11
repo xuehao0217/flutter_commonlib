@@ -63,7 +63,7 @@ class _RefreshListPage
               showToast("visibleIndexListCallback===${indexs}");
               print("visibleIndexListCallback===${indexs}");
             },
-            padding: const EdgeInsets.only(left: 15, right: 15),
+            padding: const EdgeInsets.only(left: 15, right: 15,bottom: 25),
             controller: viewModel.controller,
             enableRefresh: true,
             enableLoad: true,
