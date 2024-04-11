@@ -84,7 +84,7 @@ class _RefreshListPage
           right: 16,
           child: FloatingActionButton(
             onPressed: () {
-              viewModel.controller.requestRefresh();
+              viewModel.requestRefresh();
             },
             child: Icon(Icons.upload),
           ),

@@ -8,17 +8,28 @@ import 'base_view_model.dart';
 abstract class BaseRefreshViewModel<T> extends BaseViewModel {
   final controller = RefreshController(initialRefresh: true);
 
-  var page = 1;
+  var pageIndex = 1;
 
+  var defPageIndex=0;
   ///当前页面
   var datas = <T>[].obs;
 
   var pageCount = 1;
 
   @override
+  void onInit() {
+    pageIndex=defPageIndex;
+    super.onInit();
+  }
+  @override
   void onClose() {
     super.onClose();
     controller.dispose();
+  }
+
+  void requestRefresh(){
+    pageIndex=defPageIndex;
+    controller.requestRefresh();
   }
 
   void getRefreshLoadData<T>(
@@ -26,9 +37,9 @@ abstract class BaseRefreshViewModel<T> extends BaseViewModel {
       bool refresh = false,
       required NetSuccessCallback<T?>? success}) {
     if (refresh) {
-      page = 1;
+      pageIndex = defPageIndex;
     } else {
-      page++;
+      pageIndex++;
     }
     requestNetwork<T>(Method.get,
         showLoading: true, url: url, onSuccess: success, onError: (code, str) {

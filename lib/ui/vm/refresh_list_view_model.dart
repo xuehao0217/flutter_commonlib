@@ -4,9 +4,14 @@ import 'package:flutter_commonlib/entity/home_list_entity.dart';
 import '../../entity/home_list_entity.dart';
 
 class RefreshListViewModel extends BaseRefreshViewModel<HomeListDatas> {
+  @override
+  void onInit() {
+    defPageIndex=0;
+    super.onInit();
+  }
   void getDatas({bool refresh = false}) {
     getRefreshLoadData<HomeListEntity>(
-        url: "/article/list/$page/json",
+        url: "/article/list/$pageIndex/json",
         success: (data) {
           onRequestData(refresh, data!.datas);
         },
