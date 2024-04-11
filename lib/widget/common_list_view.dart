@@ -101,8 +101,8 @@ class CommonListWidget extends StatelessWidget {
         enableBallisticLoad: true,
         // 可以通过惯性滑动触发加载更多
         child: SmartRefresher(
-          enablePullUp: enableRefresh,
-          enablePullDown: enableLoad,
+          enablePullUp: enableLoad,
+          enablePullDown: enableRefresh,
           header: const ClassicHeader(
             refreshingText: "加载中...",
             releaseText: "放开刷新",
