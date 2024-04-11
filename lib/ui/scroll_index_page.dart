@@ -78,7 +78,7 @@ class _ScrollIndexPage   extends BasePgaeStatefulWidget<ScrollIndexPage>{
       onNotification: (ScrollNotification notification){
         //1.监听事件的类型
         if(notification is ScrollStartNotification){
-          print("开始滚动...");
+          // print("开始滚动...");
         }else if(notification is ScrollUpdateNotification){
           //当前滚动的位置和总长度
           final currentPixel = notification.metrics.pixels;
@@ -87,9 +87,9 @@ class _ScrollIndexPage   extends BasePgaeStatefulWidget<ScrollIndexPage>{
           setState(() {
             _progress = (progress*100).toInt();
           });
-          print("正在滚动： ${_progress}%   ${notification.metrics.pixels} - ${notification.metrics.maxScrollExtent}");
+          // print("正在滚动： ${_progress}%   ${notification.metrics.pixels} - ${notification.metrics.maxScrollExtent}");
         }else if(notification is ScrollEndNotification){
-          print("滚动结束....");
+          // print("滚动结束....");
         }
         return false;
       },

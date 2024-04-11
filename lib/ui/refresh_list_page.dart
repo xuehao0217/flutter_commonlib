@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_commonlib/base/mvvm/base_stateful_widget.dart';
 import 'package:flutter_commonlib/helpter/log_utils.dart';
 import 'package:flutter_commonlib/helpter/widget_ext_helper.dart';
+import 'package:flutter_commonlib/ui/vm/refresh_list_view_model.dart';
 import 'package:flutter_commonlib/widget/common_list_view.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -13,28 +14,26 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../widget/common_widget.dart';
 import 'vm/home_view_model.dart';
 
-class CommonListPage extends StatefulWidget {
+class RefreshListPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _CommonListPage();
+  State<StatefulWidget> createState() => _RefreshListPage();
 }
 
-class _CommonListPage
-    extends BaseStatefulWidget<CommonListPage, HomeViewModel> {
+class _RefreshListPage
+    extends BaseStatefulWidget<RefreshListPage, RefreshListViewModel> {
   @override
   void onPageShow() {
     super.onPageShow();
   }
 
   @override
-  void initData() {
-    viewModel.getBannerData();
-  }
+  void initData() {}
 
   @override
   Color setStatusBarColor() => Colors.white;
 
   @override
-  createViewModel() => HomeViewModel();
+  createViewModel() => RefreshListViewModel();
 
   @override
   void initState() {
@@ -44,9 +43,7 @@ class _CommonListPage
   @override
   void dispose() {
     super.dispose();
-    viewModel.controller.dispose();
   }
-
 
   @override
   Widget buildPageContent(BuildContext context) {
@@ -61,36 +58,13 @@ class _CommonListPage
             controller: viewModel.controller,
             enableRefresh: true,
             enableLoad: true,
-            itemCount: viewModel.homeDatas.length,
+            itemCount: viewModel.datas.length,
             onRefresh: () {
-              viewModel.getHomeData(refresh: true);
+              viewModel.getDatas(refresh: true);
             },
             onLoad: () {
-              viewModel.getHomeData();
+              viewModel.getDatas();
             },
-            // header: [
-            //   Column(
-            //     children: [
-            //       Obx(() => Swiper(
-            //             autoplay: true,
-            //             duration: 2000,
-            //             viewportFraction: 0.8,
-            //             scale: 0.9,
-            //             itemBuilder: (BuildContext context, int index) {
-            //               return CachedNetworkImage(
-            //                 fit: BoxFit.cover,
-            //                 imageUrl: viewModel.banner[index].imagePath,
-            //               ).intoClipRRect(16);
-            //             },
-            //             itemCount: viewModel.banner.length,
-            //             pagination: SwiperPagination(),
-            //           ).intoContainer(width: double.infinity, height: 250)),
-            //       const SizedBox(
-            //         height: 15,
-            //       ),
-            //     ],
-            //   )
-            // ],
             itemBuilder: (context, index) {
               return CommonButton(
                 elevation: 2,
@@ -100,20 +74,10 @@ class _CommonListPage
                 height: 50,
                 onPressed: () {},
                 child: Text(
-                  viewModel.homeDatas[index].title + "index==${index}",
+                  viewModel.datas[index].title + "index==${index}",
                   style: const TextStyle(color: Colors.white),
                 ).intoPadding(const EdgeInsets.only(left: 15, right: 15)),
               );
-
-              // Text(viewModel.rxBanner.toString(),
-              //         style: const TextStyle(fontSize: 12))
-              //     .clickInkWell(() {}),
-
-              // CachedNetworkImage(
-              //   imageUrl: "http://via.placeholder.com/350x150",
-              //   placeholder: (context, url) => CircularProgressIndicator(),
-              //   errorWidget: (context, url, error) => Icon(Icons.error),
-              // ),
             })), // 右下角的圆形按钮
         Positioned(
           bottom: 16,

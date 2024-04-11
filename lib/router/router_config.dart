@@ -11,12 +11,14 @@ import '../ui/cameras_page.dart';
 import '../ui/home_page.dart';
 import '../ui/loading_state_page.dart';
 import '../ui/permission_widget.dart';
+import '../ui/refresh_list_page.dart';
 import '../ui/scroll_index_page.dart';
 import '../ui/scrollview_observer_page.dart';
 
 class RouterRULConfig {
   static const main = "/mian";
   static const list = "/list";
+  static const list_refensh = "/list_refensh";
   static const home = "/home";
   static const msg = "/msg";
   static const my = "/my";
@@ -42,6 +44,7 @@ final List<GetPage>  pages = [
   GetPage(name: RouterRULConfig.loading_state, page: () => LoadingStatePage()),
   GetPage(name: RouterRULConfig.scroll_index, page: () => ScrollIndexPage()),
   GetPage(name: RouterRULConfig.scrollview_observe, page: () => ScrollviewObserverPage()),
+  GetPage(name: RouterRULConfig.list_refensh, page: () => RefreshListPage()),
 ];
 
 

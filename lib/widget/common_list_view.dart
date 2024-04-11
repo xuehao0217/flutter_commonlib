@@ -138,11 +138,11 @@ class CommonListWidget extends StatelessWidget {
       onObserveAll: (resultMap) {
         final model = resultMap[_sliverListViewContext];
         if (model == null) return;
-        debugPrint('ScrollviewObserverPage visible -- ${model.visible}');
-        debugPrint(
-            'ScrollviewObserverPage firstChild.index -- ${model.firstChild?.index}');
-        debugPrint(
-            'ScrollviewObserverPage displaying -- ${model.displayingChildIndexList}');
+        // debugPrint('ScrollviewObserverPage visible -- ${model.visible}');
+        // debugPrint(
+        //     'ScrollviewObserverPage firstChild.index -- ${model.firstChild?.index}');
+        // debugPrint(
+        //     'ScrollviewObserverPage displaying -- ${model.displayingChildIndexList}');
         visibleIndexs = model.displayingChildIndexList;
       },
     );
@@ -178,16 +178,15 @@ class CommonListWidget extends StatelessWidget {
         onNotification: (ScrollNotification notification) {
           //1.监听事件的类型
           if (notification is ScrollStartNotification) {
-            print("开始滚动...");
+            // print("开始滚动...");
           } else if (notification is ScrollUpdateNotification) {
             //当前滚动的位置和总长度
             final currentPixel = notification.metrics.pixels;
             final totalPixel = notification.metrics.maxScrollExtent;
             double progress = currentPixel / totalPixel;
-            print(
-                "正在滚动：${notification.metrics.pixels} - ${notification.metrics.maxScrollExtent}");
+            // print("正在滚动：${notification.metrics.pixels} - ${notification.metrics.maxScrollExtent}");
           } else if (notification is ScrollEndNotification) {
-            print("滚动结束....");
+            // print("滚动结束....");
             visibleIndexListCallback?.call(visibleIndexs);
           }
           return false;
