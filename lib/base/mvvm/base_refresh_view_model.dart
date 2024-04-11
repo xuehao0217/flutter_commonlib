@@ -13,7 +13,7 @@ abstract class BaseRefreshViewModel<T> extends BaseViewModel {
   ///当前页面
   var datas = <T>[].obs;
 
-  var pageCount = 0;
+  var pageCount = 1;
 
   @override
   void onClose() {
