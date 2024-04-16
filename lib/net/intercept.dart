@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'dio_utils.dart';
 import 'error_handle.dart';
@@ -9,12 +10,11 @@ import 'net.dart';
 class HeaderInterceptor extends Interceptor {
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-
-    options.headers["version"] ="version";
+    var p =await  PackageInfo.fromPlatform();
+    options.headers["version"] ="${p.version}";
     options.headers["deviceId"] = "deviceId";
     options.headers["os"] = "os";
     options.headers["osVersion"] = "os";
-
     super.onRequest(options, handler);
   }
 }
