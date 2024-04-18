@@ -30,7 +30,7 @@ abstract class BasePgaeStatefulWidget<W extends StatefulWidget> extends State<W>
     // 页面路由发生变化
     routeObserver.subscribe(this, ModalRoute.of(context)!);
     super.didChangeDependencies();
-    changeStatusBarColor(color:setStatusBarColor(),iconBrightness: isDarkMode()?Brightness.light:Brightness.dark);
+    changeStatusBarColor(iconBrightness: isDarkMode()?Brightness.light:Brightness.dark);
   }
 
   @override

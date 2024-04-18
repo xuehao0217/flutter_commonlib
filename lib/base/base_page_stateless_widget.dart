@@ -17,7 +17,7 @@ import '../style/theme.dart';
 abstract class BasePageStatelessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    changeStatusBarColor(color:setStatusBarColor(),iconBrightness: isDarkMode()?Brightness.light:Brightness.dark);
+    changeStatusBarColor(iconBrightness: isDarkMode()?Brightness.light:Brightness.dark);
     return _buildContent(context);
   }
 

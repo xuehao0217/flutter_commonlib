@@ -76,6 +76,7 @@ SystemUiOverlayStyle getStatusBarStyle() {
 
 
 
+//color 为null 不显示状态栏
 void changeStatusBarColor({Color? color, Brightness? iconBrightness}) {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: color,
