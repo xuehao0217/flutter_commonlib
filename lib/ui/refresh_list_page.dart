@@ -30,9 +30,6 @@ class _RefreshListPage
   void initData() {}
 
   @override
-  Color setStatusBarColor() => Colors.white;
-
-  @override
   createViewModel() => RefreshListViewModel();
 
   @override
