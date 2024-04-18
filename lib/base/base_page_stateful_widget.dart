@@ -1,30 +1,23 @@
-import 'package:common_utils/common_utils.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_commonlib/helpter/widget_ext_helper.dart';
 import 'package:flutter_commonlib/widget/common_widget.dart';
-import 'package:flutter_constraintlayout/flutter_constraintlayout.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-
 import '../generated/assets.dart';
-import '../helpter/status_utils.dart';
-import 'mvvm/base_view_abs.dart';
-import 'mvvm/base_stateful_widget.dart';
-import 'mvvm/base_stateless_widget.dart';
-import 'mvvm/base_view_model.dart';
+import '../style/theme.dart';
 
 final RouteObserver<ModalRoute<void>> routeObserver =
-    RouteObserver<ModalRoute<void>>();
+RouteObserver<ModalRoute<void>>();
 
 abstract class BasePgaeStatefulWidget<W extends StatefulWidget> extends State<W>
     with AutomaticKeepAliveClientMixin, RouteAware {
   @override
-  bool get wantKeepAlive =>
-      true; // true 来保持状态 它主要用于解决在滚动列表（如 ListView、GridView 等）中，当子部件滚出屏幕后被回收，再滚回屏幕时重新创建的问题。
+  bool get wantKeepAlive => true; // true 来保持状态 它主要用于解决在滚动列表（如 ListView、GridView 等）中，当子部件滚出屏幕后被回收，再滚回屏幕时重新创建的问题。
 
   @override
   void dispose() {
@@ -37,12 +30,12 @@ abstract class BasePgaeStatefulWidget<W extends StatefulWidget> extends State<W>
     // 页面路由发生变化
     routeObserver.subscribe(this, ModalRoute.of(context)!);
     super.didChangeDependencies();
+    changeStatusBarColor(color:setStatusBarColor(),iconBrightness: isDarkMode()?Brightness.light:Brightness.dark);
   }
 
   @override
   void initState() {
     super.initState();
-    StatusBarUtils.changeStatusColor(Colors.transparent,true);
   }
 
   @override
@@ -74,6 +67,10 @@ abstract class BasePgaeStatefulWidget<W extends StatefulWidget> extends State<W>
   @override
   Widget build(BuildContext context) {
     super.build(context); //AutomaticKeepAliveClientMixin 必须要这么调用
+    return _buildContent();
+  }
+
+  Widget _buildContent() {
     //为了显示水波纹
     return Ink(
       color: setPageBgColor(),
@@ -81,7 +78,7 @@ abstract class BasePgaeStatefulWidget<W extends StatefulWidget> extends State<W>
         children: [
           if (showStatusBar())
             Container(
-              color: setStatusBarColor(),
+              color: setStatusBarColor() ,
               width: ScreenUtil.getScreenW(context),
               height: ScreenUtil.getStatusBarH(context),
             ),
@@ -98,12 +95,15 @@ abstract class BasePgaeStatefulWidget<W extends StatefulWidget> extends State<W>
               height: 44,
             ),
           Expanded(
-            child: buildPageContent(context).intoContainer(color:  setPageBgColor()),
+            child: buildPageContent(context)
+                .intoContainer(color: setPageBgColor()),
           )
         ],
       ),
     );
   }
+
+  ThemeData getThemeData() => Theme.of(context);
 
   bool showBackIcon() => true;
 
@@ -115,11 +115,11 @@ abstract class BasePgaeStatefulWidget<W extends StatefulWidget> extends State<W>
 
   String setBackIcon() => R.assetsIconBackBlack;
 
-  Color setTitleBgColor() => Colors.white;
+  Color setTitleBgColor() => getThemeData().scaffoldBackgroundColor;
 
-  Color setStatusBarColor() => Colors.transparent;
+  Color setStatusBarColor() => getThemeData().scaffoldBackgroundColor;
 
-  Color setPageBgColor() => Colors.white;
+  Color setPageBgColor() => getThemeData().scaffoldBackgroundColor;
 
   Widget? setRightTitleContent() => null;
 

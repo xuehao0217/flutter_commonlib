@@ -78,7 +78,7 @@ class _RefreshListPage
               return CommonButton(
                 elevation: 2,
                 circular: 10,
-                backgroundColor: Colors.blue,
+                backgroundColor: getThemeData().primaryColor,
                 width: double.infinity,
                 height: 50,
                 onPressed: () {},

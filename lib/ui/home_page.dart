@@ -9,10 +9,10 @@ import 'package:flutter_commonlib/helpter/widget_ext_helper.dart';
 import 'package:flutter_commonlib/router/router_config.dart';
 import 'package:flutter_commonlib/widget/common_list_view.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:get/get.dart';
 
 import '../helpter/status_utils.dart';
+import '../style/theme.dart';
 import '../widget/common_widget.dart';
 import '../widget/input_widget.dart';
 import 'cameras_page.dart';
@@ -23,23 +23,22 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => _HomePage();
 }
 
-class _HomePage extends BaseStatefulWidget<HomePage,HomeViewModel> {
+class _HomePage extends BaseStatefulWidget<HomePage, HomeViewModel> {
   @override
   void onPageShow() {
     super.onPageShow();
     // WidgetsBinding.instance.addPostFrameCallback((_) {
-      viewModel.getCacheSizeAsync();
+    viewModel.getCacheSizeAsync();
     // });
   }
 
   @override
-  void initData() {}
+  void initData() {
+
+  }
 
   @override
   bool showTitleBar() => false;
-
-  @override
-  Color setStatusBarColor() => Colors.white;
 
   @override
   createViewModel() => HomeViewModel();
@@ -65,7 +64,37 @@ class _HomePage extends BaseStatefulWidget<HomePage,HomeViewModel> {
         CommonButton(
           elevation: 2,
           circular: 10,
-          backgroundColor: Colors.blue,
+          backgroundColor: getThemeData().primaryColor,
+          width: double.infinity,
+          height: 50,
+          onPressed: () {
+            //手动切换主题
+            Get.changeThemeMode(
+                Get.isDarkMode ? ThemeMode.light : ThemeMode.dark);
+          },
+          child: const Text(
+            "主题切换",
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        CommonButton(
+          elevation: 2,
+          circular: 10,
+          backgroundColor: getThemeData().primaryColor,
+          width: double.infinity,
+          height: 50,
+          onPressed: () {
+            changeStatusBarColor(color: Colors.orange,iconBrightness:  Brightness.dark);
+          },
+          child: const Text(
+            "修改状态栏颜色",
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        CommonButton(
+          elevation: 2,
+          circular: 10,
+          backgroundColor: getThemeData().primaryColor,
           width: double.infinity,
           height: 50,
           onPressed: () {
@@ -79,7 +108,7 @@ class _HomePage extends BaseStatefulWidget<HomePage,HomeViewModel> {
         CommonButton(
           elevation: 2,
           circular: 10,
-          backgroundColor: Colors.blue,
+          backgroundColor: getThemeData().primaryColor,
           width: double.infinity,
           height: 50,
           onPressed: () {
@@ -110,7 +139,7 @@ class _HomePage extends BaseStatefulWidget<HomePage,HomeViewModel> {
         CommonButton(
           elevation: 2,
           circular: 10,
-          backgroundColor: Colors.blue,
+          backgroundColor: getThemeData().primaryColor,
           width: double.infinity,
           height: 50,
           onPressed: () async {
@@ -124,7 +153,7 @@ class _HomePage extends BaseStatefulWidget<HomePage,HomeViewModel> {
         CommonButton(
           elevation: 2,
           circular: 10,
-          backgroundColor: Colors.blue,
+          backgroundColor: getThemeData().primaryColor,
           width: double.infinity,
           height: 50,
           onPressed: () async {
@@ -139,7 +168,7 @@ class _HomePage extends BaseStatefulWidget<HomePage,HomeViewModel> {
         CommonButton(
           elevation: 2,
           circular: 10,
-          backgroundColor: Colors.blue,
+          backgroundColor: getThemeData().primaryColor,
           width: double.infinity,
           height: 50,
           onPressed: () async {
@@ -151,11 +180,10 @@ class _HomePage extends BaseStatefulWidget<HomePage,HomeViewModel> {
           ),
         ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
 
-
         CommonButton(
           elevation: 2,
           circular: 10,
-          backgroundColor: Colors.blue,
+          backgroundColor: getThemeData().primaryColor,
           width: double.infinity,
           height: 50,
           onPressed: () async {
@@ -170,7 +198,7 @@ class _HomePage extends BaseStatefulWidget<HomePage,HomeViewModel> {
         CommonButton(
           elevation: 2,
           circular: 10,
-          backgroundColor: Colors.blue,
+          backgroundColor: getThemeData().primaryColor,
           width: double.infinity,
           height: 50,
           onPressed: () async {
@@ -185,7 +213,7 @@ class _HomePage extends BaseStatefulWidget<HomePage,HomeViewModel> {
         Obx(() => CommonButton(
               elevation: 2,
               circular: 10,
-              backgroundColor: Colors.blue,
+              backgroundColor: getThemeData().primaryColor,
               width: double.infinity,
               height: 50,
               onPressed: () async {
