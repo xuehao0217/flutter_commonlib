@@ -1,0 +1,9 @@
+final RxString title = RxString('Initial Title');
+
+// 订阅 title 变量的变化
+title.obs.listen((newTitle) {
+  print('Title changed to: $newTitle');
+});
+
+// 更改 title 变量的值，触发监听器回调
+title.value = 'New Title'; // 控制台输出：Title changed to: New Title
