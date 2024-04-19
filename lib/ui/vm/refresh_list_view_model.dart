@@ -6,15 +6,17 @@ import '../../entity/home_list_entity.dart';
 class RefreshListViewModel extends BaseRefreshViewModel<HomeListDatas> {
   @override
   void onInit() {
-    defPageIndex=0;
+    defPageIndex = 0;
     super.onInit();
   }
+
   void getDatas({bool refresh = false}) {
     getRefreshLoadData<HomeListEntity>(
-        url: "/article/list/$currentPageIndex/json",
-        success: (data) {
-          onRequestData(refresh, data!.datas);
-        },
-        refresh: refresh);
+      refresh: refresh,
+      url: "/article/list/$currentPageIndex/json",
+      success: (data) {
+        onRequestData(refresh, data!.datas);
+      },
+    );
   }
 }

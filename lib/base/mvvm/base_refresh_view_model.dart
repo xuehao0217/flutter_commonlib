@@ -10,7 +10,8 @@ abstract class BaseRefreshViewModel<T> extends BaseViewModel {
 
   var currentPageIndex = 1;
 
-  var defPageIndex=0;
+  var defPageIndex = 0;
+
   ///当前页面
   var datas = <T>[].obs;
 
@@ -18,23 +19,24 @@ abstract class BaseRefreshViewModel<T> extends BaseViewModel {
 
   @override
   void onInit() {
-    currentPageIndex=defPageIndex;
+    currentPageIndex = defPageIndex;
     super.onInit();
   }
+
   @override
   void onClose() {
     super.onClose();
     controller.dispose();
   }
 
-  void requestRefresh(){
-    currentPageIndex=defPageIndex;
+  void requestRefresh() {
+    currentPageIndex = defPageIndex;
     controller.requestRefresh();
   }
 
   void getRefreshLoadData<T>(
-      {required String url,
-      bool refresh = false,
+      {bool refresh = false,
+      required String url,
       required NetSuccessCallback<T?>? success}) {
     if (refresh) {
       currentPageIndex = defPageIndex;
