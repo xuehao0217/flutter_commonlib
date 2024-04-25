@@ -66,3 +66,16 @@ extension StringLog on String {
   }
 }
 
+
+extension Unwrap<T> on Future<T?> {
+  Future<T> unwrap() => then(
+        (value) => value != null
+        ? Future<T>.value(value)
+        : Future.any([]),
+  );
+}
+
+
+// extension Unwrap<T> on Stream<T?> {
+//   Stream<T> unwrap() => where((event) => event != null).cast();
+// }
