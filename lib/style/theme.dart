@@ -19,7 +19,7 @@ final ThemeData appDarkThemeData = ThemeData(
     scaffoldBackgroundColor: Colors.black,
     //Scaffold的背景颜色。典型Material应用程序或应用程序内页面的背景颜色
     textTheme:
-        TextTheme(headline1: TextStyle(color: Colors.yellow, fontSize: 15)),
+        TextTheme(displayLarge: TextStyle(color: Colors.yellow, fontSize: 15)),
     appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.yellow)));
 
 //创建light ThemeData对象
@@ -32,7 +32,7 @@ final ThemeData appLightThemeData = ThemeData(
     scaffoldBackgroundColor: Colors.white,
     //Scaffold的背景颜色。典型Material应用程序或应用程序内页面的背景颜色
     textTheme:
-        TextTheme(headline1: TextStyle(color: Colors.blue, fontSize: 15)),
+        TextTheme(displayLarge: TextStyle(color: Colors.blue, fontSize: 15)),
     appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.black)));
 
 bool isDarkMode() {
