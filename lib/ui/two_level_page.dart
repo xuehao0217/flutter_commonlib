@@ -64,18 +64,34 @@ class _TwoLevelExampleState extends BasePgaeStatefulWidget<TwoLevelExample> {
           getCommonTitleBarWidget(),
           Column(
             children: [
-              OutlinedButton(
+              CommonButton(
+                elevation: 2,
+                circular: 10,
+                backgroundColor: getThemeData().primaryColor,
+                width: double.infinity,
+                height: 50,
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Get.back();
                 },
-                child: const Text("点击这里返回上一页!"),
-              ),
-              OutlinedButton(
+                child: const Text(
+                  "点击这里返回上一页",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ).intoPadding(const EdgeInsets.all(15)),
+              CommonButton(
+                elevation: 2,
+                circular: 10,
+                backgroundColor: getThemeData().primaryColor,
+                width: double.infinity,
+                height: 50,
                 onPressed: () {
                   _refreshController.requestTwoLevel();
                 },
-                child: const Text("点击这里打开二楼!"),
-              )
+                child: const Text(
+                  "打开二楼",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ).intoPadding(const EdgeInsets.all(15))
             ],
           ).intoExpanded(),
         ],
