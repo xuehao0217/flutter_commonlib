@@ -38,7 +38,7 @@ class _TwoLevelExampleState extends BasePgaeStatefulWidget<TwoLevelExample> {
         displayAlignment: TwoLevelDisplayAlignment.fromTop,
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("images/secondfloor.jpg"),
+              image: AssetImage(R.assetsIcLogo),
               fit: BoxFit.cover,
               // 很重要的属性,这会影响你打开二楼和关闭二楼的动画效果
               alignment: Alignment.topCenter),
