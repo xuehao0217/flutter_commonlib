@@ -2,6 +2,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_commonlib/helpter/widget_ext_helper.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -12,6 +13,7 @@ import '../generated/assets.dart';
 import '../style/theme.dart';
 import '../widget/common_widget.dart';
 
+// https://github.com/peng8350/flutter_pulltorefresh/blob/master/example/lib/ui/example/useStage/twolevel_refresh.dart
 class TwoLevelExample extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -56,44 +58,54 @@ class _TwoLevelExampleState extends BasePgaeStatefulWidget<TwoLevelExample> {
         _refreshController.refreshCompleted();
       },
       onTwoLevel: (bool isOpen) {
-        print("twoLevel opening:$isOpen");
+        SmartDialog.showToast("twoLevel opening:$isOpen");
       },
-      child: Column(
-        children: <Widget>[
-          getStatusBarWidget(),
-          getCommonTitleBarWidget(),
-          Column(
-            children: [
-              CommonButton(
-                elevation: 2,
-                circular: 10,
-                backgroundColor: getThemeData().primaryColor,
-                width: double.infinity,
-                height: 50,
-                onPressed: () {
-                  Get.back();
-                },
-                child: const Text(
-                  "点击这里返回上一页",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              ).intoPadding(const EdgeInsets.all(15)),
-              CommonButton(
-                elevation: 2,
-                circular: 10,
-                backgroundColor: getThemeData().primaryColor,
-                width: double.infinity,
-                height: 50,
-                onPressed: () {
-                  _refreshController.requestTwoLevel();
-                },
-                child: const Text(
-                  "打开二楼",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              ).intoPadding(const EdgeInsets.all(15))
-            ],
-          ).intoExpanded(),
+      child: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
+        slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 500.0,
+              child: Column(
+                children: <Widget>[
+                  getStatusBarWidget(),
+                  getCommonTitleBarWidget(),
+                  Column(
+                    children: [
+                      CommonButton(
+                        elevation: 2,
+                        circular: 10,
+                        backgroundColor: getThemeData().primaryColor,
+                        width: double.infinity,
+                        height: 50,
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: const Text(
+                          "点击这里返回上一页",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ).intoPadding(const EdgeInsets.all(15)),
+                      CommonButton(
+                        elevation: 2,
+                        circular: 10,
+                        backgroundColor: getThemeData().primaryColor,
+                        width: double.infinity,
+                        height: 50,
+                        onPressed: () {
+                          _refreshController.requestTwoLevel();
+                        },
+                        child: const Text(
+                          "打开二楼",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ).intoPadding(const EdgeInsets.all(15))
+                    ],
+                  ).intoExpanded(),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -116,14 +128,14 @@ class TwoLevelWidget extends BasePageStatelessWidget {
       decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage(R.assetsIcLogo),
-            // 很重要的属性,这会影响你打开二楼和关闭二楼的动画效果,关联到TwoLevelHeader,如果背景一致的情况,请设置相同
+// 很重要的属性,这会影响你打开二楼和关闭二楼的动画效果,关联到TwoLevelHeader,如果背景一致的情况,请设置相同
             alignment: Alignment.topCenter,
             fit: BoxFit.cover),
       ),
-      child: Column(
-        children: [
-          getStatusBarWidget(context),
-          //   getCommonTitleBarWidget(context),
+      child: Stack(
+        children: <Widget>[
+          // getStatusBarWidget(context),
+          //getCommonTitleBarWidget(context),
           CommonButton(
             elevation: 2,
             circular: 10,
@@ -137,10 +149,9 @@ class TwoLevelWidget extends BasePageStatelessWidget {
               "关闭二楼",
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
-          ).intoPadding(const EdgeInsets.only(
-            left: 20,
-            right: 20,
-          )),
+          )
+              .intoCenter()
+              .intoPadding(const EdgeInsets.symmetric(horizontal: 20)),
         ],
       ),
     );
