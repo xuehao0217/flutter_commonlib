@@ -13,6 +13,7 @@ import '../ui/permission_widget.dart';
 import '../ui/refresh_list_page.dart';
 import '../ui/scroll_index_page.dart';
 import '../ui/scrollview_observer_page.dart';
+import '../ui/two_level_page.dart';
 
 class RouterRULConfig {
   static const main = "/mian";
@@ -28,6 +29,8 @@ class RouterRULConfig {
 
   static const scroll_index = "/scroll_index";
   static const scrollview_observe = "/scrollview_observe";
+
+  static const two_level = "/two_level";
 }
 
 
@@ -42,6 +45,7 @@ final List<GetPage>  pages = [
   GetPage(name: RouterRULConfig.scroll_index, page: () => ScrollIndexPage()),
   GetPage(name: RouterRULConfig.scrollview_observe, page: () => ScrollviewObserverPage()),
   GetPage(name: RouterRULConfig.list_refensh, page: () => RefreshListPage()),
+  GetPage(name: RouterRULConfig.two_level, page: () => TwoLevelExample(), transition: Transition.upToDown,),
 ];
 
 

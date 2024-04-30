@@ -17,7 +17,8 @@ import '../style/theme.dart';
 abstract class BasePageStatelessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    changeStatusBarColor(iconBrightness: isDarkMode()?Brightness.light:Brightness.dark);
+    changeStatusBarColor(
+        iconBrightness: isDarkMode() ? Brightness.light : Brightness.dark);
     return _buildContent(context);
   }
 
@@ -26,26 +27,8 @@ abstract class BasePageStatelessWidget extends StatelessWidget {
         color: setPageBgColor(),
         child: Column(
           children: [
-            if (showStatusBar())
-              Container(
-                color: setStatusBarColor() ??
-                    Theme.of(context).scaffoldBackgroundColor,
-                width: ScreenUtil.getScreenW(context),
-                height: ScreenUtil.getStatusBarH(context),
-              ),
-            if (showTitleBar())
-              CommonTitleBar(
-                showBack: showBackIcon(),
-                backgroundColor: setTitleBgColor() ??
-                    Theme.of(context).scaffoldBackgroundColor,
-                title: setTitle(),
-                backIcon: setBackIcon(),
-                backCallBack: () {
-                  Get.back();
-                },
-                rightWidget: setRightTitleContent(),
-                height: 44,
-              ),
+            if (showStatusBar()) getStatusBarWidget(context),
+            if (showTitleBar()) getCommonTitleBarWidget(context),
             Expanded(
               child: buildContent(context).intoContainer(
                   color: setPageBgColor() ??
@@ -74,6 +57,25 @@ abstract class BasePageStatelessWidget extends StatelessWidget {
   Widget? setRightTitleContent() => null;
 
   Widget buildContent(BuildContext context);
+
+  Widget getStatusBarWidget(BuildContext context) => Container(
+        color: setStatusBarColor() ?? Theme.of(context).scaffoldBackgroundColor,
+        width: ScreenUtil.getScreenW(context),
+        height: ScreenUtil.getStatusBarH(context),
+      );
+
+  Widget getCommonTitleBarWidget(BuildContext context) => CommonTitleBar(
+        showBack: showBackIcon(),
+        backgroundColor:
+            setTitleBgColor() ?? Theme.of(context).scaffoldBackgroundColor,
+        title: setTitle(),
+        backIcon: setBackIcon(),
+        backCallBack: () {
+          Get.back();
+        },
+        rightWidget: setRightTitleContent(),
+        height: 44,
+      );
 
   void Get2Named(String router) {
     Get.toNamed(router);

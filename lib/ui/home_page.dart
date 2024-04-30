@@ -33,9 +33,7 @@ class _HomePage extends BaseStatefulWidget<HomePage, HomeViewModel> {
   }
 
   @override
-  void initData() {
-
-  }
+  void initData() {}
 
   @override
   bool showTitleBar() => false;
@@ -84,7 +82,8 @@ class _HomePage extends BaseStatefulWidget<HomePage, HomeViewModel> {
           width: double.infinity,
           height: 50,
           onPressed: () {
-            changeStatusBarColor(color: Colors.orange,iconBrightness:  Brightness.dark);
+            changeStatusBarColor(
+                color: Colors.orange, iconBrightness: Brightness.dark);
           },
           child: const Text(
             "修改状态栏颜色",
@@ -116,6 +115,20 @@ class _HomePage extends BaseStatefulWidget<HomePage, HomeViewModel> {
           },
           child: const Text(
             "Permission 使用",
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        CommonButton(
+          elevation: 2,
+          circular: 10,
+          backgroundColor: getThemeData().primaryColor,
+          width: double.infinity,
+          height: 50,
+          onPressed: () async {
+            Get2Named(RouterRULConfig.two_level);
+          },
+          child: Text(
+            "二楼使用",
             style: TextStyle(color: Colors.white, fontSize: 16),
           ),
         ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),

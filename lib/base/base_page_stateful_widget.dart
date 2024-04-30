@@ -12,12 +12,13 @@ import '../generated/assets.dart';
 import '../style/theme.dart';
 
 final RouteObserver<ModalRoute<void>> routeObserver =
-RouteObserver<ModalRoute<void>>();
+    RouteObserver<ModalRoute<void>>();
 
 abstract class BasePgaeStatefulWidget<W extends StatefulWidget> extends State<W>
     with AutomaticKeepAliveClientMixin, RouteAware {
   @override
-  bool get wantKeepAlive => true; // true 来保持状态 它主要用于解决在滚动列表（如 ListView、GridView 等）中，当子部件滚出屏幕后被回收，再滚回屏幕时重新创建的问题。
+  bool get wantKeepAlive =>
+      true; // true 来保持状态 它主要用于解决在滚动列表（如 ListView、GridView 等）中，当子部件滚出屏幕后被回收，再滚回屏幕时重新创建的问题。
 
   @override
   void dispose() {
@@ -30,7 +31,8 @@ abstract class BasePgaeStatefulWidget<W extends StatefulWidget> extends State<W>
     // 页面路由发生变化
     routeObserver.subscribe(this, ModalRoute.of(context)!);
     super.didChangeDependencies();
-    changeStatusBarColor(iconBrightness: isDarkMode()?Brightness.light:Brightness.dark);
+    changeStatusBarColor(
+        iconBrightness: isDarkMode() ? Brightness.light : Brightness.dark);
   }
 
   @override
@@ -76,24 +78,8 @@ abstract class BasePgaeStatefulWidget<W extends StatefulWidget> extends State<W>
       color: setPageBgColor(),
       child: Column(
         children: [
-          if (showStatusBar())
-            Container(
-              color: setStatusBarColor() ,
-              width: ScreenUtil.getScreenW(context),
-              height: ScreenUtil.getStatusBarH(context),
-            ),
-          if (showTitleBar())
-            CommonTitleBar(
-              showBack: showBackIcon(),
-              backgroundColor: setTitleBgColor(),
-              title: setTitle(),
-              backIcon: setBackIcon(),
-              backCallBack: () {
-                Get.back();
-              },
-              rightWidget: setRightTitleContent(),
-              height: 44,
-            ),
+          if (showStatusBar()) getStatusBarWidget(),
+          if (showTitleBar())getCommonTitleBarWidget(),
           Expanded(
             child: buildPageContent(context)
                 .intoContainer(color: setPageBgColor()),
@@ -102,6 +88,24 @@ abstract class BasePgaeStatefulWidget<W extends StatefulWidget> extends State<W>
       ),
     );
   }
+
+  Widget getStatusBarWidget() => Container(
+    color: setStatusBarColor(),
+    width: ScreenUtil.getScreenW(context),
+    height: ScreenUtil.getStatusBarH(context),
+  );
+
+  Widget getCommonTitleBarWidget()=>CommonTitleBar(
+    showBack: showBackIcon(),
+    backgroundColor: setTitleBgColor(),
+    title: setTitle(),
+    backIcon: setBackIcon(),
+    backCallBack: () {
+      Get.back();
+    },
+    rightWidget: setRightTitleContent(),
+    height: 44,
+  );
 
   ThemeData getThemeData() => Theme.of(context);
 
@@ -124,6 +128,7 @@ abstract class BasePgaeStatefulWidget<W extends StatefulWidget> extends State<W>
   Widget? setRightTitleContent() => null;
 
   Widget buildPageContent(BuildContext context);
+
 
   void Get2Named(String router) {
     Get.toNamed(router);
