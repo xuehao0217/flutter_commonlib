@@ -8,14 +8,14 @@ import 'base_view_model.dart';
 abstract class BaseRefreshViewModel<T> extends BaseViewModel {
   final controller = RefreshController(initialRefresh: true);
 
-  var currentPageIndex = 1;
+  var currentPageIndex = 1; ///当前是多少页
 
-  var defPageIndex = 0;
+  var defPageIndex = 0; ///默认的页面角标
 
   ///当前页面
   var datas = <T>[].obs;
 
-  var pageCount = 1;
+  var pageCount = 1;///一页有多少数据 或者不满足多少算结束。
 
   @override
   void onInit() {
