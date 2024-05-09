@@ -51,7 +51,7 @@ dependencies:
   image_picker: ^1.0.4    #https://pub-web.flutter-io.cn/packages/image_picker
   video_player: ^2.7.2
   path_provider: ^2.1.1   #https://pub-web.flutter-io.cn/packages/path_provider
-  flutter_native_splash: ^2.3.4   #https://pub-web.flutter-io.cn/packages/flutter_native_splash
+  flutter_native_splash: ^2.4.0   #https://pub-web.flutter-io.cn/packages/flutter_native_splash
   install_plugin: ^2.1.0
   url_launcher: ^6.2.1  #https://pub-web.flutter-io.cn/packages/url_launcher/install
   flutter_local_notifications: ^16.1.0 #https://pub-web.flutter-io.cn/packages/flutter_local_notifications/install
@@ -90,7 +90,7 @@ flutter:
         - asset: assets/fonts/dinpro_bold.ttf
         - asset: assets/fonts/dinpro_medium.ttf
 
-
+#https://pub-web.flutter-io.cn/packages/flutter_native_splash
 flutter_native_splash:
   color: "#ffffff"
   image: assets/ic_logo.jpeg
@@ -101,6 +101,7 @@ flutter_native_splash:
     icon_background_color: "#eeeeee"
   fullscreen: true
 
+# https://pub-web.flutter-io.cn/packages/flutter_launcher_icons
 #  执行命令
 #  flutter pub get
 #  flutter pub run flutter_launcher_icons
