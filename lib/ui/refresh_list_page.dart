@@ -57,8 +57,10 @@ class _RefreshListPage
         // ),
         Obx(() => CommonListWidget(
             visibleIndexListCallback: (indexs) {
-              showToast("visibleIndexListCallback===${indexs}");
               print("visibleIndexListCallback===${indexs}");
+            },
+            slideDirectionCallback: (direction){
+              showToast("slideDirectionCallback===${direction}");
             },
             padding: const EdgeInsets.only(left: 15, right: 15,bottom: 25),
             controller: viewModel.controller,

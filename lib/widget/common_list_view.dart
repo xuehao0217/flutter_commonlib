@@ -1,9 +1,7 @@
-import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_constraintlayout/flutter_constraintlayout.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
 
@@ -15,6 +13,14 @@ import 'package:scrollview_observer/scrollview_observer.dart';
 // typedef onLoadCallback = void Function(RefreshController refreshController);
 
 typedef VisibleIndexListCallback = void Function(List<int>);
+
+typedef onSlideDirectionCallback = void Function(SlideDirection);
+
+enum SlideDirection {
+  SwipeUp,
+  SwipeDown,
+  Def,
+}
 
 class CommonListWidget extends StatelessWidget {
   final int itemCount;
@@ -28,6 +34,7 @@ class CommonListWidget extends StatelessWidget {
   final bool enableRefresh, enableLoad, initialRefresh;
 
   final VisibleIndexListCallback? visibleIndexListCallback;
+  final onSlideDirectionCallback? slideDirectionCallback;
   final Widget? separatorLine;
 
   // final onRefreshCallback? onRefresh;
@@ -46,6 +53,7 @@ class CommonListWidget extends StatelessWidget {
     RefreshController? controller,
     this.separatorLine,
     this.visibleIndexListCallback,
+    this.slideDirectionCallback,
   }) : _controller = controller;
 
   @override
@@ -173,6 +181,10 @@ class CommonListWidget extends StatelessWidget {
 
   List<int> visibleIndexs = [];
 
+  double _previousPixels = 0.0;
+
+  var slideDirection = SlideDirection.Def;
+
   Widget _buildNotificationListenerListView() {
     return NotificationListener(
         onNotification: (ScrollNotification notification) {
@@ -184,10 +196,20 @@ class CommonListWidget extends StatelessWidget {
             final currentPixel = notification.metrics.pixels;
             final totalPixel = notification.metrics.maxScrollExtent;
             double progress = currentPixel / totalPixel;
+
+            final wasScrolledUp = currentPixel < _previousPixels; // 判断是否上滑
+            _previousPixels = currentPixel; // 更新前一帧的滚动位置
+            // 根据wasScrolledUp判断上滑还是下滑
+            if (wasScrolledUp) {
+              slideDirection = SlideDirection.SwipeUp;
+            } else {
+              slideDirection = SlideDirection.SwipeDown;
+            }
             // print("正在滚动：${notification.metrics.pixels} - ${notification.metrics.maxScrollExtent}");
           } else if (notification is ScrollEndNotification) {
             // print("滚动结束....");
             visibleIndexListCallback?.call(visibleIndexs);
+            slideDirectionCallback?.call(slideDirection);
           }
           return false;
         },
