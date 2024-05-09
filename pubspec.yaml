@@ -65,6 +65,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
 
 
 # For information on the generic Dart part of this file, see the
@@ -99,3 +100,13 @@ flutter_native_splash:
     color: "#ffffff"
     icon_background_color: "#eeeeee"
   fullscreen: true
+
+#  执行命令
+#  flutter pub get
+#  flutter pub run flutter_launcher_icons
+flutter_launcher_icons:
+    image_path: "assets/ic_logo.jpeg"
+    #  image_path_android: "icons/ic_launcher.png"
+    #  image_path_ios: "icons/ios_marketing.png"
+    android: true # can specify file name here e.g. "ic_launcher"
+    ios: true # can specify file name here e.g. "My-Launcher-Icon"
