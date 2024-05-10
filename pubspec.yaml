@@ -60,6 +60,7 @@ dependencies:
 #  flutter_statusbarcolor_ns: ^0.5.0  #https://pub.dev/packages/flutter_statusbarcolor_ns/example
 #  animate_do: ^3.3.4 #https://pub-web.flutter-io.cn/packages/animate_do
   flutter_animate: ^4.5.0 #https://pub-web.flutter-io.cn/packages/flutter_animate
+  #https://github.com/OctMon/flutter_easy
 
 dev_dependencies:
   flutter_test:
@@ -94,12 +95,8 @@ flutter:
 flutter_native_splash:
   color: "#ffffff"
   image: assets/ic_logo.jpeg
-  color_dark: "#ffffff"
-  android_12:
-    image: assets/ic_logo.jpeg
-    color: "#ffffff"
-    icon_background_color: "#eeeeee"
-  fullscreen: true
+  android_gravity: center # 设置图片居中
+  ios_content_mode: center # 在iOS上也确保图片居中
 
 # https://pub-web.flutter-io.cn/packages/flutter_launcher_icons
 #  执行命令

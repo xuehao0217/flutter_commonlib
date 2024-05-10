@@ -11,6 +11,7 @@ import 'package:flutter_commonlib/widget/common_list_view.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 
+import '../generated/assets.dart';
 import '../helpter/status_utils.dart';
 import '../style/theme.dart';
 import '../widget/common_widget.dart';
@@ -177,6 +178,13 @@ class _HomePage extends BaseStatefulWidget<HomePage, HomeViewModel> {
             style: TextStyle(color: Colors.white, fontSize: 16),
           ),
         ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+
+        Hero(
+          tag: "Hero",
+          child: Image.asset(R.assetsIcLogo,width: 200,height: 100,).click(() {
+            Get2Named(RouterRULConfig.blurry);
+          }),
+        ),
         CommonButton(
           elevation: 2,
           circular: 10,

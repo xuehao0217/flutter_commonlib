@@ -27,7 +27,6 @@ class _BlurryState extends BasePgaeStatefulWidget<BlurryPage> {
                 child: Hero(tag: "Hero",
                   child: Image.asset(R.assetsIcLogo).click(() {
                     controller.forward();
-
                     // controller1.forward();
                   }),))
             .animate(
@@ -41,7 +40,7 @@ class _BlurryState extends BasePgaeStatefulWidget<BlurryPage> {
                 })
             .effect(duration: 300.ms)
             .blurXY(begin: 0, end: 16)
-            .scaleXY(begin: 1, end: 1.5),
+            .scaleXY(begin: 1, end: 2.5),
       ],
     );
 
