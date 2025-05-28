@@ -76,3 +76,13 @@ extension ClickExt on Widget {
     );
   }
 }
+
+
+
+extension ObxWidgetExtension<T> on Rx<T> {
+  Widget obs(Widget Function(T value) builder) {
+    return Obx(() => builder(this.value));
+  }
+}
+
+
