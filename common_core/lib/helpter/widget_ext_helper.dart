@@ -80,7 +80,7 @@ extension ClickExt on Widget {
 
 ///https://juejin.cn/post/7498494017983676443
 extension ObxWidgetExtension<T> on Rx<T> {
-  Widget obs(Widget Function(T value) builder) {
+  Widget obsWidget(Widget Function(T value) builder) {
     return Obx(() => builder(this.value));
   }
 }
