@@ -22,7 +22,7 @@ extension ClickExt on Widget {
 
   Container intoContainer({
     final Key? key,
-    final AlignmentGeometry? alignment,
+     final AlignmentGeometry? alignment=Alignment.center,
     final EdgeInsetsGeometry? padding,
     final Color? color,
     final Decoration? decoration,
