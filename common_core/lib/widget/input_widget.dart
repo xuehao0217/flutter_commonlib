@@ -8,10 +8,7 @@ import 'package:flutter/material.dart';
 class InputWidget extends StatefulWidget {
   final bool isPassword;
   final String hintText;
-  final double fontSize;
 
-  final Color hintColor;
-  final Color textColor;
   final Color UnderlineColor;
   final String delIcon;
   final String showPwdIcon;
@@ -24,14 +21,13 @@ class InputWidget extends StatefulWidget {
   final FontWeight fontWeight;
   final FontWeight hintFontWeight;
   final ValueChanged<String>? onTextChanged;
-
+  final TextStyle? hintTextStyle;
+  final TextStyle? textStyle;
   InputWidget({
     Key? key,
     this.isPassword = true,
     this.hintText = "",
-    this.fontSize = 16,
-    this.hintColor = Colors.black,
-    this.textColor = Colors.black,
+    this.hintTextStyle, this.textStyle,
     this.onTextChanged,
     this.delIcon = "",
     this.showPwdIcon = "",
@@ -73,21 +69,11 @@ class _InputWidgetState extends State<InputWidget> {
       },
       keyboardType: widget.keyboardType,
 
-      style: TextStyle(
-        fontFamily: 'DINPRO',
-        fontSize: widget.fontSize,
-        color: widget.textColor,
-        fontWeight: widget.fontWeight,
-      ),
+      style: widget.textStyle,
       decoration: InputDecoration(
         labelText: '',
         counterText: '',
-        hintStyle: TextStyle(
-          fontFamily: 'DINPRO',
-          fontSize: widget.fontSize,
-          color: widget.hintColor,
-          fontWeight: widget.hintFontWeight,
-        ),
+        hintStyle: widget.hintTextStyle,
         hintText: widget.hintText,
         // 设置提示文字
         // border: InputBorder.none,
