@@ -15,7 +15,6 @@ class InputWidget extends StatefulWidget {
   final String hidePwdIcon;
 
   final double iconSize;
-
   final TextInputType keyboardType;
 
   final FontWeight fontWeight;
@@ -23,11 +22,29 @@ class InputWidget extends StatefulWidget {
   final ValueChanged<String>? onTextChanged;
   final TextStyle? hintTextStyle;
   final TextStyle? textStyle;
+
+  final InputBorder? border;
+  final Color? fillColor;
+
+  //线
+  // UnderlineInputBorder(
+  // borderSide: BorderSide(
+  // color: widget.UnderlineColor, // 下划线颜色（焦点状态）
+  // width: 0.5 // 下划线宽度
+  // ),
+  // )
+
+  // OutlineInputBorder(
+  // borderRadius: BorderRadius.circular(12),
+  // borderSide: BorderSide(color: widget.UnderlineColor, width: 0.5),
+  // )
+
   InputWidget({
     Key? key,
     this.isPassword = true,
     this.hintText = "",
-    this.hintTextStyle, this.textStyle,
+    this.hintTextStyle,
+    this.textStyle,
     this.onTextChanged,
     this.delIcon = "",
     this.showPwdIcon = "",
@@ -37,6 +54,8 @@ class InputWidget extends StatefulWidget {
     this.keyboardType = TextInputType.number,
     this.fontWeight = FontWeight.normal,
     this.hintFontWeight = FontWeight.normal,
+    this.border,
+    this.fillColor,
   }) : super(key: key);
 
   @override
@@ -63,49 +82,48 @@ class _InputWidgetState extends State<InputWidget> {
       obscureText: widget.isPassword ? _obscureText : false,
       //文本对齐样式
       textAlign: TextAlign.start,
-
       onChanged: (text) {
         widget.onTextChanged?.call(text); // 调用回调函数传递文本
       },
       keyboardType: widget.keyboardType,
-
       style: widget.textStyle,
       decoration: InputDecoration(
         labelText: '',
         counterText: '',
+        filled: true,
+        fillColor: widget.fillColor,
         hintStyle: widget.hintTextStyle,
         hintText: widget.hintText,
         // 设置提示文字
         // border: InputBorder.none,
-        border: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: widget.UnderlineColor, // 下划线颜色
-            width: 0.5, // 下划线宽度
-          ),
-        ),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-              color: widget.UnderlineColor, // 下划线颜色（焦点状态）
-              width: 0.5 // 下划线宽度
-              ), // 设置无焦点下划线颜色
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-              color: widget.UnderlineColor, // 下划线颜色（焦点状态）
-              width: 0.5 // 下划线宽度
-              ),
-        ),
+        border:
+            widget.border ??
+            OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: widget.UnderlineColor, width: 0.5),
+            ),
+        enabledBorder:
+            widget.border ??
+            OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: widget.UnderlineColor, width: 0.5),
+            ),
+        focusedBorder:
+            widget.border ??
+            OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: widget.UnderlineColor, width: 0.5),
+            ),
         //去除下划线
         suffixIcon: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
               iconSize: 24,
-              icon: widget.delIcon.isNotEmpty
-                  ? Image.asset(widget.delIcon)
-                  : const Icon(
-                      Icons.clear,
-                    ),
+              icon:
+                  widget.delIcon.isNotEmpty
+                      ? Image.asset(widget.delIcon)
+                      : const Icon(Icons.clear),
               onPressed: () {
                 setState(() {
                   textEditingController.clear();
@@ -115,14 +133,19 @@ class _InputWidgetState extends State<InputWidget> {
             if (widget.isPassword)
               IconButton(
                 iconSize: 24,
-                icon: widget.showPwdIcon.isNotEmpty &&
-                        widget.hidePwdIcon.isNotEmpty
-                    ? Image.asset(
-                        _obscureText ? widget.showPwdIcon : widget.hidePwdIcon,
-                      )
-                    : Icon(
-                        _obscureText ? Icons.visibility : Icons.visibility_off,
-                      ),
+                icon:
+                    widget.showPwdIcon.isNotEmpty &&
+                            widget.hidePwdIcon.isNotEmpty
+                        ? Image.asset(
+                          _obscureText
+                              ? widget.showPwdIcon
+                              : widget.hidePwdIcon,
+                        )
+                        : Icon(
+                          _obscureText
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
                 onPressed: () {
                   setState(() {
                     _obscureText = !_obscureText;
