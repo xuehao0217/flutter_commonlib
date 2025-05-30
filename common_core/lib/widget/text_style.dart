@@ -15,7 +15,7 @@ class XText extends StatelessWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final Color textColor;
-
+  final TextStyle? style;
   XText(this.text,{
     this.fontSize = 16.0,
     this.fontWeight = FontWeight.normal,
@@ -23,13 +23,14 @@ class XText extends StatelessWidget {
     this.textAlign = TextAlign.left,
     this.overflow = TextOverflow.ellipsis,
     this.maxLines = 1,
+    this.style,
   });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(
+      style: style??TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,
           color: textColor,
@@ -41,3 +42,4 @@ class XText extends StatelessWidget {
     );
   }
 }
+
