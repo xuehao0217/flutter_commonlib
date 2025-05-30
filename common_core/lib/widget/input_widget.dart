@@ -88,7 +88,7 @@ class _InputWidgetState extends State<InputWidget> {
       keyboardType: widget.keyboardType,
       style: widget.textStyle,
       decoration: InputDecoration(
-        labelText: '',
+       // labelText: '',
         counterText: '',
         filled: true,
         fillColor: widget.fillColor,
