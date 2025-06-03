@@ -30,12 +30,11 @@ void main() {
     statusBarIconBrightness: isDarkMode()?Brightness.light:Brightness.dark,
   ));
   //限制竖屏
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then((_) {
-    runApp(MyApp());
-  });
+  ]);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
