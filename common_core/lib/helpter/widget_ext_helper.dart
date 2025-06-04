@@ -55,7 +55,21 @@ extension ClickExt on Widget {
     );
   }
 
+ Widget intoHorizontalPadding(double padding) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: padding),
+      child: this,
+    );
+  }
 
+  Widget intoVerticalPadding(double padding) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: padding),
+      child: this,
+    );
+  }
+
+  
   Widget intoCenter() {
     return Center(
       child: this,
