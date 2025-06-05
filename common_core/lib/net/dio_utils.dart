@@ -15,6 +15,8 @@ String _baseUrl = '';
 List<Interceptor> _interceptors = [
   HeaderInterceptor(),
   // LoggingInterceptor(),
+
+  DecodeForChuckerInterceptor(),
   ChuckerDioInterceptor(),
   TalkerDioLogger(
     settings: const TalkerDioLoggerSettings(
@@ -23,6 +25,7 @@ List<Interceptor> _interceptors = [
       printResponseMessage: true,
     ),
   ),
+  RestoreRawDataInterceptor(),
 ];
 
 typedef NetSuccessListCallback<T> = Function(List<T> data);

@@ -62,3 +62,30 @@ class LoggingInterceptor extends Interceptor {
   }
 }
 
+
+
+
+// 解码给Chucker看
+class DecodeForChuckerInterceptor extends Interceptor {
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    response.extra['_chucker_rawdata'] = response.data;
+    if (response.data is String) {
+      try {
+        response.data = jsonDecode(response.data);
+      } catch (e) {}
+    }
+    handler.next(response);
+  }
+}
+
+// 还原原始data给业务
+class RestoreRawDataInterceptor extends Interceptor {
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    if (response.extra.containsKey('_chucker_rawdata')) {
+      response.data = response.extra['_chucker_rawdata'];
+    }
+    handler.next(response);
+  }
+}
