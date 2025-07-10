@@ -8,9 +8,10 @@ import 'base_view_abs.dart';
 
 abstract class BaseViewModel<V extends AbsBaseView> extends GetxController {
   late V view;
+  late CancelToken cancelToken;
 
   BaseViewModel() {
-    _cancelToken = CancelToken();
+    cancelToken = CancelToken();
   }
 
   @override
@@ -31,12 +32,10 @@ abstract class BaseViewModel<V extends AbsBaseView> extends GetxController {
 
   void showToast(string) => view.showToast(string);
 
-  late CancelToken _cancelToken;
-
   void dispose() {
     /// 销毁时，将请求取消
-    if (!_cancelToken.isCancelled) {
-      _cancelToken.cancel();
+    if (!cancelToken.isCancelled) {
+      cancelToken.cancel();
     }
   }
 
@@ -61,7 +60,7 @@ abstract class BaseViewModel<V extends AbsBaseView> extends GetxController {
       params: params,
       queryParameters: queryParameters,
       options: options,
-      cancelToken: cancelToken ?? _cancelToken,
+      cancelToken: cancelToken ?? cancelToken,
       onSuccess: onSuccess,
       onError: (code, msg) {
         _onError(code, msg, onError);

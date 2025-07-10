@@ -7,6 +7,7 @@ import 'package:common_core/widget/common_widget.dart';
 import 'package:common_core/widget/web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_commonlib/ui/permission_widget.dart';
 import 'package:flutter_helper_kit/extensions/context/build_context_extension.dart';
 import 'package:get/get.dart';
 import 'package:chucker_flutter/chucker_flutter.dart';
@@ -90,27 +91,10 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           width: double.infinity,
           height: 50,
           onPressed: () {
-            Get2Named(RouterRULConfig.permission);
+
           },
           child: Text(
             "Permission 使用",
-            style: TextStyle(
-              color: getThemeTextTheme().bodyMedium?.color,
-              fontSize: 16,
-            ),
-          ),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
-        CommonButton(
-          elevation: 2,
-          circular: 10,
-          backgroundColor: context.primaryColor,
-          width: double.infinity,
-          height: 50,
-          onPressed: () async {
-            Get2Named(RouterRULConfig.two_level);
-          },
-          child: Text(
-            "二楼使用",
             style: TextStyle(
               color: getThemeTextTheme().bodyMedium?.color,
               fontSize: 16,
@@ -199,8 +183,8 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           backgroundColor: context.primaryColor,
           width: double.infinity,
           height: 50,
-          onPressed: () async {
-            viewModel.showDownloadDialog();
+          onPressed: ()  {
+           Get2Named(RouterRULConfig.download);
           },
           child: Text(
             "版本更新",
@@ -218,14 +202,6 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           width: double.infinity,
           height: 50,
           onPressed: () async {
-            // 请求权限
-            final result = await Permission.notification.request();
-            if (result.isGranted) {
-              print('通知权限已授予');
-              NotificationHelper.instance.showLocalNotification("title", "message");
-            } else {
-              print('通知权限未授予');
-            }
             await NotificationHelper.instance.showLocalNotification("title", "message");
           },
           child: Text(
