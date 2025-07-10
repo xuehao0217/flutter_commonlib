@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       locale: const Locale('zh', 'CN'),
       theme: appLightThemeData,
       darkTheme: appDarkThemeData,
-      themeMode: ThemeMode.system, // 改为默认亮色主题，避免系统主题干扰
+      themeMode: ThemeMode.system,
       initialRoute: RouterRULConfig.main,
       builder: FlutterSmartDialog.init(),
       // 注册路由观察者
