@@ -11,7 +11,7 @@ class ImagePickerHelper {
   /// 拍照获取图片
   static Future<String?> takePhoto({
     ImageSource source = ImageSource.camera,
-    int imageQuality = 80,
+    int? imageQuality ,
   }) async {
     try {
       final pickedFile = await _picker.pickImage(
@@ -27,7 +27,7 @@ class ImagePickerHelper {
 
   /// 从相册选择图片
   static Future<String?> pickImageFromGallery({
-    int imageQuality = 80,
+    int? imageQuality ,
   }) async {
     try {
       final pickedFile = await _picker.pickImage(

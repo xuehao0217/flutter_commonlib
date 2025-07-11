@@ -21,7 +21,6 @@ class WatermarkViewModel extends BaseViewModel {
       isLoading.value = true;
       final path = await ImagePickerHelper.takePhoto(
         source: ImageSource.camera,
-        imageQuality: 80, // 添加图片质量设置
       );
       if (path != null) {
         pickImage.value = path;
@@ -56,7 +55,6 @@ class WatermarkViewModel extends BaseViewModel {
       isLoading.value = true;
       final takePhotoPath = await ImagePickerHelper.takePhoto(
         source: ImageSource.camera,
-        imageQuality: 80,
       );
       if (takePhotoPath != null) {
         var path = await ImageUtils.addWatermarkFromImgPath(
