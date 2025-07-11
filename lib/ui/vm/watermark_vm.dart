@@ -1,7 +1,4 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:typed_data';
-import 'dart:ui';
 import 'package:common_core/base/mvvm/base_view_model.dart';
 import 'package:common_core/helpter/image_utils.dart';
 import 'package:common_core/helpter/image_picker_helper.dart';
