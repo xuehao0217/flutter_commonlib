@@ -87,37 +87,37 @@ class _MsgPage extends BaseVMStatefulWidget<MsgPage,HomeViewModel> {
                   ),
                   color: Colors.green,
                 )),
-            TabBar(
-                tabAlignment: TabAlignment.start,
-                tabs: tabsString.map((tabData) {
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 8), // 设置Tab的内边距
-                    alignment: Alignment.center,
-                    child: Text(tabData), // 使用数组中的数据来作为Tab的文本
-                  );
-                }).toList(),
-                indicatorPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: -10),
-                isScrollable: true,
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.black,
-                labelStyle: const TextStyle(fontSize: 18),
-                // 选中tab文字样式
-                unselectedLabelStyle: const TextStyle(fontSize: 18),
-                // 非选中tab文字样式
-                indicatorWeight: 1,
-                indicator: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                  color: Colors.green,
-                )),
+            // TabBar(
+            //     tabAlignment: TabAlignment.start,
+            //     tabs: tabsString.map((tabData) {
+            //       return Container(
+            //         padding: const EdgeInsets.symmetric(
+            //             horizontal: 8, vertical: 8), // 设置Tab的内边距
+            //         alignment: Alignment.center,
+            //         child: Text(tabData), // 使用数组中的数据来作为Tab的文本
+            //       );
+            //     }).toList(),
+            //     indicatorPadding:
+            //         const EdgeInsets.symmetric(vertical: 8, horizontal: -10),
+            //     isScrollable: true,
+            //     labelColor: Colors.white,
+            //     unselectedLabelColor: Colors.black,
+            //     labelStyle: const TextStyle(fontSize: 18),
+            //     // 选中tab文字样式
+            //     unselectedLabelStyle: const TextStyle(fontSize: 18),
+            //     // 非选中tab文字样式
+            //     indicatorWeight: 1,
+            //     indicator: ShapeDecoration(
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(18),
+            //       ),
+            //       color: Colors.green,
+            //     )),
             Expanded(
                 child: TabBarView(
                     children: tabs
                         .map((Tab tab) =>
-                            Center(child: Text(tab.text.toString())))
+                            Center(child: Text(tab.text.toString(),style: TextStyle(color: Colors.deepPurple),)))
                         .toList())),
           ],
         )));
