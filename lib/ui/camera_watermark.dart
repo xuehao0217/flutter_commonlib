@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
-import 'dart:ui';
 
 import 'package:common_core/base/mvvm/base_vm_stateful_widget.dart';
 import 'package:common_core/helpter/widget_ext_helper.dart';
@@ -19,90 +18,169 @@ class WatermarkPage extends StatefulWidget {
   State<StatefulWidget> createState() => _WatermarkPage();
 }
 
-class _WatermarkPage extends BaseVMStatefulWidget<WatermarkPage,WatermarkViewModel> {
+class _WatermarkPage
+    extends BaseVMStatefulWidget<WatermarkPage, WatermarkViewModel> {
+  // 提取常量
+  static const double _buttonHeight = 50.0;
+  static const double _buttonRadius = 10.0;
+  static const double _buttonElevation = 2.0;
+  static const EdgeInsets _buttonPadding = EdgeInsets.only(
+    bottom: 15,
+    left: 15,
+    right: 15,
+  );
+  static const TextStyle _buttonTextStyle = TextStyle(
+    color: Colors.white,
+    fontSize: 16,
+  );
+  static const TextStyle _watermarkTextStyle = TextStyle(
+    color: Colors.red,
+    fontSize: 15,
+  );
+
   @override
   Widget buildPageContent(BuildContext context) {
-    return Obx(() => ListView(
+    return ListView(
+      children: [
+        _buildImagePreview(),
+        _buildActionButtons(),
+        _buildSavedImage(),
+      ],
+    );
+  }
+
+  /// 构建图片预览区域
+  Widget _buildImagePreview() {
+    return Obx(() {
+      if (viewModel.pickImage.value.isEmpty) return const SizedBox.shrink();
+
+      return RepaintBoundary(
+        key: viewModel.globalKey,
+        child: Stack(
           children: [
-            if (viewModel.pickImage.value.isNotEmpty)
-              RepaintBoundary(
-                key: viewModel.globalKey,
-                child: ConstraintLayout(
-                  children: [
-                    Obx(() => Image.file(File(viewModel.pickImage.value))
-                            .applyConstraint(
-                          id: cId("img"),
-                          top: parent.top,
-                          width: matchParent,
-                        )),
-                    const Text(
-                      "我是水印",
-                      style: TextStyle(color: Colors.red, fontSize: 15),
-                    ).applyConstraint(
-                      right: cId("img").right,
-                      bottom: cId("img").bottom,
-                    )
-                  ],
-                ),
-              ),
-            CommonButton(
-              elevation: 2,
-              circular: 10,
-              backgroundColor: Colors.blue,
-              width: double.infinity,
-              height: 50,
-              onPressed: () async {
-                viewModel.getImage();
-              },
-              child: const Text(
-                "拍照",
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-            ).intoPadding(
-                const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
-            if (viewModel.saveImagePath.value.isNotEmpty)
-              Image.file(File(viewModel.saveImagePath.value)),
-            // Image.memory(
-            //   generatedImage.value!!,
-            // ),
-
-            CommonButton(
-              elevation: 2,
-              circular: 10,
-              backgroundColor: Colors.blue,
-              width: double.infinity,
-              height: 50,
-              onPressed: () {
-                if(viewModel.pickImage.value.isNotEmpty){
-                  viewModel.generateImage(context);
-                }else{
-                  showToast("请先拍照");
-                }
-              },
-              child: const Text(
-                "打水印",
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-            ).intoPadding(
-                const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
-
-            CommonButton(
-              elevation: 2,
-              circular: 10,
-              backgroundColor: Colors.blue,
-              width: double.infinity,
-              height: 50,
-              onPressed: () {
-                viewModel.getImageToImage(context);
-              },
-              child: const Text(
-                "不显示照片打水印",
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-            ).intoPadding(
-                const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+            Image.file(File(viewModel.pickImage.value)),
+            Positioned(
+              bottom: 15,
+              right: 15,
+              child: Text("我是水印", style: _watermarkTextStyle),
+            ),
           ],
-        ));
+        ),
+      );
+    });
+  }
+
+  /// 构建操作按钮
+  Widget _buildActionButtons() {
+    return Obx(
+      () => Column(
+        children: [
+          _buildButton(
+            text: viewModel.isLoading.value ? "处理中..." : "拍照",
+            onPressed: () => _handleTakePhoto(),
+          ),
+          _buildButton(
+            text: viewModel.isLoading.value ? "处理中..." : "打水印",
+            onPressed: () => _handleAddWatermark(),
+          ),
+          _buildButton(
+            text: viewModel.isLoading.value ? "处理中..." : "不显示照片打水印",
+            onPressed: () => _handleAddWatermarkWithoutDisplay(),
+          ),
+          if (viewModel.hasImage)
+            _buildButton(
+              text: "清除图片",
+              onPressed: () => _handleClearImage(),
+              backgroundColor: Colors.red,
+            ),
+        ],
+      ),
+    );
+  }
+
+  /// 构建保存的图片显示
+  Widget _buildSavedImage() {
+    return Obx(() {
+      if (viewModel.saveImagePath.value.isEmpty) return const SizedBox.shrink();
+
+      return Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "生成的图片：",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Image.file(File(viewModel.saveImagePath.value)),
+          ],
+        ),
+      );
+    });
+  }
+
+  /// 构建通用按钮
+  Widget _buildButton({
+    required String text,
+    required VoidCallback onPressed,
+    Color? backgroundColor,
+  }) {
+    return CommonButton(
+      elevation: _buttonElevation,
+      circular: _buttonRadius,
+      backgroundColor: backgroundColor ?? Colors.blue,
+      width: double.infinity,
+      height: _buttonHeight,
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: _buttonTextStyle.copyWith(color: _buttonTextStyle.color),
+      ),
+    ).intoPadding(_buttonPadding);
+  }
+
+  /// 处理拍照
+  Future<void> _handleTakePhoto() async {
+    try {
+      await viewModel.getImage();
+    } catch (e) {
+      _showErrorToast("拍照失败: $e");
+    }
+  }
+
+  /// 处理添加水印
+  void _handleAddWatermark() {
+    if (viewModel.pickImage.value.isEmpty) {
+      _showErrorToast("请先拍照");
+      return;
+    }
+
+    try {
+      viewModel.generateImage(context);
+    } catch (e) {
+      _showErrorToast("添加水印失败: $e");
+    }
+  }
+
+  /// 处理不显示照片添加水印
+  void _handleAddWatermarkWithoutDisplay() {
+    try {
+      viewModel.getImageToImage(context);
+    } catch (e) {
+      _showErrorToast("处理失败: $e");
+    }
+  }
+
+  /// 处理清除图片
+  void _handleClearImage() {
+    viewModel.clearImage();
+    _showErrorToast("图片已清除");
+  }
+
+  /// 显示错误提示
+  void _showErrorToast(String message) {
+    showToast(message);
   }
 
   @override

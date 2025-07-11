@@ -49,5 +49,12 @@
 		<true/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
+
+
+        // The following keys are used to request permissions for accessing the photo library and camera.
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>Used to demonstrate image picker plugin</string>
+        <key>NSCameraUsageDescription</key>
+        <string>Used to demonstrate image picker plugin</string>
 	</dict>
 </plist>
