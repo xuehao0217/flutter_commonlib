@@ -22,8 +22,10 @@ class WatermarkViewModel extends BaseViewModel {
       final path = await ImagePickerHelper.takePhoto(
         source: ImageSource.camera,
       );
+
       if (path != null) {
-        pickImage.value = path;
+        var newPath=await ImageUtils.fixColor(path);
+        pickImage.value = newPath!;
         showToast('拍照成功');
       } else {
         showToast('没有选择任何图片');
@@ -57,9 +59,10 @@ class WatermarkViewModel extends BaseViewModel {
         source: ImageSource.camera,
       );
       if (takePhotoPath != null) {
+        var newPath=await ImageUtils.fixColor(takePhotoPath);
         var path = await ImageUtils.addWatermarkFromImgPath(
           context,
-          takePhotoPath,
+          newPath!,
           Positioned(
             bottom: 25,
             right: 25,

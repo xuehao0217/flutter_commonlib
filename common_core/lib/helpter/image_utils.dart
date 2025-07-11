@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-
+import 'package:image/image.dart' as img;
 import 'image_picker_helper.dart';
 
 enum OutputImageFormat { png }
@@ -146,5 +146,19 @@ class ImageUtils {
     );
     imageStream.addListener(listener);
     return completer.future;
+  }
+
+  /// 修复图片颜色问题
+  static Future<String?> fixColor(String imagePath) async {
+    final file = File(imagePath);
+    if (!file.existsSync()) return null;
+
+    final bytes = await file.readAsBytes();
+    final image = img.decodeImage(bytes);
+    if (image == null) return null;
+
+    final fixedBytes = img.encodeJpg(image, quality: 100);
+    await file.writeAsBytes(fixedBytes);
+    return imagePath;
   }
 }
