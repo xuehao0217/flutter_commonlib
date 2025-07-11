@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
@@ -40,11 +41,12 @@ class WatermarkViewModel extends BaseViewModel {
   }
 
   var saveImagePath1 = "".obs;
+
   /// 生成带水印的图片
   Future<void> generateImage() async {
     isLoading.value = true;
-    var savePath= await ImageUtils.generateImage(globalKey);
-    saveImagePath1.value = savePath??"";
+    var savePath = await ImageUtils.generateImage(globalKey);
+    saveImagePath1.value = savePath ?? "";
     showToast('图片已保存到 $savePath');
     isLoading.value = false;
   }
@@ -71,12 +73,12 @@ class WatermarkViewModel extends BaseViewModel {
   }
 
   var saveImagePath2 = "".obs;
-  /// 捕获Widget并生成图片
+
   Future<void> _captureWidgetToImage(BuildContext context, String path) async {
     final imageProvider = FileImage(File(path));
     final widgetToCapture = Stack(
       children: [
-        Image(image: imageProvider),
+        Image(image: imageProvider, fit: BoxFit.cover),
         Positioned(
           bottom: 15,
           right: 15,
@@ -91,31 +93,43 @@ class WatermarkViewModel extends BaseViewModel {
         ),
       ],
     );
-
-    final imageStream = imageProvider.resolve(ImageConfiguration.empty);
-    imageStream.addListener(
-      ImageStreamListener((ImageInfo info, bool synchronousCall) async {
-        try {
-          final imageUint8List =
-              await ImageUtils.createImageFromWidget(
-                context,
-                widgetToCapture,
-              );
-          if (imageUint8List != null) {
-            var savePath = await ImagePickerHelper.saveImage(imageData: imageUint8List);
-            saveImagePath2.value = savePath!;
-          } else {
-            throw Exception('图片生成失败');
-          }
-        } catch (e) {
-          view.hideLoading();
-          print('图片生成失败: $e');
-        }
-      }),
-    );
+    try {
+      await getImageSize(imageProvider);
+      final bytes = await ImageUtils.createImageFromWidget(
+        context,
+        widgetToCapture,
+      );
+      if (bytes != null) {
+        final savePath = await ImagePickerHelper.saveImage(imageData: bytes);
+        print("保存成功: $savePath");
+        saveImagePath2.value = savePath!;
+      } else {
+        throw Exception("生成图片失败");
+      }
+    } catch (e, st) {
+      print("生成水印图片失败: $e\n$st");
+    }
   }
 
 
+  Future<Size> getImageSize(FileImage imageProvider) async {
+    final completer = Completer<Size>();
+    final imageStream = imageProvider.resolve(const ImageConfiguration());
+    late final ImageStreamListener listener;
+    listener = ImageStreamListener(
+      (ImageInfo info, _) {
+        imageStream.removeListener(listener);
+        completer.complete(
+          Size(info.image.width.toDouble(), info.image.height.toDouble()),
+        );
+      },
+      onError: (dynamic error, StackTrace? stackTrace) {
+        completer.completeError(error, stackTrace);
+      },
+    );
+    imageStream.addListener(listener);
+    return completer.future;
+  }
 
   /// 清除当前图片
   void clearImage() {

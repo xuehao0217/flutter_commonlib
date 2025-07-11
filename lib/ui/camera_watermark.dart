@@ -66,6 +66,12 @@ class _WatermarkPage
           ),
           SizedBox(height: 15),
           _buildActionButtons(),
+          ObxValue(
+                (data) => data.value.isNotEmpty
+                ? Image.file(File(data.value)).paddingSymmetric(horizontal: 16)
+                : SizedBox.shrink(),
+            viewModel.saveImagePath2,
+          ),
         ],
       ),
     );
