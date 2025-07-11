@@ -84,23 +84,23 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
             ),
           ),
         ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
-        CommonButton(
-          elevation: 2,
-          circular: 10,
-          backgroundColor: context.primaryColor,
-          width: double.infinity,
-          height: 50,
-          onPressed: () {
-
-          },
-          child: Text(
-            "Permission 使用",
-            style: TextStyle(
-              color: getThemeTextTheme().bodyMedium?.color,
-              fontSize: 16,
-            ),
-          ),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        // CommonButton(
+        //   elevation: 2,
+        //   circular: 10,
+        //   backgroundColor: context.primaryColor,
+        //   width: double.infinity,
+        //   height: 50,
+        //   onPressed: () {
+        //
+        //   },
+        //   child: Text(
+        //     "Permission 使用",
+        //     style: TextStyle(
+        //       color: getThemeTextTheme().bodyMedium?.color,
+        //       fontSize: 16,
+        //     ),
+        //   ),
+        // ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
         // CommonButton(
         //   elevation: 2,
         //   circular: 10,
@@ -118,23 +118,23 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
         //     style: TextStyle(color: Colors.white, fontSize: 16),
         //   ),
         // ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
-        CommonButton(
-          elevation: 2,
-          circular: 10,
-          backgroundColor: context.primaryColor,
-          width: double.infinity,
-          height: 50,
-          onPressed: () {
-            Get2Named(RouterRULConfig.single_child_scroll);
-          },
-          child: Text(
-            "SingleChildScrollViewPage 使用",
-            style: TextStyle(
-              color: getThemeTextTheme().bodyMedium?.color,
-              fontSize: 16,
-            ),
-          ),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        // CommonButton(
+        //   elevation: 2,
+        //   circular: 10,
+        //   backgroundColor: context.primaryColor,
+        //   width: double.infinity,
+        //   height: 50,
+        //   onPressed: () {
+        //     Get2Named(RouterRULConfig.single_child_scroll);
+        //   },
+        //   child: Text(
+        //     "SingleChildScrollViewPage 使用",
+        //     style: TextStyle(
+        //       color: getThemeTextTheme().bodyMedium?.color,
+        //       fontSize: 16,
+        //     ),
+        //   ),
+        // ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
         CommonButton(
           elevation: 2,
           circular: 10,
