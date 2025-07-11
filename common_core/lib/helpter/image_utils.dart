@@ -6,10 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+
+import 'image_picker_helper.dart';
 enum OutputImageFormat { png }
 
-class ImageLoaderUtils {
-  static Future<Uint8List?> createImageFromWidgetPlus(
+class ImageUtils {
+  static Future<Uint8List?> createImageFromWidget(
       BuildContext context,
       Widget widget, {
         Duration? wait,
@@ -78,4 +80,25 @@ class ImageLoaderUtils {
 
     return byteData?.buffer.asUint8List();
   }
+
+
+
+  static Future<String?> generateImage(GlobalKey globalKey) async {
+    try {
+      final boundary = globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+      if (boundary == null) {
+        throw Exception('无法获取渲染边界');
+      }
+      final image = await boundary.toImage(pixelRatio: 2.0); // 提高分辨率
+      final byteData = await image.toByteData(format: ImageByteFormat.png);
+      if (byteData != null) {
+        return await ImagePickerHelper.saveImage(imageData: byteData.buffer.asUint8List());
+      } else {
+        throw Exception('图片数据为空');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

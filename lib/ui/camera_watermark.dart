@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_commonlib/ui/vm/watermark_vm.dart';
-import 'package:flutter_constraintlayout/flutter_constraintlayout.dart';
 import 'package:get/get.dart';
 
 class WatermarkPage extends StatefulWidget {
@@ -40,34 +39,69 @@ class _WatermarkPage
 
   @override
   Widget buildPageContent(BuildContext context) {
-    return ListView(
-      children: [
-        _buildImagePreview(),
-        _buildActionButtons(),
-        _buildSavedImage(),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          _buildImagePreview(),
+          SizedBox(height: 15),
+          Text(
+            "拍照打水印成功后的预览：",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ).paddingSymmetric(horizontal: 16),
+          Text(
+            "生成的图片：",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ).paddingSymmetric(horizontal: 16),
+          SizedBox(height: 10),
+          ObxValue(
+            (data) => data.value.isNotEmpty
+                ? Image.file(File(data.value)).paddingSymmetric(horizontal: 16)
+                : SizedBox.shrink(),
+            viewModel.saveImagePath1,
+          ),
+          SizedBox(height: 15),
+          _buildActionButtons(),
+        ],
+      ),
     );
   }
 
   /// 构建图片预览区域
   Widget _buildImagePreview() {
-    return Obx(() {
-      if (viewModel.pickImage.value.isEmpty) return const SizedBox.shrink();
-
-      return RepaintBoundary(
-        key: viewModel.globalKey,
-        child: Stack(
-          children: [
-            Image.file(File(viewModel.pickImage.value)),
-            Positioned(
-              bottom: 15,
-              right: 15,
-              child: Text("我是水印", style: _watermarkTextStyle),
+    return Column(
+      children: [
+        Text(
+          "拍照预览：",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ).paddingSymmetric(horizontal: 16),
+        SizedBox(height: 15),
+        Obx(() {
+          if (viewModel.pickImage.value.isEmpty) return SizedBox();
+          return RepaintBoundary(
+            key: viewModel.globalKey,
+            child: Stack(
+              children: [
+                Image.file(File(viewModel.pickImage.value)),
+                Positioned(
+                  bottom: 15,
+                  right: 15,
+                  child: Text("我是水印", style: _watermarkTextStyle),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
-    });
+          );
+        }),
+      ],
+    ).paddingSymmetric(horizontal: 16);
   }
 
   /// 构建操作按钮
@@ -80,7 +114,7 @@ class _WatermarkPage
             onPressed: () => _handleTakePhoto(),
           ),
           _buildButton(
-            text: viewModel.isLoading.value ? "处理中..." : "打水印",
+            text: viewModel.isLoading.value ? "处理中..." : "添加水印",
             onPressed: () => _handleAddWatermark(),
           ),
           _buildButton(
@@ -96,28 +130,6 @@ class _WatermarkPage
         ],
       ),
     );
-  }
-
-  /// 构建保存的图片显示
-  Widget _buildSavedImage() {
-    return Obx(() {
-      if (viewModel.saveImagePath.value.isEmpty) return const SizedBox.shrink();
-
-      return Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "生成的图片：",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Image.file(File(viewModel.saveImagePath.value)),
-          ],
-        ),
-      );
-    });
   }
 
   /// 构建通用按钮
@@ -157,7 +169,7 @@ class _WatermarkPage
     }
 
     try {
-      viewModel.generateImage(context);
+      viewModel.generateImage();
     } catch (e) {
       _showErrorToast("添加水印失败: $e");
     }
