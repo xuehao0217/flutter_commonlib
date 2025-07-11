@@ -51,16 +51,30 @@ class WatermarkViewModel extends BaseViewModel {
     isLoading.value = false;
   }
 
+  var saveImagePath2 = "".obs;
+
   /// 拍照并直接添加水印（不显示预览）
   Future<void> getImageToImage(BuildContext context) async {
     try {
       isLoading.value = true;
-      final path = await ImagePickerHelper.takePhoto(
+      final takePhotoPath = await ImagePickerHelper.takePhoto(
         source: ImageSource.camera,
         imageQuality: 80,
       );
-      if (path != null) {
-        await _captureWidgetToImage(context, path);
+      if (takePhotoPath != null) {
+        var path = await ImageUtils.addWatermarkFromImgPath(
+          context,
+          takePhotoPath,
+          Positioned(
+            bottom: 25,
+            right: 25,
+            child: Text(
+              "拍照并直接添加水印（不显示预览）",
+              style: TextStyle(color: Colors.deepPurple),
+            ),
+          ),
+        );
+        saveImagePath2.value = path!;
       } else {
         showToast('没有选择任何图片');
       }
@@ -70,65 +84,6 @@ class WatermarkViewModel extends BaseViewModel {
     } finally {
       isLoading.value = false;
     }
-  }
-
-  var saveImagePath2 = "".obs;
-
-  Future<void> _captureWidgetToImage(BuildContext context, String path) async {
-    final imageProvider = FileImage(File(path));
-    final widgetToCapture = Stack(
-      children: [
-        Image(image: imageProvider, fit: BoxFit.cover),
-        Positioned(
-          bottom: 15,
-          right: 15,
-          child: Text(
-            "我是水印",
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ],
-    );
-    try {
-      await getImageSize(imageProvider);
-      final bytes = await ImageUtils.createImageFromWidget(
-        context,
-        widgetToCapture,
-      );
-      if (bytes != null) {
-        final savePath = await ImagePickerHelper.saveImage(imageData: bytes);
-        print("保存成功: $savePath");
-        saveImagePath2.value = savePath!;
-      } else {
-        throw Exception("生成图片失败");
-      }
-    } catch (e, st) {
-      print("生成水印图片失败: $e\n$st");
-    }
-  }
-
-
-  Future<Size> getImageSize(FileImage imageProvider) async {
-    final completer = Completer<Size>();
-    final imageStream = imageProvider.resolve(const ImageConfiguration());
-    late final ImageStreamListener listener;
-    listener = ImageStreamListener(
-      (ImageInfo info, _) {
-        imageStream.removeListener(listener);
-        completer.complete(
-          Size(info.image.width.toDouble(), info.image.height.toDouble()),
-        );
-      },
-      onError: (dynamic error, StackTrace? stackTrace) {
-        completer.completeError(error, stackTrace);
-      },
-    );
-    imageStream.addListener(listener);
-    return completer.future;
   }
 
   /// 清除当前图片
