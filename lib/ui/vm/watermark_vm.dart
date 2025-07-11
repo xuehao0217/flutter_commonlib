@@ -24,9 +24,9 @@ class WatermarkViewModel extends BaseViewModel {
       );
       if (path != null) {
         pickImage.value = path;
-        view.showToast('拍照成功');
+        showToast('拍照成功');
       } else {
-        view.showToast('没有选择任何图片');
+        showToast('没有选择任何图片');
       }
     } catch (e) {
       showToast('拍照失败: $e');
