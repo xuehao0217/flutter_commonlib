@@ -43,40 +43,50 @@ class _RefreshListPage
 
   @override
   Widget buildPageContent(BuildContext context) {
-    return  viewModel.datas.obsWidgetIfNotEmpty((datas)=>CommonListView<HomeListDataDatas>(
-      items:datas,
-      separatorBuilder: (context, index) {
-        return  SizedBox(height: 15,);
-      },
-      visibleListCallback: (datas){
-        LoggerHelper.d("visibleListCallback==${datas.map((item)=> item.title).toList()}");
-      },
-      itemBuilder: (index, item) {
-        return Text(
-          "${viewModel.datas[index].title}",
-          style: const TextStyle(color: Colors.white),
-        ).intoContainer(color: Colors.green,padding: EdgeInsets.symmetric(vertical: 20,horizontal: 16)).intoIntrinsicHeight();
-      },
-    )
-    //     .intoRefresh(onLoad: () async {
-    //   await  viewModel.getAsyncData();
-    // }, onRefresh: () async {
-    //   await  viewModel.getAsyncData(isRefresh:true);
-    // })
-        .intoEasyRefresh(
-      onRefresh: () => viewModel.getAsyncData(isRefresh: true),
-      onLoad: (){
-        viewModel.getAsyncData();
-        return viewModel.asyncPaginator.hasNextPage;
-      },
-      header: const CupertinoHeader(),
-      footer: const CupertinoFooter(),
-      // footer: const ClassicFooter(
-      //   showMessage: false,
-      //   noMoreIcon: SizedBox.shrink(),
-      //   spacing: 0, // 去掉图标和文字之间的间距
-      //   iconDimension: 0, // 不显示 icon 占位
-      // ),
-    ),emptyWidget: Center(child: CircularProgressIndicator()));
+    return viewModel.datas.obsWidgetIfNotEmpty(
+      (datas) =>
+          CommonListView<HomeListDataDatas>(
+            items: datas,
+            separatorBuilder: (context, index) {
+              return SizedBox(height: 15);
+            },
+            visibleListCallback: (datas) {
+              LoggerHelper.d(
+                "visibleListCallback==${datas.map((item) => item.title).toList()}",
+              );
+            },
+            itemBuilder: (index, item) {
+              return Text(
+                    "${viewModel.datas[index].title}",
+                    style: const TextStyle(color: Colors.white),
+                  )
+                  .intoContainer(
+                    color: Colors.green,
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                  )
+                  .intoIntrinsicHeight();
+            },
+          )
+          //     .intoRefresh(onLoad: () async {
+          //   await  viewModel.getAsyncData();
+          // }, onRefresh: () async {
+          //   await  viewModel.getAsyncData(isRefresh:true);
+          // })
+          .intoEasyRefresh(
+            onRefresh: () => viewModel.getRefreshData(),
+            onLoad: () async {
+              return await viewModel.getLoadData();
+            },
+            header: const CupertinoHeader(),
+            footer: const CupertinoFooter(),
+            // footer: const ClassicFooter(
+            //   showMessage: false,
+            //   noMoreIcon: SizedBox.shrink(),
+            //   spacing: 0, // 去掉图标和文字之间的间距
+            //   iconDimension: 0, // 不显示 icon 占位
+            // ),
+          ),
+      emptyWidget: Center(child: CircularProgressIndicator()),
+    );
   }
 }

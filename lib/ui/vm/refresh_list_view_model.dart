@@ -5,24 +5,11 @@ import 'package:common_core/base/mvvm/base_list_view_model.dart';
 
 class RefreshListViewModel extends  BaseListViewModel<HomeListDataDatas> {
   @override
-  Future<PageResult<HomeListDataDatas>> fetchPage(int page, int size) async {
+  Future<List<HomeListDataDatas>> fetchPage(int page, int size) async {
       final result = await HttpUtils.requestNetwork<HomeListData>(
         Method.get,
         "/article/list/$page/json",
       );
-      return PageResult<HomeListDataDatas>(
-        items: result.datas,
-        total: result.total,
-      );
+      return result.datas;
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-    getAsyncData(isRefresh: true);
-  }
-
-
-  @override
-  int setPageSize()=>20;
 }

@@ -15,16 +15,6 @@ abstract class BaseViewModel<V extends AbsBaseView> extends GetxController {
   }
 
   @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
   void onClose() {
     super.onClose();
     dispose();
