@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_helper_kit/widgets/sharp_corners/sharp_border_radius.dart';
+import 'package:flutter_helper_kit/widgets/sharp_corners/sharp_rectangle_border.dart';
 import 'package:get/get.dart';
 
 extension ClickExt on Widget {
@@ -117,6 +119,40 @@ extension ClickExt on Widget {
 
   Widget intoSizedBoxExpand() {
     return SizedBox.expand(child: this);
+  }
+
+
+  Widget intoSizedBox({double? width, double? height}) {
+    return SizedBox(width: width, height: height, child: this);
+  }
+
+  Widget intoShapeClip({
+    double borderRadius = 0,
+    Color? backgroundColor,
+    Color borderColor = Colors.transparent,
+    double borderWidth = 0,
+    EdgeInsetsGeometry padding = EdgeInsets.zero,
+    double? width,
+    double? height,
+    Alignment alignment = Alignment.center,
+  }) {
+    return Container(
+      width: width,
+      height: height,
+      padding: padding,
+      alignment: alignment,
+      decoration: ShapeDecoration(
+        color: backgroundColor,
+        shape: SharpRectangleBorder(
+          side: BorderSide(
+            color: borderColor, // 边框颜色
+            width: borderWidth, // 边框宽度
+          ),
+          borderRadius: SharpBorderRadius(cornerRadius: borderRadius),
+        ),
+      ),
+      child: this,
+    );
   }
 }
 

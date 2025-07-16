@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_helper_utils/flutter_helper_utils.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
+import '../base/mvvm/base_list_view_model.dart';
 import 'common_listview.dart';
 import 'package:easy_refresh/easy_refresh.dart' as easy;
 import 'package:smart_scroll/smart_scroll.dart' as pull;
@@ -51,6 +52,22 @@ extension EasyRefreshExt<T> on Widget {
       child: this,
     );
   }
+
+
+  EasyRefresh intoEasyRefreshList(BaseListViewModel viewModel, {
+    Header? header,
+    Footer? footer,
+    EasyRefreshController? controller,
+    ScrollController? scrollController,
+    bool refreshOnStart = false,
+  }) => intoEasyRefresh(onRefresh: () => viewModel.getRefreshData(),
+        onLoad: () async {
+          return await viewModel.getLoadData();
+        },
+        header: header,
+        footer: footer, controller: controller,
+        scrollController: scrollController,
+        refreshOnStart: refreshOnStart);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

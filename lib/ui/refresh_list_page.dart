@@ -72,11 +72,8 @@ class _RefreshListPage
           // }, onRefresh: () async {
           //   await  viewModel.getAsyncData(isRefresh:true);
           // })
-          .intoEasyRefresh(
-            onRefresh: () => viewModel.getRefreshData(),
-            onLoad: () async {
-              return await viewModel.getLoadData();
-            },
+          .intoEasyRefreshList(
+            viewModel,
             header: const CupertinoHeader(),
             footer: const CupertinoFooter(),
             // footer: const ClassicFooter(

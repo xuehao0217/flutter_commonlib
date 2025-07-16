@@ -185,7 +185,7 @@ class ImageUtils {
   }
 
 
-  /// 获取图片信息
+  /// 获取本地图片信息
   static Future<Size?> getImageSize(String imagePath) async {
     try {
       final imageBytes = await File(imagePath).readAsBytes();

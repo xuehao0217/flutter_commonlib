@@ -213,6 +213,24 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           ),
         ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
 
+        CommonButton(
+          elevation: 2,
+          circular: 10,
+          backgroundColor: context.primaryColor,
+          width: double.infinity,
+          height: 50,
+          onPressed: ()  {
+            Get2Named(RouterRULConfig.flutter_helper_kit);
+          },
+          child: Text(
+            "Flutter Helper Kit",
+            style: TextStyle(
+              color: getThemeTextTheme().bodyMedium?.color,
+              fontSize: 16,
+            ),
+          ),
+        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+
 
         Obx(() => CommonButton(
             elevation: 2,
