@@ -66,15 +66,13 @@ mixin BaseWidgetMixin {
   Widget buildCommonStructure({
     required BuildContext context,
     required Widget content,
-  }) {
-    return Column(
-      children: [
-        if (showStatusBar()) getStatusBarWidget(context),
-        if (showTitleBar()) getCommonTitleBarWidget(context),
-        content.intoContainer(color: setPageBgColor()).intoExpanded(),
-        if (showNavigationBar())
-          Container(height: context.navigationBarHeight, color: setPageBgColor()),
-      ],
-    );
-  }
+  }) =>Column(
+    children: [
+      if (showStatusBar()) getStatusBarWidget(context),
+      if (showTitleBar()) getCommonTitleBarWidget(context),
+      content.intoContainer(color: setPageBgColor()).intoExpanded(),
+      if (showNavigationBar())
+        Container(height: context.navigationBarHeight, color: setPageBgColor()),
+    ],
+  );
 }
