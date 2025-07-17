@@ -94,7 +94,7 @@ class _WebViewPageState extends BaseStatefulWidget<WebViewPage> {
             if(!showTitleBar())
               Opacity(
                 opacity: opacity,
-                child: getCommonTitleBarWidget(),
+                child: getCommonTitleBarWidget(context),
               ),
           ],
         ).intoExpanded(),

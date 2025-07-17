@@ -11,14 +11,28 @@ import '../style/theme.dart';
 import '../widget/common_widget.dart';
 import 'package:flutter_helper_kit/flutter_helper_kit.dart';
 
+import 'base_page_widget.dart';
+
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
 
 abstract class BaseStatefulWidget<W extends StatefulWidget> extends State<W>
-    with AutomaticKeepAliveClientMixin, RouteAware {
+    with AutomaticKeepAliveClientMixin, RouteAware, BaseWidgetMixin {
+
   @override
-  bool get wantKeepAlive =>
-      true; // true 来保持状态 它主要用于解决在滚动列表（如 ListView、GridView 等）中，当子部件滚出屏幕后被回收，再滚回屏幕时重新创建的问题。
+  bool get wantKeepAlive => true;
+
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    ModalRoute.of(context)?.let((route) {
+      routeObserver.subscribe(this, route);
+    });
+    changeStatusBarColor(
+      iconBrightness: isDarkMode() ? Brightness.light : Brightness.dark,
+    );
+  }
 
   @override
   void dispose() {
@@ -27,100 +41,32 @@ abstract class BaseStatefulWidget<W extends StatefulWidget> extends State<W>
   }
 
   @override
-  void didChangeDependencies() {
-    // 页面路由发生变化
-    ModalRoute.of(context)?.let((c){
-      routeObserver.subscribe(this, c);
-    });
-
-    super.didChangeDependencies();
-    changeStatusBarColor(
-        iconBrightness: isDarkMode() ? Brightness.light : Brightness.dark);
-  }
+  void didPush() => onPageShow();
 
   @override
-  void initState() {
-    super.initState();
-  }
+  void didPop() => onPageHide();
 
   @override
-  void didPush() {
-    // 页面被推入
-    onPageShow();
-  }
+  void didPopNext() => onPageShow();
 
   @override
-  void didPop() {
-    onPageHide();
-  }
+  void didPushNext() => onPageHide();
 
-  @override
-  void didPopNext() {
-    onPageShow();
-  }
-
-  @override
-  void didPushNext() {
-    // 返回到该页面
-    onPageHide();
-  }
-
+  /// 页面显示
   void onPageShow() {}
 
+  /// 页面隐藏
   void onPageHide() {}
 
   @override
   Widget build(BuildContext context) {
-    super.build(context); //AutomaticKeepAliveClientMixin 必须要这么调用
-    return _buildContent();
+    super.build(context);
+    return buildCommonStructure(
+      context: context,
+      content: buildPageContent(context),
+    );
   }
 
-  Widget _buildContent() =>Column(
-    children: [
-      if (showStatusBar()) getStatusBarWidget(),
-      if (showTitleBar())getCommonTitleBarWidget(),
-      buildPageContent(context).intoContainer(color: setPageBgColor()).intoExpanded(),
-      if (showBottomNavigationBar()) Container(height: context.navigationBarHeight,color: setPageBgColor(),)
-    ],
-  );
-
-  Widget getStatusBarWidget() => Container(
-    color: setStatusBarColor(),
-    width: BuildContextExension(context).width,
-    height: context.statusBarHeight,
-  );
-
-  Widget getCommonTitleBarWidget()=>CommonTitleBar(
-    showBack: showBackIcon(),
-    backgroundColor: setTitleBgColor(),
-    title: setTitle(),
-    backIcon: setBackIcon(),
-    backCallBack: () {
-      Get.back();
-    },
-    rightWidget: setRightTitleContent(),
-    height: 44,
-  );
-
-  bool showBackIcon() => true;
-
-  bool showTitleBar() => true;
-
-  bool showStatusBar() => true;
-
-  bool showBottomNavigationBar() => true;
-
-  String setTitle() => "";
-
-  String setBackIcon() => CommonR.assetsIconBackBlack;
-
-  Color setTitleBgColor() => context.scaffoldBackgroundColor;
-
-  Color setStatusBarColor() => context.scaffoldBackgroundColor;
-
-  Color setPageBgColor() => context.scaffoldBackgroundColor;
-
-  Widget? setRightTitleContent() => null;
-
+  /// 子类实现
   Widget buildPageContent(BuildContext context);
 }
