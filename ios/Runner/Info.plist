@@ -49,11 +49,10 @@
 		<true/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
-
-        <!--Permissions for image picker plugin-->
-        <key>NSPhotoLibraryUsageDescription</key>
-        <string>Used to demonstrate image picker plugin</string>
-        <key>NSCameraUsageDescription</key>
-        <string>Used to demonstrate image picker plugin</string>
+		<!--Permissions for image picker plugin-->
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Used to demonstrate image picker plugin</string>
+		<key>NSCameraUsageDescription</key>
+		<string>Used to demonstrate image picker plugin</string>
 	</dict>
 </plist>

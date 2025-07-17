@@ -117,7 +117,7 @@ flutter:
 ##  执行命令
 ##  dart run flutter_native_splash:create
 flutter_native_splash:
-  color: "#ffffff"
+  color: "#5FB7F9"
   image: assets/ic_logo.png
   android_gravity: center # 设置图片居中
   ios_content_mode: center # 在iOS上也确保图片居中

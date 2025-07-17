@@ -157,7 +157,7 @@ class FlutterHelperKitState
               ),
             ),
             Blur(
-              child: const Text('Blur Text',  style: TextStyle(color: Colors.black),),
+              child: Container(width: 200,height: 100,color: Colors.blue,),
             ),
             AppTextField(
               controller: TextEditingController(), // Optional
