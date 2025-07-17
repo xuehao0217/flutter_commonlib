@@ -118,12 +118,12 @@ flutter:
 ##  dart run flutter_native_splash:create
 flutter_native_splash:
   color: "#5FB7F9"
-  image: assets/ic_logo.png
+  image: assets/ic_splash_bg.png
   android_gravity: center # 设置图片居中
   ios_content_mode: center # 在iOS上也确保图片居中
   fullscreen: true
   android_12:
-    image: assets/ic_logo.png
+    image: assets/ic_splash_bg.png
     color: "#42a5f5"
     icon_background_color: "#111111"
 
