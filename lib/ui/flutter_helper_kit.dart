@@ -194,17 +194,20 @@ class FlutterHelperKitState
               },
             ),
 
-            HoverWidget(
-              builder: (_, isHovering) {
-                return Container(width: 200,height: 100,color: Colors.blue,);
-              },
-            ),
+            // HoverWidget(
+            //     opaque:true,
+            //   builder: (_, isHovering) {
+            //     return Container(width: 200,height: 100,color: Colors.blue,);
+            //   },
+            // ),
 
-            RestartAppWidget(
-              child: MaterialApp(),
-            ),
+
             DoublePressBackWidget(
                 child: Container(width: 200,height: 100,color: Colors.blue),
+                onWillPop: (){
+                  showToast("DoublePressBackWidget");
+
+                },
                 message: 'Your message' // Optional
             ),
 
@@ -233,20 +236,9 @@ class FlutterHelperKitState
               ],
             ),
 
-            PlaceHolderWidget(),
+            PlaceHolderWidget(width: 200,height: 100,animationDuration: Duration(milliseconds: 500),color:Colors.deepPurple),
 
 
-            GradientBorder(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.orange,
-                  Colors.yellow,
-                  Colors.pink,
-                ],
-              ),
-              strokeWidth: 4.0,
-              child: Container(width: 200,height: 100,color: Colors.yellow),
-            )
             // CustomIndicator(
             //   isActive: true,
             //   //A boolean value that determines whether the overlay indicator is shown. If set to true, the overlay indicator is displayed.
