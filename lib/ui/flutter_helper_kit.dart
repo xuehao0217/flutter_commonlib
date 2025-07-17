@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_commonlib/ui/vm/flutter_helper_kit_vm.dart';
 import 'package:flutter_helper_kit/widgets/custom_indicator.dart';
 import 'package:flutter_helper_kit/widgets/marquee_widget.dart';
-import 'package:flutter_helper_kit/widgets/rating_bar_widget.dart';
+import 'package:flutter_helper_kit/widgets/rating_bar_widget.dart' hide RatingBarWidget;
 import 'package:flutter_helper_kit/widgets/read_more_text.dart';
 import 'package:flutter_helper_kit/widgets/rounded_checkbox_widget.dart';
 import 'package:flutter_helper_kit/widgets/separated_column.dart';
@@ -13,6 +13,7 @@ import 'package:flutter_helper_kit/widgets/text_icon_widget.dart';
 import 'package:flutter_helper_kit/widgets/timer_builder.dart';
 import 'package:flutter_helper_utils/flutter_helper_utils.dart';
 import 'package:get/get.dart';
+import 'package:nb_utils/nb_utils.dart' hide Marquee, DirectionMarguee, RoundedCheckBox, TextIcon, ReadMoreText, TrimMode;
 
 class FlutterHelperKit extends StatefulWidget {
   @override
@@ -155,6 +156,97 @@ class FlutterHelperKitState
                 child: const Center(child: Text('Double tap me!')),
               ),
             ),
+            Blur(
+              child: const Text('Blur Text',  style: TextStyle(color: Colors.black),),
+            ),
+            AppTextField(
+              controller: TextEditingController(), // Optional
+              textFieldType: TextFieldType.EMAIL,
+              decoration: InputDecoration(labelText: 'Email', border: OutlineInputBorder()),
+            ),
+            AppTextField(
+              controller: TextEditingController(), // Optional
+              textFieldType: TextFieldType.PASSWORD,
+              decoration: InputDecoration(labelText: 'Password', border: OutlineInputBorder()),
+            ),
+            SizeListener(
+              child: Container(width: 200,height: 100,color: Colors.deepPurple,),
+              onSizeChange: (size) {
+                log(size.width.toString());
+              },
+            ),
+            GradientBorder(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.orange,
+                  Colors.yellow,
+                  Colors.pink,
+                ],
+              ),
+              strokeWidth: 4.0,
+              child: Container(width: 200,height: 100,color: Colors.blue,),
+            ),
+            AppButton(
+              text: "Submit",
+              color: Colors.green, // Optional
+              onTap: () {
+                //Your logic
+              },
+            ),
+
+            HoverWidget(
+              builder: (_, isHovering) {
+                return Container(width: 200,height: 100,color: Colors.blue,);
+              },
+            ),
+
+            RestartAppWidget(
+              child: MaterialApp(),
+            ),
+            DoublePressBackWidget(
+                child: Container(width: 200,height: 100,color: Colors.blue),
+                message: 'Your message' // Optional
+            ),
+
+            SettingSection(
+              title: Text('Account Management', style: boldTextStyle(size: 24)),
+              subTitle: Text('Control your account', style: primaryTextStyle()), // Optional
+              items: [
+                SettingItemWidget(
+                    title: 'Hibernate account',
+                    subTitle: 'Temporary deactivate your account',
+                    decoration: BoxDecoration(borderRadius: radius()),
+                    trailing: Icon(Icons.keyboard_arrow_right_rounded, color: context.dividerColor),
+                    onTap: () {
+                      //
+                    }
+                ),
+                SettingItemWidget(
+                  title: 'Close account',
+                  subTitle: 'Learn about your options, and close your account if you wish',
+                  decoration: BoxDecoration(borderRadius: radius()),
+                  trailing: Icon(Icons.keyboard_arrow_right_rounded, color: context.dividerColor),
+                  onTap: () {
+                    //
+                  },
+                )
+              ],
+            ),
+
+            PlaceHolderWidget(),
+
+
+            GradientBorder(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.orange,
+                  Colors.yellow,
+                  Colors.pink,
+                ],
+              ),
+              strokeWidth: 4.0,
+              child: Container(width: 200,height: 100,color: Colors.yellow),
+            )
             // CustomIndicator(
             //   isActive: true,
             //   //A boolean value that determines whether the overlay indicator is shown. If set to true, the overlay indicator is displayed.
