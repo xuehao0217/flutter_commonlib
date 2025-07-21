@@ -1,13 +1,14 @@
 import 'dart:async';
 
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:common_core/base/base_stateful_widget.dart';
 import 'package:common_core/common_core.dart';
-import 'package:common_core/core_exports.dart' hide HttpUtils;
 import 'package:common_core/net/dio_utils.dart';
 import 'package:common_core/style/theme.dart';
 // import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_commonlib/router/router_config.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 
 import 'api/http_api.dart';

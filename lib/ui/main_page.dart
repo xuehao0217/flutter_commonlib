@@ -1,8 +1,8 @@
 import 'package:common_core/base/base_stateful_widget.dart';
-import 'package:common_core/core_exports.dart';
 import 'package:common_core/widget/bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'home_page.dart';
 import 'msg_page.dart';

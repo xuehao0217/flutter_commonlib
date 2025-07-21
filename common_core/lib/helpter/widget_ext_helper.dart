@@ -154,6 +154,14 @@ extension ClickExt on Widget {
       child: this,
     );
   }
+
+
+  Widget intoAspectRatio(double aspectRatio){
+    return AspectRatio(
+      aspectRatio: aspectRatio,
+      child: this,
+    );
+  }
 }
 
 
