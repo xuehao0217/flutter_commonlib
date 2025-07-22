@@ -1,5 +1,9 @@
+// 导入包
+import 'dart:convert';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:async';
+
 import 'logger_helper.dart';
 
 typedef NotificationTapCallback = void Function(NotificationResponse response);
@@ -53,6 +57,7 @@ class NotificationHelper {
 
   /// 通用通知细节生成方法
   NotificationDetails buildNotificationDetails({
+    String? localImagePath,
     // =============== iOS专有参数 ===============
     bool presentAlert = true,
     bool presentBadge = true,
@@ -80,6 +85,7 @@ class NotificationHelper {
       presentSound: presentSound,
       badgeNumber: badgeNumber,
       subtitle: subtitle,
+      attachments: localImagePath != null ? [DarwinNotificationAttachment(localImagePath)] : null,
       //sound: sound,
     );
 
@@ -94,11 +100,12 @@ class NotificationHelper {
       enableVibration: enableVibration,
       enableLights: enableLights,
       icon: icon,
+      largeIcon:  localImagePath != null ? FilePathAndroidBitmap(localImagePath): null,
       //color: color,
     );
-
     return NotificationDetails(iOS: iosDetails, android: androidDetails);
   }
+
 
   Future<void> showLocalNotification(
     String title,
@@ -108,13 +115,14 @@ class NotificationHelper {
     String? payload,
   }) async {
     await _notificationsPlugin.show(
-      id,
+      id, // 保证有通知ID。推荐携带业务唯一ID
       title,
       body,
       notificationDetails ?? buildNotificationDetails(),
       payload: payload, // 业务自定义跳转参数等
     );
   }
+
 }
 
 // 用户点击通知（前台/后台）触发
