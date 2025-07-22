@@ -11,6 +11,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'logger_helper.dart';
+import 'notification_helper.dart';
 
 /// 需要手动添加 : FCM 的 onBackgroundMessage handler 必须是顶层函数或静态函数
 // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
