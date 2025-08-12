@@ -185,3 +185,35 @@ class CommonListView<T> extends StatelessWidget {
   }
 
 }
+
+
+
+/// 横向滑动组件 解决CommonListView 高度要定死的问题。
+class HorizontalWrapList<T> extends StatelessWidget {
+  final List<T> items;
+  final Widget Function(BuildContext context, T item, int index) itemBuilder;
+  final double spacing;
+  final EdgeInsetsGeometry padding;
+
+  const HorizontalWrapList({
+    Key? key,
+    required this.items,
+    required this.itemBuilder,
+    this.spacing = 8,
+    this.padding = EdgeInsets.zero,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: padding,
+      child: Wrap(
+        spacing: spacing,
+        children: List.generate(items.length, (index) {
+          return itemBuilder(context, items[index], index);
+        }),
+      ),
+    );
+  }
+}
