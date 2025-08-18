@@ -116,6 +116,10 @@ class _InputWidgetState extends State<InputWidget> {
         border: widget.border ?? outlineBorder,
         enabledBorder: widget.border ?? outlineBorder,
         focusedBorder: widget.border ?? outlineBorder,
+        contentPadding: EdgeInsets.symmetric(
+          vertical: 0,
+          horizontal: 12,
+        ),
         //去除下划线
         suffixIcon: Row(
           mainAxisSize: MainAxisSize.min,

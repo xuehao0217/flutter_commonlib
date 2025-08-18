@@ -92,6 +92,10 @@ extension ClickExt on Widget {
     );
   }
 
+  Widget intoClipOval() {
+    return ClipOval(child: this);
+  }
+
   // itemBuilder: (index, item) => FeedListItem(data: item).withContext((context) {
   // // 这里的 context 就是当前 item 的 context
   // // 你可以做曝光统计、弹窗、Theme.of(context)等
