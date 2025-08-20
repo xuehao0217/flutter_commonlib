@@ -79,7 +79,7 @@ dependencies:
   gpt_markdown:               #https://pub-web.flutter-io.cn/packages/gpt_markdown/install
   lottie:                     #https://pub-web.flutter-io.cn/packages/lottie
   in_app_purchase: ^3.2.3
-
+  flutter_websocket_manager: ^1.0.4
 
 
 dev_dependencies:
