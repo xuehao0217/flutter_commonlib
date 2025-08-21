@@ -200,4 +200,47 @@ class BuyHelper {
     await _subscription?.cancel();
     _subscription = null;
   }
+
+
+
+  // /// 根据 productId 获取价格（格式化后的字符串，如 "US$18.00"）
+  // String? getProductPrice(String productId) {
+  //   final product = _productCache[productId];
+  //   return product?.price; // 已经是本地化后的价格字符串
+  // }
+
+
+  /// 获取格式化价格（金额 + 货币符号，不带国家码）
+  String? getProductPrice(String productId) {
+    final product = _productCache[productId];
+    if (product == null) return null;
+
+    final price = product.rawPrice.toStringAsFixed(2); // 金额保留两位小数
+    final symbol = _currencySymbol(product.currencyCode);
+    return "$symbol$price";
+  }
+
+  /// 辅助方法：根据 currencyCode 返回货币符号
+  static String _currencySymbol(String? code) {
+    switch (code) {
+      case "USD": return "\$";   // 美元
+      case "CNY": return "¥";    // 人民币
+      case "EUR": return "€";    // 欧元
+      case "GBP": return "£";    // 英镑
+      case "JPY": return "¥";    // 日元
+      case "KRW": return "₩";    // 韩元
+      case "RUB": return "₽";    // 卢布
+      case "INR": return "₹";    // 印度卢比
+      case "BRL": return "R\$";  // 巴西雷亚尔
+      case "AUD": return "A\$";  // 澳元
+      case "CAD": return "C\$";  // 加元
+      case "HKD": return "HK\$"; // 港币
+      case "TWD": return "NT\$"; // 新台币
+      case "SGD": return "S\$";  // 新加坡元
+      case "THB": return "฿";    // 泰铢
+      case "MXN": return "Mex\$"; // 墨西哥比索
+      default: return code ?? ""; // 找不到就返回货币码本身
+    }
+  }
+
 }
