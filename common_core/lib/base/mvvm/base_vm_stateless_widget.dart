@@ -34,7 +34,7 @@ abstract class BaseVMStatelessWidget<VM extends BaseViewModel> extends BaseState
     // 构建完成后触发的操作
     viewModel =Get.put(createViewModel());
     viewModel.view = this;
-    Future.delayed(const Duration(milliseconds: 100), () {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       initData();
     });
     return super.build(context);
