@@ -18,7 +18,7 @@ class CommonGridView<T> extends StatelessWidget {
     required this.crossAxisCount,
     required this.itemViewBuilder,
     this.scrollDirection = Axis.vertical,
-    this.shrinkWrap = false,
+    this.shrinkWrap = false,  //true 时：physics: NeverScrollableScrollPhysics()
     this.padding = EdgeInsets.zero,
     this.physics,
     this.childAspectRatio = 1.0,

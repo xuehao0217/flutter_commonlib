@@ -40,7 +40,7 @@ class CommonListView<T> extends StatelessWidget {
     this.header,
     this.footer,
     this.physics,
-    this.shrinkWrap = false,
+    this.shrinkWrap = false,//true 时：physics: NeverScrollableScrollPhysics()
     this.listObserverController,
     this.scrollDirection = Axis.vertical,
   });
