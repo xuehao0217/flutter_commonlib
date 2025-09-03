@@ -194,18 +194,19 @@ class HorizontalWrapList<T> extends StatelessWidget {
   final Widget Function(BuildContext context, T item, int index) itemBuilder;
   final double spacing;
   final EdgeInsetsGeometry padding;
-
+  final ScrollController? controller;
   const HorizontalWrapList({
-    Key? key,
+    super.key,
     required this.items,
     required this.itemBuilder,
     this.spacing = 8,
-    this.padding = EdgeInsets.zero,
-  }) : super(key: key);
+    this.padding = EdgeInsets.zero, this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      controller: controller,
       scrollDirection: Axis.horizontal,
       padding: padding,
       child: Wrap(
