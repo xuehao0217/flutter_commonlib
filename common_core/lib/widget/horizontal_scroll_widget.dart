@@ -68,6 +68,10 @@ class HorizontalScrollProgressWidget<T> extends StatefulWidget {
   /// 圆角（默认 2）
   final BorderRadiusGeometry borderRadius;
 
+
+  /// Tab 与  Scroll 的间距
+  final double spacingBetweenBarAndScroll;
+
   const HorizontalScrollProgressWidget({
     super.key,
     required this.items,
@@ -81,7 +85,7 @@ class HorizontalScrollProgressWidget<T> extends StatefulWidget {
     this.thumbColor = Colors.black,
     this.borderRadius = const BorderRadius.all(Radius.circular(2)),
     this.controller,
-    this.progressWidth,
+    this.progressWidth, this.spacingBetweenBarAndScroll = 12,
   });
 
   @override
@@ -125,7 +129,7 @@ class _HorizontalScrollProgressWidgetState<T> extends State<HorizontalScrollProg
           thumbColor: widget.thumbColor,
           borderRadius: widget.borderRadius,
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: widget.spacingBetweenBarAndScroll),
         Expanded(
           child: HorizontalWrapList<T>(
             items: widget.items,

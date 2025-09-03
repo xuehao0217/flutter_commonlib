@@ -1,3 +1,4 @@
+import 'package:common_core/common_core.dart';
 import 'package:flutter/material.dart';
 
 class TabBarLineIndicatorPageDemo extends StatelessWidget {
@@ -21,6 +22,7 @@ class TabBarLineIndicatorPageDemo extends StatelessWidget {
   }
 }
 
+
 class TabBarLineIndicatorPage<T> extends StatefulWidget {
   final Widget Function(T item, int index) pageBuilder; // 泛型 ItemBuilder
   final List<T> items;
@@ -40,6 +42,9 @@ class TabBarLineIndicatorPage<T> extends StatefulWidget {
   /// 背景条间距
   final double spacing;
 
+  /// tabBar 两边的边距
+  final double tabBarHorizontalPadding;
+
   const TabBarLineIndicatorPage({
     super.key,
     required this.items,
@@ -49,6 +54,7 @@ class TabBarLineIndicatorPage<T> extends StatefulWidget {
     this.indicatorRadius = 4,
     this.backgroundColor = const Color(0xFFD9D9D9), // 默认灰色
     this.spacing = 7,
+    this.tabBarHorizontalPadding=21,
   });
 
   @override
@@ -86,7 +92,7 @@ class _TabBarLineIndicatorPageState<T>
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width-widget.tabBarHorizontalPadding*2;
     final int tabCount = widget.items.length;
     final double barWidth =
         (screenWidth - (tabCount - 1) * widget.spacing) / tabCount;
@@ -145,7 +151,7 @@ class _TabBarLineIndicatorPageState<T>
               ),
             ],
           ),
-        ),
+        ).intoHorizontalPadding(widget.tabBarHorizontalPadding),
         const SizedBox(height: 16),
         Expanded(
           child: PageView.builder(
