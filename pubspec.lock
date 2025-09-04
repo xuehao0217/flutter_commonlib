@@ -1212,6 +1212,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.5.0"
+  pull_to_refresh_notification:
+    dependency: "direct main"
+    description:
+      name: pull_to_refresh_notification
+      sha256: aea845cd367c158082821ff2c7ed38dbf1930aa8e15c86df74cad70fa10fd75e
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.1.1"
   qs_dart:
     dependency: transitive
     description:
