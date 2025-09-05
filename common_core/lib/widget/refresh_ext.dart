@@ -172,8 +172,8 @@ extension SmartRefresherExt<T> on Widget {
             ),
         controller: _controller,
         onRefresh: () async {
-          if (onLoad != null) {
-            await onLoad();
+          if (onRefresh != null) {
+            await onRefresh();
             _controller.finishRefresh();
           }
         },
