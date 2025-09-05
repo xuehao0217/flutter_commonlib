@@ -101,6 +101,29 @@ extension RefreshControllerExt on pull.RefreshController {
 }
 
 extension SmartRefresherExt<T> on Widget {
+  /// 和 intoEasyRefreshList 对齐的封装
+  pull.RefreshConfiguration intoRefreshList(
+      BaseListViewModel viewModel, {
+        pull.RefreshController? controller,
+        ScrollController? scrollController,
+        bool enableRefresh = true,
+        bool enablePullUp = true,
+        Widget? header,
+        Widget? footer,
+      }) {
+    return intoRefresh(
+      onRefresh: () => viewModel.getRefreshData(),
+      onLoad: () async => await viewModel.getLoadData(),
+      controller: controller,
+      scrollController: scrollController,
+      enableRefresh: enableRefresh,
+      enablePullUp: enablePullUp,
+      header: header,
+      footer: footer,
+    );
+  }
+
+
   pull.RefreshConfiguration intoRefresh({
     required Future<bool> Function()? onLoad,
     required Future<void> Function()? onRefresh,
@@ -132,7 +155,7 @@ extension SmartRefresherExt<T> on Widget {
         enablePullUp: enablePullUp,
         enablePullDown: enableRefresh,
         header:
-            header ??
+        header ??
             const pull.ClassicHeader(
               // refreshingText: "加载中...",
               // releaseText: "放开刷新",
@@ -140,7 +163,7 @@ extension SmartRefresherExt<T> on Widget {
               // idleText: "下拉刷新",
             ),
         footer:
-            footer ??
+        footer ??
             const pull.ClassicFooter(
               // loadingText: "加载中...",
               // noDataText: "到底了~",
