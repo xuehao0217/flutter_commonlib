@@ -1005,7 +1005,7 @@ packages:
     source: hosted
     version: "3.2.0"
   paging_view:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: paging_view
       sha256: b8a3bf1440931163e7cc98b6a243fb5741dc4b5b3f10fcf35c42449b905da826
@@ -1212,14 +1212,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.5.0"
-  pull_to_refresh_notification:
-    dependency: "direct main"
-    description:
-      name: pull_to_refresh_notification
-      sha256: aea845cd367c158082821ff2c7ed38dbf1930aa8e15c86df74cad70fa10fd75e
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "3.1.1"
   qs_dart:
     dependency: transitive
     description:
@@ -1354,7 +1346,7 @@ packages:
     source: sdk
     version: "0.0.0"
   smart_scroll:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: smart_scroll
       sha256: ef083e3fe5a6b6098ee72f5612d6d3fd3b541e45bb5d85415df7e7108d443414
