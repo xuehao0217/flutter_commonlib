@@ -21,7 +21,7 @@ abstract class BaseVMStatelessWidget<VM extends BaseViewModel> extends BaseState
 
   @override
   void hideLoading() {
-    SmartDialog.dismiss();
+    SmartDialog.dismiss(status: SmartStatus.loading);
   }
 
   @override
