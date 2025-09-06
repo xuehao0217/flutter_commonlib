@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 typedef FromJson<T> = T Function(Map<String, dynamic> json);
 
 class SPUtil {
