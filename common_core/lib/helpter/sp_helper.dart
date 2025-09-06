@@ -1,27 +1,14 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// 保存对象
-// await SPUtil.putObject("user", user.toJson());
-//
-// // 读取对象
-// final userMap = await SPUtil.getObject("user");
-// final user = userMap != null ? UserEntity.fromJson(userMap) : null;
-//
-// // 保存列表
-// await SPUtil.putObjectList("news_list", newsList.map((e) => e.toJson()).toList());
-//
-// // 读取列表
-// final list = await SPUtil.getObjectList("news_list");
-// final newsList = list?.map((e) => NewsContentNews.fromJson(e)).toList() ?? [];
-//
+
+typedef FromJson<T> = T Function(Map<String, dynamic> json);
 
 class SPUtil {
-  SPUtil._(); // 私有构造
+  SPUtil._();
 
   static SharedPreferences? _prefs;
 
-  /// 异步初始化，建议在 main() 里调用
   static Future<void> init() async {
     _prefs ??= await SharedPreferences.getInstance();
   }
@@ -32,55 +19,30 @@ class SPUtil {
   }
 
   /// ---------- 基础类型 ----------
-  static Future<void> putString(String key, String value) async {
-    final prefs = await _instance;
-    await prefs.setString(key, value);
-  }
+  static Future<void> putString(String key, String value) async =>
+      (await _instance).setString(key, value);
+  static Future<String> getString(String key, {String defaultValue = ""}) async =>
+      (await _instance).getString(key) ?? defaultValue;
 
-  static Future<String> getString(String key, {String defaultValue = ""}) async {
-    final prefs = await _instance;
-    return prefs.getString(key) ?? defaultValue;
-  }
+  static Future<void> putInt(String key, int value) async =>
+      (await _instance).setInt(key, value);
+  static Future<int> getInt(String key, {int defaultValue = 0}) async =>
+      (await _instance).getInt(key) ?? defaultValue;
 
-  static Future<void> putInt(String key, int value) async {
-    final prefs = await _instance;
-    await prefs.setInt(key, value);
-  }
+  static Future<void> putBool(String key, bool value) async =>
+      (await _instance).setBool(key, value);
+  static Future<bool> getBool(String key, {bool defaultValue = false}) async =>
+      (await _instance).getBool(key) ?? defaultValue;
 
-  static Future<int> getInt(String key, {int defaultValue = 0}) async {
-    final prefs = await _instance;
-    return prefs.getInt(key) ?? defaultValue;
-  }
+  static Future<void> putDouble(String key, double value) async =>
+      (await _instance).setDouble(key, value);
+  static Future<double> getDouble(String key, {double defaultValue = 0.0}) async =>
+      (await _instance).getDouble(key) ?? defaultValue;
 
-  static Future<void> putBool(String key, bool value) async {
-    final prefs = await _instance;
-    await prefs.setBool(key, value);
-  }
-
-  static Future<bool> getBool(String key, {bool defaultValue = false}) async {
-    final prefs = await _instance;
-    return prefs.getBool(key) ?? defaultValue;
-  }
-
-  static Future<void> putDouble(String key, double value) async {
-    final prefs = await _instance;
-    await prefs.setDouble(key, value);
-  }
-
-  static Future<double> getDouble(String key, {double defaultValue = 0.0}) async {
-    final prefs = await _instance;
-    return prefs.getDouble(key) ?? defaultValue;
-  }
-
-  static Future<void> putStringList(String key, List<String> value) async {
-    final prefs = await _instance;
-    await prefs.setStringList(key, value);
-  }
-
-  static Future<List<String>> getStringList(String key, {List<String> defaultValue = const []}) async {
-    final prefs = await _instance;
-    return prefs.getStringList(key) ?? defaultValue;
-  }
+  static Future<void> putStringList(String key, List<String> value) async =>
+      (await _instance).setStringList(key, value);
+  static Future<List<String>> getStringList(String key, {List<String> defaultValue = const []}) async =>
+      (await _instance).getStringList(key) ?? defaultValue;
 
   /// ---------- JSON 对象 ----------
   static Future<void> putObject(String key, Object value) async {
@@ -105,14 +67,32 @@ class SPUtil {
     return jsonDecode(jsonString);
   }
 
-  /// ---------- 公共操作 ----------
-  static Future<void> remove(String key) async {
-    final prefs = await _instance;
-    await prefs.remove(key);
+  /// ---------- 泛型对象 ----------
+  static Future<void> saveObject<T>(String key, T object) async {
+    final jsonString = jsonEncode((object as dynamic).toJson());
+    await putString(key, jsonString);
   }
 
-  static Future<void> clear() async {
-    final prefs = await _instance;
-    await prefs.clear();
+  static Future<T?> getObjectGeneric<T>(String key, FromJson<T> fromJson) async {
+    final jsonString = await getString(key);
+    if (jsonString.isEmpty) return null;
+    final Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+    return fromJson(jsonMap);
   }
+
+  static Future<void> saveList<T>(String key, List<T> list) async {
+    final jsonList = list.map((e) => (e as dynamic).toJson()).toList();
+    await putString(key, jsonEncode(jsonList));
+  }
+
+  static Future<List<T>> getList<T>(String key, FromJson<T> fromJson) async {
+    final jsonString = await getString(key);
+    if (jsonString.isEmpty) return [];
+    final List<dynamic> jsonData = jsonDecode(jsonString);
+    return jsonData.map((e) => fromJson(e)).toList();
+  }
+
+  /// ---------- 公共操作 ----------
+  static Future<void> remove(String key) async => (await _instance).remove(key);
+  static Future<void> clearAll() async => (await _instance).clear();
 }
