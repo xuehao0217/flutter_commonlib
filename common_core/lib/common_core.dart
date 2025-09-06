@@ -8,6 +8,7 @@ import 'package:chucker_flutter/chucker_flutter.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'helpter/notification_helper.dart';
+import 'helpter/sp_helper.dart';
 export 'helpter/widget_ext_helper.dart';
 export 'widget/common_dialog.dart';
 export 'widget/bottom_navigation_bar.dart';
@@ -47,6 +48,7 @@ class CommonCore {
     ChuckerFlutter.showNotification = false;
 
     NotificationHelper().initialize(logo);
+    SPUtil.init();
     // FirebaseHelper().init();
   }
 }
