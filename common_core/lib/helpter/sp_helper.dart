@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+// await SPUtil.saveList(news_feed_list,result.results);
+// var list = await SPUtil.getList<NewsContentNews>(news_feed_list,  (json) => NewsContentNews.fromJson(json));
+
 typedef FromJson<T> = T Function(Map<String, dynamic> json);
 
 class SPUtil {
