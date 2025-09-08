@@ -154,7 +154,7 @@ extension ClickExt on Widget {
             color: borderColor, // 边框颜色
             width: borderWidth, // 边框宽度
           ),
-          borderRadius: SharpBorderRadius(cornerRadius: borderRadius),
+          borderRadius: SharpBorderRadius(cornerRadius: radius),
         ),
       ),
       child: this,
