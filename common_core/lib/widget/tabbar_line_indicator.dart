@@ -1,15 +1,15 @@
 import 'package:common_core/common_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_helper_kit/extensions/widget/padding.dart';
 
 class TabBarLineIndicatorPageDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TabBarLineIndicatorPage<String>(
       items: ['Tab1', 'Tab2', 'Tab3'],
-      indicatorHeight: 10,
       indicatorColor: Colors.black,
       indicatorRadius: 5,
-      backgroundColor: Colors.yellow,
+      backgroundColor: Color(0xffBFBFBF),
       pageBuilder: (item, index) {
         return Center(
           child: Text(
@@ -22,13 +22,15 @@ class TabBarLineIndicatorPageDemo extends StatelessWidget {
   }
 }
 
-
 class TabBarLineIndicatorPage<T> extends StatefulWidget {
   final Widget Function(T item, int index) pageBuilder; // 泛型 ItemBuilder
   final List<T> items;
 
-  /// 指示器高度
-  final double indicatorHeight;
+  /// 选中指示器高度
+  final double activeIndicatorHeight;
+
+  /// 未选中指示器高度
+  final double inactiveIndicatorHeight;
 
   /// 指示器颜色
   final Color indicatorColor;
@@ -45,16 +47,20 @@ class TabBarLineIndicatorPage<T> extends StatefulWidget {
   /// tabBar 两边的边距
   final double tabBarHorizontalPadding;
 
+  final double pageViewHeight;
+
   const TabBarLineIndicatorPage({
     super.key,
     required this.items,
     required this.pageBuilder,
-    this.indicatorHeight = 8,
+    this.activeIndicatorHeight = 4,
+    this.inactiveIndicatorHeight = 3,
     this.indicatorColor = Colors.blue,
     this.indicatorRadius = 4,
-    this.backgroundColor = const Color(0xFFD9D9D9), // 默认灰色
+    this.backgroundColor = const Color(0xFFD9D9D9),
     this.spacing = 7,
-    this.tabBarHorizontalPadding=21,
+    this.tabBarHorizontalPadding = 21,
+    this.pageViewHeight = 600,
   });
 
   @override
@@ -92,83 +98,97 @@ class _TabBarLineIndicatorPageState<T>
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width-widget.tabBarHorizontalPadding*2;
+    final screenWidth =
+        MediaQuery.of(context).size.width - widget.tabBarHorizontalPadding * 2;
     final int tabCount = widget.items.length;
     final double barWidth =
         (screenWidth - (tabCount - 1) * widget.spacing) / tabCount;
 
     return Column(
       children: [
-        SizedBox(
-          height: widget.indicatorHeight,
-          child: Stack(
-            children: [
-              // 背景条
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(tabCount, (index) {
-                  return GestureDetector(
-                    onTap: () => _onTabTap(index),
-                    child: Container(
-                      margin: EdgeInsets.only(
-                        right: index == tabCount - 1 ? 0 : widget.spacing,
-                      ),
-                      width: barWidth,
-                      height: widget.indicatorHeight,
-                      decoration: BoxDecoration(
-                        color: widget.backgroundColor,
-                        borderRadius: BorderRadius.circular(
-                          widget.indicatorRadius,
+        widget.items.length > 1
+            ? Column(
+          children: [
+            SizedBox(
+              height: widget.activeIndicatorHeight,
+              child: Stack(
+                children: [
+                  // 背景条
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(tabCount, (index) {
+                      return GestureDetector(
+                        onTap: () => _onTabTap(index),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.easeInOut,
+                          margin: EdgeInsets.only(
+                            right: index == tabCount - 1 ? 0 : widget.spacing,
+                          ),
+                          width: barWidth,
+                          height: widget.inactiveIndicatorHeight,
+                          decoration: BoxDecoration(
+                            color: widget.backgroundColor,
+                            borderRadius: BorderRadius.circular(
+                              widget.indicatorRadius,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-              // 滑动的指示器
-              AnimatedBuilder(
-                animation: _pageController,
-                builder: (context, child) {
-                  double page = 0;
-                  if (_pageController.hasClients &&
-                      _pageController.page != null) {
-                    page = _pageController.page!;
-                  }
-                  return Transform.translate(
-                    offset: Offset((barWidth + widget.spacing) * page, 0),
-                    child: Container(
-                      width: barWidth,
-                      height: widget.indicatorHeight,
-                      decoration: BoxDecoration(
-                        color: widget.indicatorColor,
-                        borderRadius: BorderRadius.circular(
-                          widget.indicatorRadius,
+                      );
+                    }),
+                  ),
+                  // 滑动的指示器
+                  AnimatedBuilder(
+                    animation: _pageController,
+                    builder: (context, child) {
+                      double page = 0;
+                      if (_pageController.hasClients &&
+                          _pageController.page != null) {
+                        page = _pageController.page!;
+                      }
+                      return Transform.translate(
+                        offset: Offset(
+                          (barWidth + widget.spacing) * page,
+                          0,
                         ),
-                      ),
-                    ),
-                  );
-                },
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.easeInOut,
+                          width: barWidth,
+                          height: widget.activeIndicatorHeight,
+                          decoration: BoxDecoration(
+                            color: widget.indicatorColor,
+                            borderRadius: BorderRadius.circular(
+                              widget.indicatorRadius,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
-        ).intoHorizontalPadding(widget.tabBarHorizontalPadding),
-        const SizedBox(height: 16),
-        Expanded(
-          child: PageView.builder(
-            controller: _pageController,
-            itemCount: tabCount,
-            onPageChanged: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            itemBuilder: (context, index) {
-              final item = widget.items[index];
-              return widget.pageBuilder(item, index);
-            },
-          ),
-        ),
+            ).paddingSymmetric(horizontal: widget.tabBarHorizontalPadding),
+            const SizedBox(height: 8),
+          ],
+        )
+            : const SizedBox(),
+        PageView.builder(
+          physics: const ClampingScrollPhysics(),
+          controller: _pageController,
+          itemCount: tabCount,
+          onPageChanged: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          itemBuilder: (context, index) {
+            final item = widget.items[index];
+            return widget.pageBuilder(item, index);
+          },
+        ).intoSizedBox(height: widget.pageViewHeight),
       ],
     );
   }
 }
+
