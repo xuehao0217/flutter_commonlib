@@ -131,7 +131,7 @@ extension ClickExt on Widget {
   }
 
   Widget intoShapeClip({
-    double borderRadius = 0,
+    double radius = 0,
     Color? backgroundColor,
     EdgeInsetsGeometry? margin,
     Color borderColor = Colors.transparent,

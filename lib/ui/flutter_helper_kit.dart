@@ -40,7 +40,7 @@ class FlutterHelperKitState
           children: [
             Text("Hello").intoShapeClip(
               height: 70,
-              borderRadius: 12,
+              radius: 12,
               backgroundColor: Colors.green,
               borderColor: Colors.blue,
               borderWidth: 2,
