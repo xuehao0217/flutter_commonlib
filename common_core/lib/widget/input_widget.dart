@@ -89,7 +89,7 @@ class _InputWidgetState extends State<InputWidget> {
     );
     return TextField(
       inputFormatters: [
-        FilteringTextInputFormatter.deny(RegExp(r'\s')), // 彻底禁止输入空格
+        FilteringTextInputFormatter.deny(RegExp(r' ')), // 只禁止空格, // 彻底禁止输入空格
       ],
       textAlignVertical: TextAlignVertical.center,
       focusNode: _focusNode,
