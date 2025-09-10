@@ -20,8 +20,6 @@ class InputWidget extends StatefulWidget {
   final double iconSize;
   final TextInputType keyboardType;
 
-  final FontWeight fontWeight;
-  final FontWeight hintFontWeight;
   final ValueChanged<String>? onTextChanged;
   final TextStyle? hintTextStyle;
   final TextStyle? textStyle;
@@ -68,8 +66,6 @@ class InputWidget extends StatefulWidget {
     this.iconSize = 24,
     this.UnderlineColor = Colors.grey,
     this.keyboardType = TextInputType.number,
-    this.fontWeight = FontWeight.normal,
-    this.hintFontWeight = FontWeight.normal,
     this.border,
     this.fillColor,
     this.textInputAction,
