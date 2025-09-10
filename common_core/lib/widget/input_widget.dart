@@ -30,18 +30,28 @@ class InputWidget extends StatefulWidget {
   final ValueChanged<String>? onSubmitted;
 
   final TextEditingController? controller;
+
   //线
-  // UnderlineInputBorder(
+  //border: UnderlineInputBorder(
   // borderSide: BorderSide(
   // color: widget.UnderlineColor, // 下划线颜色（焦点状态）
   // width: 0.5 // 下划线宽度
   // ),
   // )
 
-  // OutlineInputBorder(
+  //border: OutlineInputBorder(
   // borderRadius: BorderRadius.circular(12),
   // borderSide: BorderSide(color: widget.UnderlineColor, width: 0.5),
   // )
+
+
+  // border: OutlineInputBorder(
+  // borderRadius: BorderRadius.circular(12),
+  // borderSide: const BorderSide(
+  // color: Colors.grey, // 边框颜色
+  // width: 1,           // 边框宽度
+  // ),
+  // ),
 
   InputWidget({
     Key? key,
