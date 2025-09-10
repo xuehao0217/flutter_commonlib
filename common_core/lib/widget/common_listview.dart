@@ -1,3 +1,4 @@
+import 'package:common_core/widget/wrap_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_helper_utils/flutter_helper_utils.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
@@ -209,11 +210,10 @@ class HorizontalWrapList<T> extends StatelessWidget {
       controller: controller,
       scrollDirection: Axis.horizontal,
       padding: padding,
-      child: Wrap(
+      child: WrapList(
         spacing: spacing,
-        children: List.generate(items.length, (index) {
-          return itemBuilder(context, items[index], index);
-        }),
+        items: items,
+        itemBuilder: (BuildContext context, item, int index) =>itemBuilder(context, items[index], index),
       ),
     );
   }
