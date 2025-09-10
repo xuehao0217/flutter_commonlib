@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,7 +16,7 @@ class InputWidget extends StatefulWidget {
   final String delIcon;
   final String showPwdIcon;
   final String hidePwdIcon;
-
+  final int maxLength;
   final double iconSize;
   final TextInputType keyboardType;
 
@@ -30,7 +32,7 @@ class InputWidget extends StatefulWidget {
   final ValueChanged<String>? onSubmitted;
 
   final TextEditingController? controller;
-
+  final double contentHorizontalPadding;
   //线
   //border: UnderlineInputBorder(
   // borderSide: BorderSide(
@@ -71,7 +73,8 @@ class InputWidget extends StatefulWidget {
     this.border,
     this.fillColor,
     this.textInputAction,
-    this.onSubmitted, this.controller,
+    this.onSubmitted,
+    this.controller, this.maxLength=32,  this.contentHorizontalPadding=12,
   }) : super(key: key);
 
   @override
@@ -96,7 +99,7 @@ class _InputWidgetState extends State<InputWidget> {
       focusNode: _focusNode,
       controller: widget.controller,
       //最大长度,右下角会显示一个输入数量的字符串
-      maxLength: 26,
+      maxLength: widget.maxLength,
       //最大行数
       maxLines: 1,
       //是否自动更正
@@ -126,10 +129,7 @@ class _InputWidgetState extends State<InputWidget> {
         border: widget.border ?? outlineBorder,
         enabledBorder: widget.border ?? outlineBorder,
         focusedBorder: widget.border ?? outlineBorder,
-        contentPadding: EdgeInsets.symmetric(
-          vertical: 0,
-          horizontal: 12,
-        ),
+        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: widget.contentHorizontalPadding),
         //去除下划线
         suffixIcon: Row(
           mainAxisSize: MainAxisSize.min,
