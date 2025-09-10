@@ -136,7 +136,7 @@ class _InputWidgetState extends State<InputWidget> {
           children: [
             widget.delIcon.isNotEmpty
                 ? IconButton(
-                  iconSize: 24,
+                  iconSize: widget.iconSize,
                   icon: Image.asset(widget.delIcon),
                   onPressed: () {
                     setState(() {
@@ -148,7 +148,7 @@ class _InputWidgetState extends State<InputWidget> {
 
             if (widget.isPassword)
               IconButton(
-                iconSize: 24,
+                iconSize: widget.iconSize,
                 icon:
                     widget.showPwdIcon.isNotEmpty &&
                             widget.hidePwdIcon.isNotEmpty
