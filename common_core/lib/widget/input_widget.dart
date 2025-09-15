@@ -30,7 +30,7 @@ class InputWidget extends StatefulWidget {
   final ValueChanged<String>? onSubmitted;
 
   final TextEditingController? controller;
-  final double contentHorizontalPadding;
+  final FocusNode? focusNode;
   //线
   //border: UnderlineInputBorder(
   // borderSide: BorderSide(
@@ -65,12 +65,13 @@ class InputWidget extends StatefulWidget {
     this.hidePwdIcon = "",
     this.iconSize = 24,
     this.UnderlineColor = Colors.grey,
-    this.keyboardType = TextInputType.number,
+    this.keyboardType = TextInputType.text,
     this.border,
     this.fillColor,
     this.textInputAction,
     this.onSubmitted,
-    this.controller, this.maxLength=32,  this.contentHorizontalPadding=12,
+    this.focusNode,
+    this.controller, this.maxLength=32,
   }) : super(key: key);
 
   @override
@@ -79,7 +80,13 @@ class InputWidget extends StatefulWidget {
 
 class _InputWidgetState extends State<InputWidget> {
   bool _obscureText = true;
-  final FocusNode _focusNode = FocusNode();
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = widget.focusNode ?? FocusNode();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +96,7 @@ class _InputWidgetState extends State<InputWidget> {
     );
     return TextField(
       inputFormatters: [
-        FilteringTextInputFormatter.deny(RegExp(r' ')), // 只禁止空格, // 彻底禁止输入空格
+        FilteringTextInputFormatter.deny(RegExp(r' ')), // 只禁止空格
       ],
       textAlignVertical: TextAlignVertical.center,
       focusNode: _focusNode,
@@ -125,39 +132,39 @@ class _InputWidgetState extends State<InputWidget> {
         border: widget.border ?? outlineBorder,
         enabledBorder: widget.border ?? outlineBorder,
         focusedBorder: widget.border ?? outlineBorder,
-        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: widget.contentHorizontalPadding),
+        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
         //去除下划线
         suffixIcon: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             widget.delIcon.isNotEmpty
                 ? IconButton(
-                  iconSize: widget.iconSize,
-                  icon: Image.asset(widget.delIcon),
-                  onPressed: () {
-                    setState(() {
-                      widget.controller?.clear();
-                    });
-                  },
-                )
+              iconSize: widget.iconSize,
+              icon: Image.asset(widget.delIcon),
+              onPressed: () {
+                setState(() {
+                  widget.controller?.clear();
+                });
+              },
+            )
                 : SizedBox(),
 
             if (widget.isPassword)
               IconButton(
                 iconSize: widget.iconSize,
                 icon:
-                    widget.showPwdIcon.isNotEmpty &&
-                            widget.hidePwdIcon.isNotEmpty
-                        ? Image.asset(
-                          _obscureText
-                              ? widget.showPwdIcon
-                              : widget.hidePwdIcon,
-                        )
-                        : Icon(
-                          _obscureText
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                        ),
+                widget.showPwdIcon.isNotEmpty &&
+                    widget.hidePwdIcon.isNotEmpty
+                    ? Image.asset(
+                  _obscureText
+                      ? widget.showPwdIcon
+                      : widget.hidePwdIcon,
+                )
+                    : Icon(
+                  _obscureText
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                ),
                 onPressed: () {
                   setState(() {
                     _obscureText = !_obscureText;
