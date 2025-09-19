@@ -95,6 +95,10 @@ class _InputWidgetState extends State<InputWidget> {
       borderSide: BorderSide(color: widget.UnderlineColor, width: 0.5),
     );
     return TextField(
+      cursorColor: Colors.black,            // 光标颜色
+      cursorWidth: 2.0,                   // 光标宽度
+      cursorHeight: 23.0,                 // 光标高度
+      cursorRadius: Radius.circular(1.0),
       inputFormatters: [
         FilteringTextInputFormatter.deny(RegExp(r' ')), // 只禁止空格
       ],
