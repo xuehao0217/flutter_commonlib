@@ -162,8 +162,8 @@ class _InputWidgetState extends State<InputWidget> {
                 )
                     : Icon(
                   _obscureText
-                      ? Icons.visibility
-                      : Icons.visibility_off,
+                      ? Icons.visibility_off
+                      : Icons.visibility,
                 ),
                 onPressed: () {
                   setState(() {
