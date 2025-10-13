@@ -8,12 +8,17 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../base/base_stateful_widget.dart';
 import 'common_widget.dart';
-
 class WebViewPage extends StatefulWidget {
-  static String Url = "url";
-  static String Title = "title";
-  final String url = Get.arguments as String? ?? Get.parameters[Url] ?? "";
-  final String title = Get.parameters[Title] ?? "";
+  final String url;
+  final String title;
+
+  /// 构造函数兼容直接传参和 GetX 参数
+  WebViewPage({
+    super.key,
+    String? url,
+    String? title,
+  })  : url = url ?? Get.arguments as String? ?? Get.parameters['url'] ?? "",
+        title = title ?? Get.parameters['title'] ?? "";
 
   @override
   _WebViewPageState createState() => _WebViewPageState();
