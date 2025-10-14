@@ -57,7 +57,7 @@ mixin BaseWidgetMixin {
     backgroundColor: setTitleBgColor(),
     title: setTitle(),
     backIcon: setBackIcon(),
-    backCallBack: () => Get.back(),
+    backCallBack: () => onBackPressed,
     rightWidget: setRightTitleContent(),
     height: 44,
   );
@@ -75,4 +75,10 @@ mixin BaseWidgetMixin {
         Container(height: context.navigationBarHeight, color: setPageBgColor()),
     ],
   );
+
+
+  /// 自定义返回事件（默认执行 Get.back）
+  void onBackPressed() {
+    Get.back();
+  }
 }
