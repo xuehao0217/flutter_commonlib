@@ -13,31 +13,3 @@ class RefreshListViewModel extends  BaseListViewModel<HomeListDataDatas> {
       return result.datas;
   }
 }
-
-
-
-// class UserController extends GetxController with StateMixin<User> {
-//   void fetchUser() async {
-//     change(null, status: RxStatus.loading()); // 显示加载中
-//
-//     try {
-//       final user = await Api.getUser(); // 模拟接口
-//       change(user, status: RxStatus.success()); // 请求成功
-//     } catch (e) {
-//       change(null, status: RxStatus.error(e.toString())); // 出错
-//     }
-//   }
-// }
-//
-//
-// class UserPage extends GetView<UserController> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return controller.obx(
-//           (state) => Text('用户名：${state?.name}'),
-//       onLoading: const Center(child: CircularProgressIndicator()),
-//       onError: (err) => Center(child: Text("出错：$err")),
-//       onEmpty: const Center(child: Text("暂无数据")),
-//     );
-//   }
-// }

@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_commonlib/ui/vm/flutter_helper_kit_vm.dart';
 import 'package:flutter_helper_kit/widgets/custom_indicator.dart';
 import 'package:flutter_helper_kit/widgets/marquee_widget.dart';
-import 'package:flutter_helper_kit/widgets/rating_bar_widget.dart' hide RatingBarWidget;
+import 'package:flutter_helper_kit/widgets/rating_bar_widget.dart'
+    hide RatingBarWidget;
 import 'package:flutter_helper_kit/widgets/read_more_text.dart';
 import 'package:flutter_helper_kit/widgets/rounded_checkbox_widget.dart';
 import 'package:flutter_helper_kit/widgets/separated_column.dart';
@@ -13,7 +14,14 @@ import 'package:flutter_helper_kit/widgets/text_icon_widget.dart';
 import 'package:flutter_helper_kit/widgets/timer_builder.dart';
 import 'package:flutter_helper_utils/flutter_helper_utils.dart';
 import 'package:get/get.dart';
-import 'package:nb_utils/nb_utils.dart' hide Marquee, DirectionMarguee, RoundedCheckBox, TextIcon, ReadMoreText, TrimMode;
+import 'package:nb_utils/nb_utils.dart'
+    hide
+        Marquee,
+        DirectionMarguee,
+        RoundedCheckBox,
+        TextIcon,
+        ReadMoreText,
+        TrimMode;
 
 class FlutterHelperKit extends StatefulWidget {
   @override
@@ -38,6 +46,13 @@ class FlutterHelperKitState
             margin: EdgeInsets.symmetric(vertical: 15),
           ),
           children: [
+            viewModel.obx(
+              (state) => Text('${state}', style: TextStyle(fontSize: 20,color: Colors.black)),
+              onLoading: const Center(child: CircularProgressIndicator()),
+              onError: (err) => Center(child: Text("出错：$err")),
+              onEmpty: const Center(child: Text("暂无数据")),
+            ),
+
             Text("Hello").intoShapeClip(
               height: 70,
               radius: 12,
@@ -156,35 +171,39 @@ class FlutterHelperKitState
                 child: const Center(child: Text('Double tap me!')),
               ),
             ),
-            Blur(
-              child: Container(width: 200,height: 100,color: Colors.blue,),
-            ),
+            Blur(child: Container(width: 200, height: 100, color: Colors.blue)),
             AppTextField(
               controller: TextEditingController(), // Optional
               textFieldType: TextFieldType.EMAIL,
-              decoration: InputDecoration(labelText: 'Email', border: OutlineInputBorder()),
+              decoration: InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(),
+              ),
             ),
             AppTextField(
               controller: TextEditingController(), // Optional
               textFieldType: TextFieldType.PASSWORD,
-              decoration: InputDecoration(labelText: 'Password', border: OutlineInputBorder()),
+              decoration: InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
             ),
             SizeListener(
-              child: Container(width: 200,height: 100,color: Colors.deepPurple,),
+              child: Container(
+                width: 200,
+                height: 100,
+                color: Colors.deepPurple,
+              ),
               onSizeChange: (size) {
                 log(size.width.toString());
               },
             ),
             GradientBorder(
               gradient: LinearGradient(
-                colors: [
-                  Colors.orange,
-                  Colors.yellow,
-                  Colors.pink,
-                ],
+                colors: [Colors.orange, Colors.yellow, Colors.pink],
               ),
               strokeWidth: 4.0,
-              child: Container(width: 200,height: 100,color: Colors.blue,),
+              child: Container(width: 200, height: 100, color: Colors.blue),
             ),
             AppButton(
               text: "Submit",
@@ -200,44 +219,53 @@ class FlutterHelperKitState
             //     return Container(width: 200,height: 100,color: Colors.blue,);
             //   },
             // ),
-
-
             DoublePressBackWidget(
-                child: Container(width: 200,height: 100,color: Colors.blue),
-                onWillPop: (){
-                  showToast("DoublePressBackWidget");
-
-                },
-                message: 'Your message' // Optional
+              child: Container(width: 200, height: 100, color: Colors.blue),
+              onWillPop: () {
+                showToast("DoublePressBackWidget");
+              },
+              message: 'Your message', // Optional
             ),
 
             SettingSection(
               title: Text('Account Management', style: boldTextStyle(size: 24)),
-              subTitle: Text('Control your account', style: primaryTextStyle()), // Optional
+              subTitle: Text('Control your account', style: primaryTextStyle()),
+              // Optional
               items: [
                 SettingItemWidget(
-                    title: 'Hibernate account',
-                    subTitle: 'Temporary deactivate your account',
-                    decoration: BoxDecoration(borderRadius: radius()),
-                    trailing: Icon(Icons.keyboard_arrow_right_rounded, color: context.dividerColor),
-                    onTap: () {
-                      //
-                    }
-                ),
-                SettingItemWidget(
-                  title: 'Close account',
-                  subTitle: 'Learn about your options, and close your account if you wish',
+                  title: 'Hibernate account',
+                  subTitle: 'Temporary deactivate your account',
                   decoration: BoxDecoration(borderRadius: radius()),
-                  trailing: Icon(Icons.keyboard_arrow_right_rounded, color: context.dividerColor),
+                  trailing: Icon(
+                    Icons.keyboard_arrow_right_rounded,
+                    color: context.dividerColor,
+                  ),
                   onTap: () {
                     //
                   },
-                )
+                ),
+                SettingItemWidget(
+                  title: 'Close account',
+                  subTitle:
+                      'Learn about your options, and close your account if you wish',
+                  decoration: BoxDecoration(borderRadius: radius()),
+                  trailing: Icon(
+                    Icons.keyboard_arrow_right_rounded,
+                    color: context.dividerColor,
+                  ),
+                  onTap: () {
+                    //
+                  },
+                ),
               ],
             ),
 
-            PlaceHolderWidget(width: 200,height: 100,animationDuration: Duration(milliseconds: 500),color:Colors.deepPurple),
-
+            PlaceHolderWidget(
+              width: 200,
+              height: 100,
+              animationDuration: Duration(milliseconds: 500),
+              color: Colors.deepPurple,
+            ),
 
             // CustomIndicator(
             //   isActive: true,
