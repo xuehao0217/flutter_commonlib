@@ -9,6 +9,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../base/base_stateful_widget.dart';
 import 'common_widget.dart';
 class WebViewPage extends StatefulWidget {
+  static String Url = "url";
+  static String Title = "title";
+
   final String url;
   final String title;
 
