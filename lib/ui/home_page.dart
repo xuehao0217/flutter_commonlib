@@ -4,7 +4,7 @@ import 'package:common_core/helpter/notification_helper.dart';
 import 'package:common_core/helpter/widget_ext_helper.dart';
 import 'package:common_core/style/theme.dart';
 import 'package:common_core/widget/common_widget.dart';
-import 'package:common_core/widget/web_view.dart';
+import 'package:common_core/widget/webview/web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_commonlib/ui/permission_widget.dart';

@@ -16,7 +16,7 @@ export 'widget/common_listview.dart';
 export 'widget/common_widget.dart';
 export 'widget/input_widget.dart';
 export 'widget/tab_widget.dart';
-export 'widget/web_view.dart';
+export 'widget/webview/web_view.dart';
 
 class CommonCore {
   Future<void> init(String logo) async {

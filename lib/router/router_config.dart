@@ -1,7 +1,7 @@
 
 import 'dart:async';
 
-import 'package:common_core/widget/web_view.dart';
+import 'package:common_core/widget/webview/web_view.dart';
 import 'package:flutter_commonlib/main.dart';
 import 'package:flutter_commonlib/ui/msg_page.dart';
 import 'package:get/get.dart';

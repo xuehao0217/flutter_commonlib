@@ -1,13 +1,13 @@
 
 import 'package:common_core/common_core.dart';
-import 'package:common_core/widget/webview_channel.dart';
+import 'package:common_core/widget/webview/webview_channel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../base/base_stateful_widget.dart';
+import '../../base/base_stateful_widget.dart';
 class WebViewPage extends StatefulWidget {
   static String Url = "url";
   static String Title = "title";
