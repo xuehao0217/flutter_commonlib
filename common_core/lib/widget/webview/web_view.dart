@@ -85,29 +85,44 @@ class _WebViewPageState extends BaseStatefulWidget<WebViewPage> {
         .isNotEmpty;
   }
 
-
   @override
   Widget buildPageContent(BuildContext context) {
-    return Column(
-      children: [
-        if (_progress < 1)
-          LinearProgressIndicator(
-            value: _progress,
-            backgroundColor: Colors.grey[200], // 进度条的背景颜色
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue), // 进度条的颜色
-          ),
-        Stack(
-          children: [
-            WebViewWidget(controller: controller),
-            if(!showTitleBar())
-              Opacity(
-                opacity: opacity,
-                child: getCommonTitleBarWidget(context),
-              ),
-          ],
-        ).intoExpanded(),
-      ],
+    return PopScope(
+      canPop: false, // 禁止系统直接 pop，我们手动控制
+      onPopInvokedWithResult: (didPop, result) async {
+        await onBackPressed();
+      },
+      child: Column(
+        children: [
+          if (_progress < 1)
+            LinearProgressIndicator(
+              value: _progress,
+              backgroundColor: Colors.grey[200],
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+            ),
+          Stack(
+            children: [
+              WebViewWidget(controller: controller),
+              if (!showTitleBar())
+                Opacity(
+                  opacity: opacity,
+                  child: getCommonTitleBarWidget(context),
+                ),
+            ],
+          ).intoExpanded(),
+        ],
+      ),
     );
+  }
+
+
+  @override
+  Future<void> onBackPressed() async {
+    if (await controller.canGoBack()) {
+      controller.goBack();
+    } else {
+      super.onBackPressed();
+    }
   }
 }
 
