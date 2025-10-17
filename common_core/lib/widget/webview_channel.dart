@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 /// Flutter ↔️ H5 通信通道封装
+///
+///
 /// WebViewChannel.setDefaultChannel("AncherChannel");
 /// WebViewChannel.listen((msg) {
 /// if (msg.startsWith('input:')) {
@@ -11,6 +13,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 /// Get2Named(RouterRULConfig.chatAI, arguments: content);
 /// }
 /// });
+///
+///
 /// - 支持多通道绑定
 /// - 支持全局默认通道名配置
 /// - 支持双向通信（JS → Flutter / Flutter → JS）
