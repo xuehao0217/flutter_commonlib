@@ -52,3 +52,9 @@ class CommonCore {
     // FirebaseHelper().init();
   }
 }
+
+
+
+void removeSplash() {
+  FlutterNativeSplash.remove();
+}
