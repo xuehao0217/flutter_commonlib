@@ -80,16 +80,21 @@ class _WebViewPageState extends BaseStatefulWidget<WebViewPage> {
   }
 
   /// 从 url 查询参数中判断是否隐藏某个元素
-  bool _isHidden(String key) {
+  bool isNotEmpty(String key) {
     final value = Uri.parse(widget.url).queryParameters[key];
     return value != null && value.isNotEmpty;
   }
 
   @override
-  bool showTitleBar() => !_isHidden('hideTitle');
+  bool showTitleBar() => !isNotEmpty('hideTitle');
 
   @override
-  bool showNavigationBar() => !_isHidden('hideNav');
+  bool showNavigationBar() => !isNotEmpty('hideNav');
+
+  @override
+  bool showBackIcon() {
+    return !isNotEmpty('hideBack');
+  }
 
   @override
   Widget buildPageContent(BuildContext context) {
