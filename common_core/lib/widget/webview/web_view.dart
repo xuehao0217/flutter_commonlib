@@ -1,5 +1,6 @@
 
 import 'package:common_core/common_core.dart';
+import 'package:common_core/helpter/logger_helper.dart';
 import 'package:common_core/widget/webview/webview_channel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,7 @@ class _WebViewPageState extends BaseStatefulWidget<WebViewPage> {
           onHttpError: (HttpResponseError error) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
+            "将要跳转到: ${request.url}".logI;
             return NavigationDecision.navigate; // 永远允许跳转
           },
         ),
