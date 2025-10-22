@@ -10,7 +10,6 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_commonlib/ui/vm/refresh_list_view_model.dart';
-import 'package:get/get_utils/get_utils.dart';
 import '../entity/home_list_entity.dart';
 
 class RefreshListPage extends StatefulWidget {
@@ -43,7 +42,7 @@ class _RefreshListPage
 
   @override
   Widget buildPageContent(BuildContext context) {
-    return viewModel.datas.obsWidgetIfNotEmpty(
+    return viewModel.datas.obxIfNotEmpty(
       (datas) =>
           CommonListView<HomeListDataDatas>(
             items: datas,

@@ -1,54 +1,71 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
-extension ObxWidgetExtension<T> on Rx<T> {
-  /// 通用的 Obx 构建器
-  Widget obsWidget(Widget Function(T value) builder) {
-    return Obx(() => builder(this.value));
-  }
+// // Obx 扩展
+// RxInt count = 0.obs;
+// count.obxWidget((v) => Text("Count: $v"));
+// count.obxIfNotNull((v) => Text("Not null: $v"));
+//
+// // RxList 扩展
+// RxList<String> items = <String>[].obs;
+// items.obxIfNotEmpty((list) => ListView.builder(
+// itemCount: list.length,
+// itemBuilder: (_, i) => Text(list[i]),
+// ));
+//
+// // GetBuilderWidget
+// GetBuilderWidget<MyController>(
+// controller: MyController(),
+// builder: (ctrl) => Text("Value: ${ctrl.value}"),
+// );
+//
+// // 路由跳转
+// GetXRoute.to("/home");
+// GetXRoute.off("/login");
+// GetXRoute.offAll("/main");
 
-  /// 如果值不为 null，则构建 builder，否则返回 emptyWidget
-  Widget obsWidgetIfNotNull(
+/// ==========================
+/// Rx 扩展
+/// ==========================
+extension RxWidgetExtension<T> on Rx<T> {
+  /// 通用 Obx 构建器
+  Widget obxWidget(Widget Function(T value) builder) => Obx(() => builder(value));
+
+  /// 如果值不为 null，则构建 builder，否则显示 emptyWidget
+  Widget obxIfNotNull(
       Widget Function(T value) builder, {
         Widget emptyWidget = const SizedBox.shrink(),
       }) {
     return Obx(() {
-      final value = this.value;
-      if (value == null) {
-        return emptyWidget;
-      }
-      return builder(value);
+      final v = value;
+      return v != null ? builder(v) : emptyWidget;
     });
   }
 }
 
-extension ObxWidgetRxListExtension<T> on RxList<T> {
-  /// 简单的 Obx 包裹构建器
-  Widget obsWidget(Widget Function(List<T> list) builder) {
-    return Obx(() => builder(this));
-  }
+extension RxListWidgetExtension<T> on RxList<T> {
+  /// Obx 构建器
+  Widget obxWidget(Widget Function(List<T> list) builder) => Obx(() => builder(this));
 
-  /// 非空时显示 builder，否则显示 emptyWidget（默认空容器）
-  Widget obsWidgetIfNotEmpty(Widget Function(List<T> list) builder, {
+  /// 非空时构建 builder，否则显示 emptyWidget
+  Widget obxIfNotEmpty(
+      Widget Function(List<T> list) builder, {
         Widget emptyWidget = const SizedBox.shrink(),
       }) {
-    return Obx(() {
-      return this.isNotEmpty ? builder(this) : emptyWidget;
-    });
+    return Obx(() => isNotEmpty ? builder(this) : emptyWidget);
   }
 }
 
-
-
+/// ==========================
+/// GetBuilder 封装
+/// ==========================
 class GetBuilderWidget<T extends GetxController> extends StatelessWidget {
-  final T controller;
-  final Widget Function(T) builder;
+  final T? controller;
+  final Widget Function(T controller) builder;
 
   const GetBuilderWidget({
     Key? key,
-    required this.controller,
+    this.controller,
     required this.builder,
   }) : super(key: key);
 
@@ -56,30 +73,27 @@ class GetBuilderWidget<T extends GetxController> extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<T>(
       init: controller,
-      builder: (value) => builder(value),
+      builder: (ctrl) => builder(ctrl),
     );
   }
 }
 
+/// ==========================
+/// GetX 路由封装
+/// ==========================
+class GetXRoute {
+  /// 普通跳转
+  static void to(String route, {dynamic arguments, Map<String, String>? parameters}) {
+    Get.toNamed(route, arguments: arguments, parameters: parameters);
+  }
 
+  /// 替换当前页面
+  static void off(String route, {dynamic arguments, Map<String, String>? parameters}) {
+    Get.offNamed(route, arguments: arguments, parameters: parameters);
+  }
 
-
-
-
-////////////////////////////////Route//////////////////////////////////////////////////
-
-void Get2Named(
-    String route, {
-      dynamic arguments,
-      Map<String, String>? parameters,
-    }) {
-  Get.toNamed(route, arguments: arguments, parameters: parameters);
-}
-
-//替换当前页面（即关闭当前页面并打开新页面）。
-void GetOffNamed(
-    String route, {dynamic arguments = "",
-      Map<String, String>? parameters,
-    }) {
-  Get.offNamed(route, arguments: arguments, parameters: parameters);
+  /// 清空所有路由并跳转
+  static void offAll(String route, {dynamic arguments, Map<String, String>? parameters}) {
+    Get.offAllNamed(route, arguments: arguments, parameters: parameters);
+  }
 }

@@ -12,6 +12,7 @@ import '../ui/flutter_helper_kit.dart';
 import '../ui/home_page.dart';
 import '../ui/main_page.dart';
 import '../ui/refresh_list_page.dart';
+import '../ui/scroll_demo_page.dart';
 import '../ui/single_child_scroll.dart';
 
 class RouterRULConfig {
@@ -28,6 +29,7 @@ class RouterRULConfig {
   static const webview = "/webview";
   static const download = "/download";
   static const flutter_helper_kit = "/flutter_helper_kit";
+  static const scroll_demo = "/scroll_demo";
 }
 
 
@@ -35,6 +37,7 @@ final List<GetPage>  pages = [
   GetPage(name: RouterRULConfig.main, page: () => MainPage(),transition: Transition.zoom),
   GetPage(name: RouterRULConfig.flutter_helper_kit, page: () => FlutterHelperKit()),
   GetPage(name: RouterRULConfig.download, page: () => DownloadPage()),
+  GetPage(name: RouterRULConfig.scroll_demo, page: () => BindShowOnScrollDemoPage()),
   GetPage(name: RouterRULConfig.home, page: () => HomePage() ),
   GetPage(name: RouterRULConfig.msg, page: () => MsgPage()),
   GetPage(name: RouterRULConfig.my, page: () => MyApp()),

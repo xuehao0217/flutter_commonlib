@@ -1,5 +1,6 @@
 library common_core;
 
+import 'dart:convert';
 import 'package:common_core/style/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'helpter/firebase_helper.dart';
+import 'helpter/logger_helper.dart';
 import 'helpter/notification_helper.dart';
 import 'helpter/sp_helper.dart';
 export 'helpter/widget_ext_helper.dart';
@@ -20,11 +23,11 @@ export 'widget/webview/web_view.dart';
 
 class CommonCore {
   Future<void> init(String logo) async {
-
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
     ///一键开启沉浸式状态栏
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
@@ -47,13 +50,13 @@ class CommonCore {
     ChuckerFlutter.showOnRelease = true;
     ChuckerFlutter.showNotification = false;
 
-    NotificationHelper().initialize(logo);
+    NotificationHelper().initialize(logo: logo);
+
     SPUtil.init();
-    // FirebaseHelper().init();
+
+    FirebaseHelper().initFirebaseMessaging();
   }
 }
-
-
 
 void removeSplash() {
   FlutterNativeSplash.remove();

@@ -1,28 +1,31 @@
 import 'package:intl/intl.dart';
 
-// final now = DateTime.now();
-// print(TimeHelper.formatDateTime(now));
-// print(TimeHelper.now());
-// print(TimeHelper.timestampMillis());
-// print(TimeHelper.fromTimestamp(1730178312123));
-// print(TimeHelper.utcToLocal("2025-10-22T08:45:12Z"));
-// print(TimeHelper.formatCountdown(Duration(hours: 2, minutes: 5, seconds: 10)));
-// print(TimeHelper.friendlyTime(DateTime.now().subtract(Duration(minutes: 5))));
-// print(TimeHelper.nowMap());
+void main() {
+  final now = DateTime.now();
+  print(TimeHelper.formatDateTime(now));
+  print(TimeHelper.now());
+  print(TimeHelper.timestampMillis());
+  print(TimeHelper.fromTimestamp(1730178312123));
+  print(TimeHelper.utcToLocal("2025-10-22T08:45:12Z"));
+  print(
+    TimeHelper.formatCountdown(Duration(hours: 2, minutes: 5, seconds: 10)),
+  );
+  print(TimeHelper.friendlyTime(DateTime.now().subtract(Duration(minutes: 5))));
+  print(TimeHelper.nowMap());
 
-// final timeMap = TimeHelper.nowFull();
-// print(timeMap);
-//   {
-//     local: 2025-10-22 16:45:12,
-//     utc: 2025-10-22 08:45:12,
-//     timestampMillis: 1730178312123,
-//     timestampSeconds: 1730178312,
-//     friendly: 今天 16:45
-//   }
-// // 获取单独字段
-// print(timeMap['friendly']);
-// print(timeMap['utc']);
-
+  final timeMap = TimeHelper.nowFull();
+  print(timeMap);
+  {
+    //   local: 2025-10-22 16:45:12,
+    // utc: 2025-10-22 08:45:12,
+    // timestampMillis: 1730178312123,
+    // timestampSeconds: 1730178312,
+    // friendly: 今天 16:45
+  }
+  // 获取单独字段
+  print(timeMap['friendly']);
+  print(timeMap['utc']);
+}
 
 class TimeHelper {
   /// 格式化 DateTime
@@ -188,7 +191,9 @@ class TimeHelper {
   ///   'timestampSeconds': 1730178312,
   ///   'friendly': '今天 16:45'
   /// }
-  static Map<String, dynamic> nowFull({String pattern = 'yyyy-MM-dd HH:mm:ss'}) {
+  static Map<String, dynamic> nowFull({
+    String pattern = 'yyyy-MM-dd HH:mm:ss',
+  }) {
     final now = DateTime.now();
     return {
       'local': formatDateTime(now, pattern: pattern),

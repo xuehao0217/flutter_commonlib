@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:common_core/base/mvvm/base_view_model.dart';
 import 'package:common_core/helpter/image_utils.dart';
-import 'package:common_core/helpter/image_picker_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -19,7 +18,8 @@ class WatermarkViewModel extends BaseViewModel {
   Future<void> getImage() async {
     try {
       isLoading.value = true;
-      final path = await ImagePickerHelper.takePhoto(
+
+      final path = await ImageUtils.pickImagePath(
         source: ImageSource.camera,
       );
 
@@ -55,7 +55,7 @@ class WatermarkViewModel extends BaseViewModel {
   Future<void> getImageToImage(BuildContext context) async {
     try {
       isLoading.value = true;
-      final takePhotoPath = await ImagePickerHelper.takePhoto(
+      final takePhotoPath = await ImageUtils.pickImagePath(
         source: ImageSource.camera,
       );
       if (takePhotoPath != null) {
