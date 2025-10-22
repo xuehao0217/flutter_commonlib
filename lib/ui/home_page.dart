@@ -49,7 +49,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
   Widget buildPageContent(BuildContext context) {
     return ListView(
       children: [
-        ChuckerFlutter.chuckerButton.intoPadding(EdgeInsets.all(15)),
+        ChuckerFlutter.chuckerButton.withPadding(EdgeInsets.all(15)),
         CommonButton(
           elevation: 2,
           circular: 10,
@@ -68,7 +68,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
               fontSize: 16,
             ),
           ),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
         CommonButton(
           elevation: 2,
           circular: 10,
@@ -85,7 +85,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
               fontSize: 16,
             ),
           ),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
         // CommonButton(
         //   elevation: 2,
         //   circular: 10,
@@ -153,7 +153,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
               fontSize: 16,
             ),
           ),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
 
         CommonButton(
           elevation: 2,
@@ -178,7 +178,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
               fontSize: 16,
             ),
           ),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
         CommonButton(
           elevation: 2,
           circular: 10,
@@ -195,7 +195,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
               fontSize: 16,
             ),
           ),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
 
         CommonButton(
           elevation: 2,
@@ -216,7 +216,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
               fontSize: 16,
             ),
           ),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
 
         CommonButton(
           elevation: 2,
@@ -234,7 +234,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
               fontSize: 16,
             ),
           ),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
         CommonButton(
           elevation: 2,
           circular: 10,
@@ -251,7 +251,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
               fontSize: 16,
             ),
           ),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
 
         Obx(
           () => CommonButton(
@@ -267,14 +267,14 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
               "当前缓存 ${viewModel.cacheSize}",
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
-          ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+          ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
         ),
         Hero(
           tag: "Hero",
-          child: Image.asset(R.assetsIcLogo, width: 200, height: 100).click(() {
+          child: Image.asset(R.assetsIcLogo, width: 200, height: 100).withClick(() {
             GetXRoute.to(RouterRULConfig.blurry);
           }),
-        ).intoPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
       ],
     );
   }

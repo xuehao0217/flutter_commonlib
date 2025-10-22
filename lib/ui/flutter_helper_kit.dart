@@ -53,7 +53,7 @@ class FlutterHelperKitState
               onEmpty: const Center(child: Text("暂无数据")),
             ),
 
-            Text("Hello").intoShapeClip(
+            Text("Hello").withShapeClip(
               height: 70,
               radius: 12,
               backgroundColor: Colors.green,

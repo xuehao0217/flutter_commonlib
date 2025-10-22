@@ -1,37 +1,96 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_helper_kit/widgets/sharp_corners/sharp_border_radius.dart';
 import 'package:flutter_helper_kit/widgets/sharp_corners/sharp_rectangle_border.dart';
-import 'package:get/get.dart';
 
-extension ClickExt on Widget {
-  Widget click(VoidCallback click) {
+/// 💡 Widget 扩展工具：
+///
+/// 统一封装点击、圆角、Padding、Container、布局包裹等常用修饰。
+///
+/// 支持链式写法：
+/// ```dart
+/// Text("Hello")
+///   .withPadding(const EdgeInsets.all(8))
+///   .withClipRRect(12)
+///   .withInkWell(onTap: () => print("Tapped"))
+///   .withContainer(color: Colors.blue)
+///   .withCenter();
+/// ```
+extension WidgetExt on Widget {
+  // --------------------
+  // 🎯 点击相关
+  // --------------------
+
+  /// 🖱️ 添加点击事件（支持防抖与空安全）
+  ///
+  /// [enable] 控制是否启用点击
+  /// [throttle] 限制两次点击最短间隔
+  Widget withClick(
+      VoidCallback? onTap, {
+        bool enable = true,
+        Duration throttle = const Duration(milliseconds: 300),
+      }) {
+    VoidCallback? effectiveTap;
+    if (enable && onTap != null) {
+      DateTime? _lastTap;
+      effectiveTap = () {
+        final now = DateTime.now();
+        if (_lastTap == null ||
+            now.difference(_lastTap!) > throttle) {
+          _lastTap = now;
+          onTap();
+        }
+      };
+    }
+
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: click,
+      onTap: effectiveTap,
       child: this,
     );
   }
 
-  //带水波纹的
-  Widget clickInkWell(VoidCallback click) {
-    return InkWell(onTap: click, child: this);
+  /// 🌊 InkWell 水波纹点击（支持圆角与自定义颜色）
+  Widget withInkWell({
+    required VoidCallback? onTap,
+    BorderRadius? borderRadius,
+    Color? splashColor,
+    Color? highlightColor,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: borderRadius,
+      splashColor: splashColor,
+      highlightColor: highlightColor,
+      child: this,
+    );
   }
 
-  Container intoContainer({
-    final Key? key,
-    final AlignmentGeometry? alignment = Alignment.center,
-    final EdgeInsetsGeometry? padding,
-    final Color? color,
-    final Decoration? decoration,
-    final Decoration? foregroundDecoration,
-    final double? width,
-    final double? height,
-    final BoxConstraints? constraints,
-    final EdgeInsetsGeometry? margin,
-    final Matrix4? transform,
+  // --------------------
+  // 🧱 布局与样式
+  // --------------------
+
+  /// 📦 包裹 Container（自动忽略空参数，避免冗余）
+  Widget withContainer({
+    Key? key,
+    AlignmentGeometry? alignment,
+    EdgeInsetsGeometry? padding,
+    Color? color,
+    Decoration? decoration,
+    double? width,
+    double? height,
+    EdgeInsetsGeometry? margin,
+    Matrix4? transform,
   }) {
+    assert(color == null || decoration == null,
+    'color 与 decoration 不能同时使用');
+    if (alignment == null &&
+        padding == null &&
+        color == null &&
+        decoration == null &&
+        width == null &&
+        height == null &&
+        margin == null &&
+        transform == null) return this;
     return Container(
       key: key,
       alignment: alignment,
@@ -46,91 +105,63 @@ extension ClickExt on Widget {
     );
   }
 
-  Widget intoHorizontalPadding(double padding) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: padding),
-      child: this,
-    );
-  }
+  /// 📏 添加统一的 Padding
+  Widget withPadding(EdgeInsetsGeometry padding) =>
+      Padding(padding: padding, child: this);
 
-  Widget intoVerticalPadding(double padding) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: padding),
-      child: this,
-    );
-  }
+  /// 📐 横向内边距
+  Widget withHorizontalPadding(double padding) =>
+      withPadding(EdgeInsets.symmetric(horizontal: padding));
 
-  Widget intoPadding(EdgeInsetsGeometry padding) {
-    return Padding(padding: padding, child: this);
-  }
+  /// 📏 纵向内边距
+  Widget withVerticalPadding(double padding) =>
+      withPadding(EdgeInsets.symmetric(vertical: padding));
 
-  Widget intoAlign([AlignmentGeometry alignment = Alignment.centerLeft]) {
-    return Align(alignment: alignment, child: this);
-  }
+  /// 🎯 居中或对齐
+  Widget withAlign([AlignmentGeometry alignment = Alignment.center]) =>
+      Align(alignment: alignment, child: this);
 
-  Widget intoCenter() {
-    return Center(child: this);
-  }
+  Widget withCenter() => Center(child: this);
 
-  //top =false 就代表忽略top
-  Widget intoSafeArea({bool bottom = true, bool top = true}) {
-    return SafeArea(bottom: bottom, top: top, child: this);
-  }
+  /// 🛡️ 添加 SafeArea 包裹
+  Widget withSafeArea({bool top = true, bool bottom = true}) =>
+      SafeArea(top: top, bottom: bottom, child: this);
 
-  Widget intoExpanded({int flex = 1}) {
-    return Expanded(child: this, flex: flex);
-  }
+  // --------------------
+  // 📐 尺寸与布局
+  // --------------------
 
-  Widget intoFlexible() {
-    return Flexible(child: this);
-  }
+  /// ⬛ Expanded 包裹
+  Widget withExpanded({int flex = 1}) => Expanded(flex: flex, child: this);
 
-  Widget intoClipRRect(double circular) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(circular),
-      child: this,
-    );
-  }
+  /// 🟩 Flexible 包裹
+  Widget withFlexible({int flex = 1, FlexFit fit = FlexFit.loose}) =>
+      Flexible(flex: flex, fit: fit, child: this);
 
-  Widget intoClipOval() {
-    return ClipOval(child: this);
-  }
+  /// ✂️ 圆角裁剪
+  Widget withClipRRect(double radius) =>
+      ClipRRect(borderRadius: BorderRadius.circular(radius), child: this);
 
-  // itemBuilder: (index, item) => FeedListItem(data: item).withContext((context) {
-  // // 这里的 context 就是当前 item 的 context
-  // // 你可以做曝光统计、弹窗、Theme.of(context)等
-  // }),
-  Widget intoBuilder(void Function(BuildContext context) onBuild) {
-    return Builder(
-      builder: (context) {
-        onBuild(context);
-        return this;
-      },
-    );
-  }
+  /// ⚪ 椭圆裁剪
+  Widget withClipOval() => ClipOval(child: this);
 
-  Widget intoSelection({ValueChanged<SelectedContent?>? onSelectionChanged}) {
-    return SelectionArea(child: this, onSelectionChanged: onSelectionChanged);
-  }
+  /// 📏 固定宽高
+  Widget withSizedBox({double? width, double? height}) =>
+      SizedBox(width: width, height: height, child: this);
 
-  Widget intoIntrinsicHeight() {
-    return IntrinsicHeight(child: this);
-  }
+  /// 🧱 拉伸占满父容器
+  Widget withSizedBoxExpand() => SizedBox.expand(child: this);
 
-  Widget intoIntrinsicWidth() {
-    return IntrinsicWidth(child: this);
-  }
+  /// ⚖️ 设置宽高比
+  Widget withAspectRatio(double ratio) =>
+      AspectRatio(aspectRatio: ratio, child: this);
 
-  Widget intoSizedBoxExpand() {
-    return SizedBox.expand(child: this);
-  }
+  // --------------------
+  // 🎨 自定义样式
+  // --------------------
 
-
-  Widget intoSizedBox({double? width, double? height}) {
-    return SizedBox(width: width, height: height, child: this);
-  }
-
-  Widget intoShapeClip({
+  /// 🟦 使用 SharpShape 实现直角裁剪与边框
+  Widget withShapeClip({
     double radius = 0,
     Color? backgroundColor,
     EdgeInsetsGeometry? margin,
@@ -150,10 +181,7 @@ extension ClickExt on Widget {
       decoration: ShapeDecoration(
         color: backgroundColor,
         shape: SharpRectangleBorder(
-          side: BorderSide(
-            color: borderColor, // 边框颜色
-            width: borderWidth, // 边框宽度
-          ),
+          side: BorderSide(color: borderColor, width: borderWidth),
           borderRadius: SharpBorderRadius(cornerRadius: radius),
         ),
       ),
@@ -161,13 +189,38 @@ extension ClickExt on Widget {
     );
   }
 
+  // --------------------
+  // 🧠 Context & Key
+  // --------------------
 
-  Widget intoAspectRatio(double aspectRatio){
-    return AspectRatio(
-      aspectRatio: aspectRatio,
-      child: this,
-    );
+  /// 🧠 传入 BuildContext（适合曝光埋点、Theme 获取等）
+  Widget withContext(void Function(BuildContext context) onBuild) {
+    return Builder(builder: (context) {
+      onBuild(context);
+      return this;
+    });
   }
+
+  /// 🔑 添加 Key
+  Widget withKey(Key key) => KeyedSubtree(key: key, child: this);
+
+  // --------------------
+  // 📏 Intrinsic 尺寸
+  // --------------------
+  /// ⚠️ 慎用，性能开销大
+  Widget withIntrinsicHeight() => IntrinsicHeight(child: this);
+  /// ⚠️ 慎用，性能开销大
+  Widget withIntrinsicWidth() => IntrinsicWidth(child: this);
+
+
+  // --------------------
+  // 👀 Visibility & Opacity
+  // --------------------
+
+  Widget withVisibility(bool visible) => visible ? this : const SizedBox.shrink();
+
+  Widget withOpacity(double value) => Opacity(opacity: value, child: this);
+
+  Widget withFittedBox({BoxFit fit = BoxFit.contain}) =>
+      FittedBox(fit: fit, child: this);
 }
-
-

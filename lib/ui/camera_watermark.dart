@@ -155,7 +155,7 @@ class _WatermarkPage
         text,
         style: _buttonTextStyle.copyWith(color: _buttonTextStyle.color),
       ),
-    ).intoPadding(_buttonPadding);
+    ).withPadding(_buttonPadding);
   }
 
   /// 处理拍照

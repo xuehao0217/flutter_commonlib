@@ -70,7 +70,7 @@ mixin BaseWidgetMixin {
     children: [
       if (showStatusBar()) getStatusBarWidget(context),
       if (showTitleBar()) getCommonTitleBarWidget(context),
-      content.intoContainer(color: setPageBgColor()).intoExpanded(),
+      content.withContainer(color: setPageBgColor()).withExpanded(),
       if (showNavigationBar())
         Container(height: context.navigationBarHeight, color: setPageBgColor()),
     ],

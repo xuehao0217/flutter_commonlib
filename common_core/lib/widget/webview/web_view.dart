@@ -120,7 +120,7 @@ class _WebViewPageState extends BaseStatefulWidget<WebViewPage> {
                   child: getCommonTitleBarWidget(context),
                 ),
             ],
-          ).intoExpanded(),
+          ).withExpanded(),
         ],
       ),
     );

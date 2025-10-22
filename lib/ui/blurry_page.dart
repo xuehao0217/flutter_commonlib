@@ -26,7 +26,7 @@ class _BlurryState extends BaseStatefulWidget<BlurryPage> {
                 width: double.infinity,
                 height: double.infinity,
                 child: Hero(tag: "Hero",
-                  child: Image.asset(R.assetsIcLogo).click(() {
+                  child: Image.asset(R.assetsIcLogo).withClick(() {
                     controller.forward();
                     // controller1.forward();
                   }),))

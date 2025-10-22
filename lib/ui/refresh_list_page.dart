@@ -59,11 +59,11 @@ class _RefreshListPage
                     "${viewModel.datas[index].title}",
                     style: const TextStyle(color: Colors.white),
                   )
-                  .intoContainer(
+                  .withContainer(
                     color: Colors.green,
                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
                   )
-                  .intoIntrinsicHeight();
+                  .withIntrinsicHeight();
             },
           )
           //     .intoRefresh(onLoad: () async {

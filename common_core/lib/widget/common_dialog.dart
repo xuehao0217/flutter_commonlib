@@ -80,7 +80,7 @@ class TwoBtContentDialog extends StatelessWidget {
                   left,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: cl_666666),
                   textAlign: TextAlign.center,
-                ).click((){
+                ).withClick((){
                   onLeftTap?.call();
                 }),
               ),
@@ -90,7 +90,7 @@ class TwoBtContentDialog extends StatelessWidget {
                   right,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: cl_right),
                   textAlign: TextAlign.center,
-                ).click((){
+                ).withClick((){
                   onRightTap?.call();
                 }),
               ),

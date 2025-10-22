@@ -186,7 +186,7 @@ class _TabBarLineIndicatorPageState<T>
             final item = widget.items[index];
             return widget.pageBuilder(item, index);
           },
-        ).intoSizedBox(height: widget.pageViewHeight),
+        ).withSizedBox(height: widget.pageViewHeight),
       ],
     );
   }
