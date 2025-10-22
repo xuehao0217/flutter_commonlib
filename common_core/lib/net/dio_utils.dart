@@ -149,36 +149,62 @@ class HttpUtils {
     CancelToken? cancelToken,
     Options? options,
   }) {
-    Stream.fromFuture(
-      _request(
-        method.value,
-        url,
-        data: params,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
-      ),
-    ).asBroadcastStream().listen((result) {
-        if (result.isSuccess()) {
-          var resultData = _jsonConvertAsT<T>(result.data);
-          if (resultData != null) {
-            onSuccess?.call(resultData);
-          } else {
-            _onError(result.errorCode, result.errorMsg, onError);
-          }
+    _request(
+      method.value,
+      url,
+      data: params,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+    ).then((result) {
+      if (result.isSuccess()) {
+        final resultData = _jsonConvertAsT<T>(result.data);
+        if (resultData != null) {
+          onSuccess?.call(resultData);
         } else {
           _onError(result.errorCode, result.errorMsg, onError);
         }
-      },
-      onError: (error) {
-        if (CancelToken.isCancel(error)) {
-          _onError(NetExceptionHandle.net_cancel, '请求已取消', onError);
-        } else {
-          _onError(NetExceptionHandle.net_error, error.toString(), onError);
-        }
-      },
-      onDone: onFinally,
-    );
+      } else {
+        _onError(result.errorCode, result.errorMsg, onError);
+      }
+    }).catchError((error) {
+      if (CancelToken.isCancel(error)) {
+        _onError(NetExceptionHandle.net_cancel, '请求已取消', onError);
+      } else {
+        _onError(NetExceptionHandle.net_error, error.toString(), onError);
+      }
+    }).whenComplete(() => onFinally?.call());
+
+    // Stream.fromFuture(
+    //   _request(
+    //     method.value,
+    //     url,
+    //     data: params,
+    //     queryParameters: queryParameters,
+    //     options: options,
+    //     cancelToken: cancelToken,
+    //   ),
+    // ).asBroadcastStream().listen((result) {
+    //     if (result.isSuccess()) {
+    //       var resultData = _jsonConvertAsT<T>(result.data);
+    //       if (resultData != null) {
+    //         onSuccess?.call(resultData);
+    //       } else {
+    //         _onError(result.errorCode, result.errorMsg, onError);
+    //       }
+    //     } else {
+    //       _onError(result.errorCode, result.errorMsg, onError);
+    //     }
+    //   },
+    //   onError: (error) {
+    //     if (CancelToken.isCancel(error)) {
+    //       _onError(NetExceptionHandle.net_cancel, '请求已取消', onError);
+    //     } else {
+    //       _onError(NetExceptionHandle.net_error, error.toString(), onError);
+    //     }
+    //   },
+    //   onDone: onFinally,
+    // );
   }
 
   static void _onError(int code, String msg, NetErrorCallback? onError) {
