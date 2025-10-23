@@ -63,7 +63,9 @@ class HttpUtils {
       ),
     );
 
-    _interceptors.addAll(interceptors);
+    if(interceptors.isNotEmpty){
+      _interceptors.addAll(interceptors);
+    }
     _interceptors.forEach((interceptor) {
       _dio.interceptors.add(interceptor);
     });
