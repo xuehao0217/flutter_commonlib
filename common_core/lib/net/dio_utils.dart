@@ -50,8 +50,8 @@ class HttpUtils {
     List<Interceptor> interceptors = const [],
   ]) {
     _jsonConvertAsT = jsonConvertAsT;
-    _dio = Dio(
-      BaseOptions(
+
+    _dio = Dio(BaseOptions(
         connectTimeout: Duration(seconds: 15),
         receiveTimeout: Duration(seconds: 15),
         sendTimeout: Duration(seconds: 15),
