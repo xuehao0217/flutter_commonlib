@@ -57,7 +57,7 @@ mixin BaseWidgetMixin {
     backgroundColor: setTitleBgColor(),
     title: setTitle(),
     backIcon: setBackIcon(),
-    backCallBack: () => onBackPressed,
+    backCallBack: () => onBackPressed(),
     rightWidget: setRightTitleContent(),
     height: 44,
   );
