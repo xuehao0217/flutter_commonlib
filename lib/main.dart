@@ -21,8 +21,10 @@ import 'generated/json/base/json_convert_content.dart';
 Future<void> main() async {
   await CommonCore().init(R.assetsIcLogo);
 
-  HttpUtils.init(HttpApi.baseUrl,JsonConvert.fromJsonAsT,[]);
-  HttpUtils.setHeader("Authorization","token");
+  HttpUtils.init(HttpApi.baseUrl,JsonConvert.fromJsonAsT,headers: {
+    "App-Version": "1.0.0",
+    "App-Platform": "flutter",
+  });
 
   runApp(MyApp());
 }

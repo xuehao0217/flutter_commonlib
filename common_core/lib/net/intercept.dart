@@ -1,20 +1,57 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'net.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class HeaderInterceptor extends Interceptor {
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    var p =await  PackageInfo.fromPlatform();
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    var iosInfo = await deviceInfo.iosInfo;
-    options.headers["version"] =p.version;
-    options.headers["deviceId"] = iosInfo.identifierForVendor;
-    options.headers["modelName"] = iosInfo.modelName ;
-    options.headers["osVersion"] = iosInfo.systemVersion;
-    options.headers["model"] = iosInfo.model ;
+    final packageInfo = await PackageInfo.fromPlatform();
+    final deviceInfoPlugin = DeviceInfoPlugin();
+
+    final connectivity = await Connectivity().checkConnectivity();
+    String networkType = switch (connectivity) {
+      ConnectivityResult.wifi => 'WiFi',
+      ConnectivityResult.mobile => 'Mobile',
+      ConnectivityResult.none => 'None',
+      _ => 'Unknown',
+    };
+
+    if (Platform.isIOS) {
+      final iosInfo = await deviceInfoPlugin.iosInfo;
+      options.headers.addAll({
+        "appName": packageInfo.appName,
+        "version": packageInfo.version,
+        "buildNumber": packageInfo.buildNumber,
+        "packageName": packageInfo.packageName,
+        "deviceId": iosInfo.identifierForVendor,
+        "model": iosInfo.utsname.machine,
+        "modelName": iosInfo.model,
+        "os": "iOS",
+        "osVersion": iosInfo.systemVersion,
+        "brand": "Apple",
+        "networkType": networkType,
+        "platform": "flutter",
+      });
+    } else if (Platform.isAndroid) {
+      final androidInfo = await deviceInfoPlugin.androidInfo;
+      options.headers.addAll({
+        "appName": packageInfo.appName,
+        "version": packageInfo.version,
+        "buildNumber": packageInfo.buildNumber,
+        "packageName": packageInfo.packageName,
+        "deviceId": androidInfo.id,
+        "model": androidInfo.model,
+        "brand": androidInfo.brand,
+        "os": "Android",
+        "osVersion": androidInfo.version.release,
+        "networkType": networkType,
+        "platform": "flutter",
+      });
+    }
     super.onRequest(options, handler);
   }
 }

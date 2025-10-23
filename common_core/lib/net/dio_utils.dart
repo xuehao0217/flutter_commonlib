@@ -36,7 +36,6 @@ List<Interceptor> _interceptors = [
   RestoreRawDataInterceptor(),
 ];
 
-
 class HttpUtils {
   static late Dio _dio;
 
@@ -46,12 +45,14 @@ class HttpUtils {
 
   static void init(
     String baseUrl,
-    JsonConvertAsT jsonConvertAsT, [
+    JsonConvertAsT jsonConvertAsT, {
     List<Interceptor> interceptors = const [],
-  ]) {
+    Map<String, dynamic>? headers,
+  }) {
     _jsonConvertAsT = jsonConvertAsT;
 
-    _dio = Dio(BaseOptions(
+    _dio = Dio(
+      BaseOptions(
         connectTimeout: Duration(seconds: 15),
         receiveTimeout: Duration(seconds: 15),
         sendTimeout: Duration(seconds: 15),
@@ -60,10 +61,11 @@ class HttpUtils {
           return true;
         },
         baseUrl: baseUrl,
+        headers: headers,
       ),
     );
 
-    if(interceptors.isNotEmpty){
+    if (interceptors.isNotEmpty) {
       _interceptors.addAll(interceptors);
     }
     _interceptors.forEach((interceptor) {
@@ -92,7 +94,11 @@ class HttpUtils {
       return BaseEntity.fromJson(map);
     } catch (e) {
       debugPrint(e.toString());
-      return BaseEntity(errorCode: NetExceptionHandle.net_parse_error, errorMsg: '数据解析错误！', data: null);
+      return BaseEntity(
+        errorCode: NetExceptionHandle.net_parse_error,
+        errorMsg: '数据解析错误！',
+        data: null,
+      );
     }
   }
 
@@ -149,30 +155,33 @@ class HttpUtils {
     Options? options,
   }) {
     _request(
-      method.value,
-      url,
-      data: params,
-      queryParameters: queryParameters,
-      options: options,
-      cancelToken: cancelToken,
-    ).then((result) {
-      if (result.isSuccess()) {
-        final resultData = _jsonConvertAsT<T>(result.data);
-        if (resultData != null) {
-          onSuccess?.call(resultData);
-        } else {
-          _onError(result.errorCode, result.errorMsg, onError);
-        }
-      } else {
-        _onError(result.errorCode, result.errorMsg, onError);
-      }
-    }).catchError((error) {
-      if (CancelToken.isCancel(error)) {
-        _onError(NetExceptionHandle.net_cancel, '请求已取消', onError);
-      } else {
-        _onError(NetExceptionHandle.net_error, error.toString(), onError);
-      }
-    }).whenComplete(() => onFinally?.call());
+          method.value,
+          url,
+          data: params,
+          queryParameters: queryParameters,
+          options: options,
+          cancelToken: cancelToken,
+        )
+        .then((result) {
+          if (result.isSuccess()) {
+            final resultData = _jsonConvertAsT<T>(result.data);
+            if (resultData != null) {
+              onSuccess?.call(resultData);
+            } else {
+              _onError(result.errorCode, result.errorMsg, onError);
+            }
+          } else {
+            _onError(result.errorCode, result.errorMsg, onError);
+          }
+        })
+        .catchError((error) {
+          if (CancelToken.isCancel(error)) {
+            _onError(NetExceptionHandle.net_cancel, '请求已取消', onError);
+          } else {
+            _onError(NetExceptionHandle.net_error, error.toString(), onError);
+          }
+        })
+        .whenComplete(() => onFinally?.call());
 
     // Stream.fromFuture(
     //   _request(

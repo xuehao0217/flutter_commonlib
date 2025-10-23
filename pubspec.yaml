@@ -49,6 +49,7 @@ dependencies:
   permission_handler: ^12.0.1     #https://pub-web.flutter-io.cn/packages/permission_handler/example
   device_info_plus: ^11.4.0       #https://pub-web.flutter-io.cn/packages/device_info_plus/example
   flutter_local_notifications: ^19.3.0 #https://pub-web.flutter-io.cn/packages/flutter_local_notifications
+#  connectivity_plus: ^7.0.0       #https://pub-web.flutter-io.cn/packages/connectivity_plus
   #组件
   extended_image: ^10.0.1          #https://pub-web.flutter-io.cn/packages/extended_image
   custom_refresh_indicator: ^4.0.1 #https://pub.dev/packages/custom_refresh_indicator/install

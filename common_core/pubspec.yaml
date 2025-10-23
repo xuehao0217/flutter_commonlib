@@ -31,6 +31,7 @@ dependencies:
   permission_handler:         #https://pub-web.flutter-io.cn/packages/permission_handler/example
   device_info_plus:           #https://pub-web.flutter-io.cn/packages/device_info_plus/example
   flutter_local_notifications: #https://pub-web.flutter-io.cn/packages/flutter_local_notifications
+#  connectivity_plus:           #https://pub-web.flutter-io.cn/packages/connectivity_plus
   #组件
   extended_image:             #https://pub-web.flutter-io.cn/packages/extended_image
   custom_refresh_indicator:   #https://pub.dev/packages/custom_refresh_indicator/install
