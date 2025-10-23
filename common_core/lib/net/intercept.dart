@@ -13,10 +13,12 @@ class HeaderInterceptor extends Interceptor {
     final deviceInfoPlugin = DeviceInfoPlugin();
 
     final connectivity = await Connectivity().checkConnectivity();
-    String networkType = switch (connectivity) {
+
+    String networkType = switch (connectivity.first) {
       ConnectivityResult.wifi => 'WiFi',
       ConnectivityResult.mobile => 'Mobile',
       ConnectivityResult.none => 'None',
+      ConnectivityResult.vpn => 'Vpn',
       _ => 'Unknown',
     };
 
