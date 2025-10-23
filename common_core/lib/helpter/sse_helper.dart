@@ -4,7 +4,28 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../net/base_entity.dart';
+import '../net/dio_utils.dart';
 
+void main(){
+  final url = Uri.parse(
+    'https://www.wanandroid.com?content_type=news'
+  );
+  StreamSubscription<SSEModel>? _sseSubscription;
+  _sseSubscription?.cancel();
+  _sseSubscription=SSEClient.subscribeToSSE(
+    method: SSERequestType.GET,
+    url: url.toString(),
+    header: Map<String, String>.from(HttpUtils.dio.options.headers),
+  ).listen((event) {
+    if (event.data != null) {
+      try {
+        final Map<String, dynamic> json = jsonDecode(event.data!);
+      } catch (e) {
+        print('Error parsing JSON: $e');
+      }
+    }
+  });
+}
 /// SSE 数据模型
 class SSEModel {
   String? data;
