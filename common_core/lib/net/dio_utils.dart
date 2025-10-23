@@ -11,11 +11,13 @@ import 'net.dart';
 
 typedef JsonConvertAsT = T? Function<T>(dynamic data);
 
+typedef NetSuccessListCallback<T> = Function(List<T> data);
+typedef NetSuccessCallback<T> = Function(T data);
+typedef NetErrorCallback = Function(int code, String msg);
+
 /// 默认dio配置
-String _baseUrl = '';
 List<Interceptor> _interceptors = [
   HeaderInterceptor(),
-
   // LoggingInterceptor(),
   DecodeForChuckerInterceptor(),
   ChuckerDioInterceptor(),
@@ -34,9 +36,6 @@ List<Interceptor> _interceptors = [
   RestoreRawDataInterceptor(),
 ];
 
-typedef NetSuccessListCallback<T> = Function(List<T> data);
-typedef NetSuccessCallback<T> = Function(T data);
-typedef NetErrorCallback = Function(int code, String msg);
 
 class HttpUtils {
   static late Dio _dio;
@@ -50,7 +49,6 @@ class HttpUtils {
     JsonConvertAsT jsonConvertAsT, [
     List<Interceptor> interceptors = const [],
   ]) {
-    _baseUrl = baseUrl;
     _jsonConvertAsT = jsonConvertAsT;
     _dio = Dio(
       BaseOptions(
@@ -61,12 +59,11 @@ class HttpUtils {
         validateStatus: (_) {
           return true;
         },
-        baseUrl: _baseUrl,
+        baseUrl: baseUrl,
       ),
     );
 
     _interceptors.addAll(interceptors);
-
     _interceptors.forEach((interceptor) {
       _dio.interceptors.add(interceptor);
     });
