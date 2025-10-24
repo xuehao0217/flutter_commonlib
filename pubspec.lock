@@ -49,6 +49,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.3"
+  any_refreshable_widget:
+    dependency: "direct main"
+    description:
+      name: any_refreshable_widget
+      sha256: "87562a6e0b7d31a3f64180ddbe0a13dac45049b057bd472982f994aa9557e362"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.0"
   archive:
     dependency: transitive
     description:
@@ -1514,13 +1522,13 @@ packages:
     source: sdk
     version: "0.0.0"
   smart_scroll:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: smart_scroll
-      sha256: ef083e3fe5a6b6098ee72f5612d6d3fd3b541e45bb5d85415df7e7108d443414
+      sha256: "959869c11331287a7d820044cff60bcb898d6d8dfbfc6ed569f853062f9f5da3"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   smooth_page_indicator:
     dependency: "direct main"
     description:

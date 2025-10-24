@@ -34,11 +34,14 @@ dependencies:
 #  connectivity_plus:           #https://pub-web.flutter-io.cn/packages/connectivity_plus
   #组件
   extended_image:             #https://pub-web.flutter-io.cn/packages/extended_image
+  #下拉刷新加载更多
+  any_refreshable_widget:     #https://pub-web.flutter-io.cn/packages/any_refreshable_widget
   custom_refresh_indicator:   #https://pub.dev/packages/custom_refresh_indicator/install
   paging_view:                #https://pub.dev/packages/paging_view
   easy_refresh:               #https://pub.dev/packages/easy_refresh/example
   smart_scroll:               #https://pub.dev/packages/smart_scroll
   #pull_to_refresh: ^2.0.0    #https://github.com/peng8350/flutter_pulltorefresh
+
   path_provider:              #https://pub-web.flutter-io.cn/packages/path_provider
   image_picker:               #https://pub-web.flutter-io.cn/packages/image_picker
   url_launcher:               #https://pub-web.flutter-io.cn/packages/url_launcher/install

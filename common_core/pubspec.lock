@@ -49,6 +49,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.3"
+  any_refreshable_widget:
+    dependency: "direct main"
+    description:
+      name: any_refreshable_widget
+      sha256: "87562a6e0b7d31a3f64180ddbe0a13dac45049b057bd472982f994aa9557e362"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.0"
   archive:
     dependency: transitive
     description:
