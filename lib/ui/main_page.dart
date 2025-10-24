@@ -35,8 +35,11 @@ class _MainPage extends BaseStatefulWidget with WidgetsBindingObserver {
 
   @override
   Widget buildPageContent(BuildContext context) => BottomNavigationBarWidget(
-    selectedItemColor: Colors.blue,
-    unselectedItemColor: Colors.grey,
+    lightSelectedItemColor: Colors.deepPurpleAccent,
+    lightUnselectedItemColor: Colors.grey,
+    darkSelectedItemColor: Colors.white,
+    darkUnselectedItemColor: Colors.white38,
+
     bottomNavigationBarItems: const [
       // 导航子项
       BottomNavigationBarItem(
@@ -44,24 +47,11 @@ class _MainPage extends BaseStatefulWidget with WidgetsBindingObserver {
         icon: Icon(Icons.home),
         // 文字内容
         label: '首页',
-        backgroundColor: Colors.blue,
       ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.message_rounded),
-        label: '消息',
-        backgroundColor: Colors.orange,
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.people),
-        label: '我的',
-        backgroundColor: Colors.red,
-      ),
+      BottomNavigationBarItem(icon: Icon(Icons.message_rounded), label: '消息'),
+      BottomNavigationBarItem(icon: Icon(Icons.people), label: '我的'),
     ],
-    children: [
-      HomePage(),
-      MsgPage(),
-      MyPage(),
-    ],
+    children: [HomePage(), MsgPage(), MyPage()],
   );
 
   @override
@@ -79,19 +69,19 @@ class _MainPage extends BaseStatefulWidget with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-      // 处理应用恢复到前台的逻辑
+        // 处理应用恢复到前台的逻辑
         print("didChangeAppLifecycleState  处理应用恢复到前台的逻辑");
         break;
       case AppLifecycleState.inactive:
-      // 处理应用即将进入后台的逻辑
+        // 处理应用即将进入后台的逻辑
         print("didChangeAppLifecycleState  处理应用即将进入后台的逻辑");
         break;
       case AppLifecycleState.paused:
-      // 处理应用进入后台的逻辑，如保存数据、暂停定时任务等
+        // 处理应用进入后台的逻辑，如保存数据、暂停定时任务等
         print("didChangeAppLifecycleState 处理应用进入后台的逻辑，如保存数据、暂停定时任务等");
         break;
       case AppLifecycleState.detached:
-      // 处理应用终止或关闭的逻辑
+        // 处理应用终止或关闭的逻辑
         print("didChangeAppLifecycleState 处理应用终止或关闭的逻辑");
         break;
       case AppLifecycleState.hidden:

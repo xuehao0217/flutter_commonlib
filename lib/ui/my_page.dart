@@ -146,6 +146,7 @@ class _MyPageState extends BaseStatefulWidget<MyPage> {
                     property,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
+                      color: Colors.black
                     ),
                   ),
                 ),
@@ -156,6 +157,10 @@ class _MyPageState extends BaseStatefulWidget<MyPage> {
                       '${_deviceData[property]}',
                       maxLines: 10,
                       overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black
+                      ),
                     ),
                   ),
                 ),

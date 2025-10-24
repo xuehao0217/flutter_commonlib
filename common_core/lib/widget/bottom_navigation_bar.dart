@@ -1,123 +1,151 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../style/theme.dart';
-
+/// 通用底部导航栏组件
+///
+/// 支持：
+/// - ✅ 明暗模式自动适配（暗黑模式颜色与亮色模式分开设置）
+/// - ✅ 禁用滑动切换（使用 BottomNavigationBar 点击切换）
+/// - ✅ 自定义字体大小、图标大小、选中/未选中颜色
+///
+/// 示例：
+/// ```dart
+/// BottomNavigationBarWidget(
+///   children: [HomePage(), MessagePage(), ProfilePage()],
+///   bottomNavigationBarItems: const [
+///     BottomNavigationBarItem(icon: Icon(Icons.home), label: '首页'),
+///     BottomNavigationBarItem(icon: Icon(Icons.message), label: '消息'),
+///     BottomNavigationBarItem(icon: Icon(Icons.person), label: '我的'),
+///   ],
+///   lightSelectedItemColor: Colors.deepPurpleAccent,
+///   lightUnselectedItemColor: Colors.grey,
+///   darkSelectedItemColor: Colors.white,
+///   darkUnselectedItemColor: Colors.white38,
+/// )
+/// ```
 class BottomNavigationBarWidget extends StatefulWidget {
-  @override
-  _BottomNavigationBarWidget createState() => _BottomNavigationBarWidget();
-
+  /// 页面内容列表，每个子项对应一个底部导航项
   final List<Widget> children;
-  final List<BottomNavigationBarItem> bottomNavigationBarItems;
-  final Color selectedItemColor, unselectedItemColor;
-  final double selectedFontSize, unselectedFontSize,iconSize;
-  final int initialPage=0;
 
-  BottomNavigationBarWidget({
+  /// 底部导航栏的 item 列表（图标 + 文本）
+  final List<BottomNavigationBarItem> bottomNavigationBarItems;
+
+  /// 明亮模式下 —— 选中图标和文字的颜色
+  final Color? lightSelectedItemColor;
+
+  /// 明亮模式下 —— 未选中图标和文字的颜色
+  final Color? lightUnselectedItemColor;
+
+  /// 暗黑模式下 —— 选中图标和文字的颜色
+  final Color? darkSelectedItemColor;
+
+  /// 暗黑模式下 —— 未选中图标和文字的颜色
+  final Color? darkUnselectedItemColor;
+
+  /// 选中文字大小（默认 14）
+  final double selectedFontSize;
+
+  /// 未选中文字大小（默认 12）
+  final double unselectedFontSize;
+
+  /// 图标大小（默认 24）
+  final double iconSize;
+
+  /// 初始显示的页面索引（默认 0）
+  final int initialPage;
+
+  const BottomNavigationBarWidget({
     super.key,
     required this.children,
     required this.bottomNavigationBarItems,
-    this.selectedItemColor = Colors.deepPurpleAccent,
-    this.unselectedItemColor = Colors.blue,
+    this.lightSelectedItemColor,
+    this.lightUnselectedItemColor,
+    this.darkSelectedItemColor,
+    this.darkUnselectedItemColor,
     this.selectedFontSize = 14,
-    this.unselectedFontSize = 14,  this.iconSize=24,
+    this.unselectedFontSize = 12,
+    this.iconSize = 24,
+    this.initialPage = 0,
   });
+
+  @override
+  State<BottomNavigationBarWidget> createState() => _BottomNavigationBarWidgetState();
 }
 
-class _BottomNavigationBarWidget extends State<BottomNavigationBarWidget> {
-  // 当前子项索引
-  int currentIndex = 0;
+class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
+  /// 当前选中的导航索引
+  late int currentIndex;
+
+  /// 页面控制器，用于切换 PageView 页面
+  late PageController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.initialPage;
+    controller = PageController(initialPage: widget.initialPage);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final PageController controller = PageController(initialPage: widget.initialPage);
-    return Scaffold(
-        body: PageView(
-          physics: const NeverScrollableScrollPhysics(), // 禁用滑动
-          controller: controller,
-          onPageChanged: (value) {
-            setState(() {
-              currentIndex = value;
-            });
-          },
-          children: widget.children,
-        ),
-        // 底部导航栏
-        bottomNavigationBar: Theme(
-          data: ThemeData(
-            // 去掉水波纹效果
-            splashColor: Colors.transparent,
-            // 去掉长按效果
-            highlightColor: Colors.transparent,
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: getThemeData().scaffoldBackgroundColor,
-            // 当前页面索引
-            currentIndex: currentIndex,
-            // 设置文字大小
-            selectedFontSize: widget.selectedFontSize,
-            unselectedFontSize: widget.unselectedFontSize,
-            // 背景颜色
-            // backgroundColor: Colors.black,
-            // 选中颜色
-            selectedItemColor: widget.selectedItemColor,
-            // 未选中颜色
-            unselectedItemColor: widget.unselectedItemColor,
-            // fixedColor: Colors.red,
-            // 显示选中的文字 动画
-            // type: BottomNavigationBarType.shifting,
-            // 显示选中的文字
-            showSelectedLabels: true,
-            // 显示不选中时文字
-            showUnselectedLabels: true,
-            // 选中图标主题
-            selectedIconTheme: IconThemeData(
-              // 图标颜色
-              color: widget.selectedItemColor,
-              // 图标大小
-              size: widget.iconSize,
-              // 图标透明度
-              opacity: 1.0,
-            ),
+    final brightness = Theme.of(context).brightness;
 
-            // // 未选中图标主题
-            unselectedIconTheme: IconThemeData(
-              color: widget.unselectedItemColor,
-              size: widget.iconSize,
-              opacity: 0.5,
-            ),
-            items: widget.bottomNavigationBarItems,
-            // 导航子项集
-            // items: const [
-            //   // 导航子项
-            //   BottomNavigationBarItem(
-            //     // 图标
-            //     icon: Icon(Icons.home),
-            //     // 文字内容
-            //     label: '首页',
-            //type: BottomNavigationBarType.shifting 和这个配合
-            //     backgroundColor: Colors.blue,
-            //   ),
-            //   BottomNavigationBarItem(
-            //     icon: Icon(Icons.message_rounded),
-            //     label: '消息',
-            //type: BottomNavigationBarType.shifting 和这个配合
-            //     backgroundColor: Colors.orange,
-            //   ),
-            //   BottomNavigationBarItem(
-            //     icon: Icon(Icons.people),
-            //     label: '我的',
-            //type: BottomNavigationBarType.shifting 和这个配合
-            //     backgroundColor: Colors.red,
-            //   ),
-            // ],
-            onTap: (int index) {
-              setState(() {
-                currentIndex = index;
-                controller.jumpToPage(currentIndex);
-              });
-            },
+    // 根据亮暗模式自动选择颜色
+    final Color selectedColor = brightness == Brightness.dark
+        ? (widget.darkSelectedItemColor ?? Colors.white)
+        : (widget.lightSelectedItemColor ?? Colors.deepPurpleAccent);
+
+    final Color unselectedColor = brightness == Brightness.dark
+        ? (widget.darkUnselectedItemColor ?? Colors.white60)
+        : (widget.lightUnselectedItemColor ?? Colors.blueGrey);
+
+    return Scaffold(
+      // 主体内容区
+      body: PageView(
+        controller: controller,
+        physics: const NeverScrollableScrollPhysics(), // 禁止滑动切换
+        onPageChanged: (index) => setState(() => currentIndex = index),
+        children: widget.children,
+      ),
+
+      // 底部导航栏
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          splashColor: Colors.transparent, // 去掉水波纹
+          highlightColor: Colors.transparent, // 去掉长按高亮
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          currentIndex: currentIndex,
+          selectedFontSize: widget.selectedFontSize,
+          unselectedFontSize: widget.unselectedFontSize,
+          selectedItemColor: selectedColor,
+          unselectedItemColor: unselectedColor,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+
+          selectedIconTheme: IconThemeData(
+            color: selectedColor,
+            size: widget.iconSize,
           ),
-        ));
+          unselectedIconTheme: IconThemeData(
+            color: unselectedColor,
+            size: widget.iconSize,
+          ),
+
+          items: widget.bottomNavigationBarItems,
+          onTap: (index) {
+            if (index == currentIndex) return; // 防止重复点击
+            setState(() => currentIndex = index);
+            controller.jumpToPage(index);
+          },
+        ),
+      ),
+    );
   }
 }
