@@ -1,90 +1,92 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-//创建Dark ThemeData对象
+/// =======================
+/// 全局主题管理配置
+/// =======================
+
+/// 🌙 暗黑模式主题
 final ThemeData appDarkThemeData = ThemeData(
   brightness: Brightness.dark,
   primaryColor: Colors.deepPurple,
-
-  ///主色调
-  // 主要部分背景颜色（导航和tabBar等）
   scaffoldBackgroundColor: Colors.black,
-
-  //Scaffold的背景颜色。典型Material应用程序或应用程序内页面的背景颜色
-  textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.white)),
-  //设置AppBar的主题
-  appBarTheme: AppBarTheme(
+  textTheme: const TextTheme(
+    bodyMedium: TextStyle(color: Colors.white),
+  ),
+  appBarTheme: const AppBarTheme(
     backgroundColor: Colors.black,
-    iconTheme: IconThemeData(color: Colors.black),
+    iconTheme: IconThemeData(color: Colors.white),
+    elevation: 0,
+  ),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    backgroundColor: Colors.black,
+    selectedItemColor: Colors.white,
+    unselectedItemColor: Colors.white54,
   ),
 );
 
-//创建light ThemeData对象
+/// ☀️ 明亮模式主题
 final ThemeData appLightThemeData = ThemeData(
   brightness: Brightness.light,
   primaryColor: Colors.blue,
-
-  ///主色调
-  // 主要部分背景颜色（导航和tabBar等）
   scaffoldBackgroundColor: Colors.white,
-
-  //Scaffold的背景颜色。典型Material应用程序或应用程序内页面的背景颜色
-  textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.white)),
-  appBarTheme: AppBarTheme(
-    iconTheme: IconThemeData(color: Colors.black),
+  textTheme: const TextTheme(
+    bodyMedium: TextStyle(color: Colors.black),
+  ),
+  appBarTheme: const AppBarTheme(
     backgroundColor: Colors.transparent,
+    iconTheme: IconThemeData(color: Colors.black),
+    elevation: 0,
+  ),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    backgroundColor: Colors.white,
+    selectedItemColor: Colors.deepPurpleAccent,
+    unselectedItemColor: Colors.grey,
   ),
 );
 
+/// =======================
+/// 工具方法
+/// =======================
+
+/// 当前是否暗黑模式
 bool isDarkMode() {
-  // if (Get.isPlatformDarkMode) {
-  //   return true;
-  // } else {
-  //   if (Get.isDarkMode) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+  // 优先 GetX 的手动暗黑模式，其次根据系统判断
   return Get.isDarkMode || Get.isPlatformDarkMode;
 }
 
-ThemeData getThemeData() {
-  if (isDarkMode()) {
-    return appDarkThemeData;
-  } else {
-    return appLightThemeData;
-  }
-}
+/// 获取当前主题数据（亮/暗自动适配）
+ThemeData getThemeData() => isDarkMode() ? appDarkThemeData : appLightThemeData;
 
+/// 获取当前文本样式
 TextTheme getThemeTextTheme() => getThemeData().textTheme;
 
-// return AnnotatedRegion<SystemUiOverlayStyle>(
-//   value: getStatusBarStyle(),
-//   child: _buildContent(),
-// );
+/// 获取状态栏样式（适配亮/暗主题）
 SystemUiOverlayStyle getStatusBarStyle() {
-  //MediaQuery.of(context).platformBrightness == Brightness.dark
-  final isDarkModeTheme = isDarkMode();
-  final statusBarColor =
-      isDarkModeTheme ? Colors.black : Colors.white; // 根据暗黑模式选择颜色
-  final statusBarIconBrightness =
-      isDarkModeTheme ? Brightness.light : Brightness.dark; // 根据暗黑模式选择图标颜色
+  final dark = isDarkMode();
   return SystemUiOverlayStyle(
-    statusBarColor: statusBarColor,
-    statusBarIconBrightness: statusBarIconBrightness,
+    statusBarColor: dark ? Colors.black : Colors.white,
+    statusBarIconBrightness: dark ? Brightness.light : Brightness.dark,
+    systemNavigationBarColor: dark ? Colors.black : Colors.white,
+    systemNavigationBarIconBrightness: dark ? Brightness.light : Brightness.dark,
   );
 }
 
-//color 为null 不显示状态栏
+/// 动态修改状态栏样式
+///
+/// [color] 为 `null` 时不修改背景色，保持透明；
+/// [iconBrightness] 可选传入以自定义图标亮度。
 void changeStatusBarColor({Color? color, Brightness? iconBrightness}) {
+  final dark = isDarkMode();
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
-      statusBarColor: color,
-      statusBarIconBrightness: iconBrightness,
+      statusBarColor: color ?? (dark ? Colors.black : Colors.white),
+      statusBarIconBrightness:
+      iconBrightness ?? (dark ? Brightness.light : Brightness.dark),
+      systemNavigationBarColor: color ?? (dark ? Colors.black : Colors.white),
+      systemNavigationBarIconBrightness:
+      iconBrightness ?? (dark ? Brightness.light : Brightness.dark),
     ),
   );
 }

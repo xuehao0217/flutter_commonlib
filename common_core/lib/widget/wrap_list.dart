@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-// WrapList<String>(
-// items: ["苹果", "香蕉", "橘子", "哈密瓜", "火龙果", "樱桃"],
-// spacing: 12,
-// runSpacing: 12,
-// padding: const EdgeInsets.all(16),
-// itemBuilder: (context, item, index) {
-// return Chip(label: Text(item));
-// },
-// ),
+void main() {
+  WrapList<String>(
+    items: ["苹果", "香蕉", "橘子", "哈密瓜", "火龙果", "樱桃"],
+    spacing: 12,
+    runSpacing: 12,
+    padding: const EdgeInsets.all(16),
+    itemBuilder: (context, item, index) {
+      return Chip(label: Text(item));
+    },
+  );
+}
 
 class WrapList<T> extends StatelessWidget {
   final List<T> items;
@@ -33,7 +36,7 @@ class WrapList<T> extends StatelessWidget {
     return Padding(
       padding: padding,
       child: Wrap(
-        spacing: spacing,       // 主轴间距
+        spacing: spacing, // 主轴间距
         runSpacing: runSpacing, // 交叉轴间距（换行后行距）
         alignment: WrapAlignment.start,
         children: List.generate(items.length, (index) {

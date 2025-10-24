@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../assets/assets.dart';
+import '../style/theme.dart';
 import '../widget/common_widget.dart';
 
 /// ================================
@@ -33,13 +34,16 @@ mixin BaseWidgetMixin {
   String setBackIcon() => CommonR.assetsIconBackBlack;
 
   /// 标题栏背景色
-  Color setTitleBgColor() => Colors.white;
+  Color setTitleBgColor() =>
+      isDarkMode() ? Colors.black : Colors.white;
 
   /// 状态栏背景色
-  Color setStatusBarColor() => Colors.white;
+  Color setStatusBarColor() =>
+      isDarkMode() ? Colors.black : Colors.white;
 
   /// 页面背景色
-  Color setPageBgColor() => Colors.white;
+  Color setPageBgColor() =>
+      isDarkMode() ? Colors.black : Colors.white;
 
   /// 标题栏右侧内容
   Widget? setRightTitleContent() => null;
@@ -66,7 +70,7 @@ mixin BaseWidgetMixin {
   Widget buildCommonStructure({
     required BuildContext context,
     required Widget content,
-  }) =>Column(
+  }) => Column(
     children: [
       if (showStatusBar()) getStatusBarWidget(context),
       if (showTitleBar()) getCommonTitleBarWidget(context),
@@ -75,7 +79,6 @@ mixin BaseWidgetMixin {
         Container(height: context.navigationBarHeight, color: setPageBgColor()),
     ],
   );
-
 
   /// 自定义返回事件（默认执行 Get.back）
   void onBackPressed() {

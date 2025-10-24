@@ -8,6 +8,7 @@ import 'package:common_core/helpter/notification_helper.dart';
 import 'package:common_core/helpter/widget_ext_helper.dart';
 import 'package:common_core/style/theme.dart';
 import 'package:common_core/widget/common_widget.dart';
+import 'package:common_core/widget/input_widget.dart';
 import 'package:common_core/widget/webview/web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -271,9 +272,11 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
         ),
         Hero(
           tag: "Hero",
-          child: Image.asset(R.assetsIcLogo, width: 200, height: 100).withClick(() {
-            GetXRoute.to(RouterRULConfig.blurry);
-          }),
+          child: Image.asset(R.assetsIcLogo, width: 200, height: 100).withClick(
+            () {
+              GetXRoute.to(RouterRULConfig.blurry);
+            },
+          ),
         ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
       ],
     );
