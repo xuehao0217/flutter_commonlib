@@ -27,7 +27,6 @@ class CommonListView<T> extends StatelessWidget {
   final Axis scrollDirection;
   final ScrollPhysics? physics;
   final bool shrinkWrap;
-  final ListObserverController? listObserverController;
 
   CommonListView({
     required this.itemBuilder,
@@ -41,16 +40,15 @@ class CommonListView<T> extends StatelessWidget {
     this.header,
     this.footer,
     this.physics,
-    this.shrinkWrap = false,//true 时：physics: NeverScrollableScrollPhysics()
-    this.listObserverController,
+    this.shrinkWrap = false, //true 时：physics: NeverScrollableScrollPhysics()
     this.scrollDirection = Axis.vertical,
   });
 
   @override
   Widget build(BuildContext context) {
-    if(visibleListCallback==null){
+    if (visibleListCallback == null) {
       return _buildListView();
-    }else{
+    } else {
       return _buildNotificationListenerListView();
     }
   }
@@ -67,8 +65,7 @@ class CommonListView<T> extends StatelessWidget {
     );
   }
 
-  Widget _buildListViewObserverView() =>ListViewObserver(
-    controller: listObserverController,
+  Widget _buildListViewObserverView() => ListViewObserver(
     child: _buildListView(),
     sliverListContexts: () => [_sliverListViewContext!],
     onObserveAll: (resultMap) {
@@ -126,9 +123,12 @@ class CommonListView<T> extends StatelessWidget {
   void _onScrollUpdate(ScrollUpdateNotification notification) {
     final currentPixel = notification.metrics.pixels;
     final wasScrolledUp = currentPixel < _previousPixels;
-    slideDirection = wasScrolledUp ? SlideDirection.SwipeUp : SlideDirection.SwipeDown;
+    slideDirection =
+        wasScrolledUp ? SlideDirection.SwipeUp : SlideDirection.SwipeDown;
     if (slideDirectionCallback != null) {
-      debugPrint("滑动方向: ${slideDirection == SlideDirection.SwipeUp ? "⬆️" : "⬇️"}");
+      debugPrint(
+        "滑动方向: ${slideDirection == SlideDirection.SwipeUp ? "⬆️" : "⬇️"}",
+      );
     }
     _previousPixels = currentPixel;
   }
@@ -136,16 +136,15 @@ class CommonListView<T> extends StatelessWidget {
   void _onScrollEnd() {
     if (visibleListCallback != null) {
       debugPrint("滚动结束... 可见索引: $visibleIndexs");
-      final visibleItems = visibleIndexs
-          .where((i) => i >= 0 && i < items.length)
-          .map((i) => items[i])
-          .toList();
+      final visibleItems =
+          visibleIndexs
+              .where((i) => i >= 0 && i < items.length)
+              .map((i) => items[i])
+              .toList();
       visibleListCallback?.call(visibleItems);
     }
     slideDirectionCallback?.call(slideDirection);
   }
-
-
 
   ////////////////////////////////////////////////////////////////////////////////
   ///这个加上可见回调监听后使用intoRefreshList 会导致下拉刷新加载更多失效
@@ -185,10 +184,7 @@ class CommonListView<T> extends StatelessWidget {
       },
     );
   }
-
 }
-
-
 
 /// 横向滑动组件 解决CommonListView 高度要定死的问题。
 class HorizontalWrapList<T> extends StatelessWidget {
@@ -197,12 +193,14 @@ class HorizontalWrapList<T> extends StatelessWidget {
   final double spacing;
   final EdgeInsetsGeometry padding;
   final ScrollController? controller;
+
   const HorizontalWrapList({
     super.key,
     required this.items,
     required this.itemBuilder,
     this.spacing = 8,
-    this.padding = EdgeInsets.zero, this.controller,
+    this.padding = EdgeInsets.zero,
+    this.controller,
   });
 
   @override
@@ -214,7 +212,9 @@ class HorizontalWrapList<T> extends StatelessWidget {
       child: WrapList(
         spacing: spacing,
         items: items,
-        itemBuilder: (BuildContext context, item, int index) =>itemBuilder(context, items[index], index),
+        itemBuilder:
+            (BuildContext context, item, int index) =>
+                itemBuilder(context, items[index], index),
       ),
     );
   }
