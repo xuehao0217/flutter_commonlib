@@ -20,7 +20,6 @@ class CommonListView<T> extends StatelessWidget {
   final List<T> items;
   final IndexedWidgetBuilder separatorBuilder;
 
-  final Widget? paginationWidget;
   final Widget? header;
   final Widget? footer;
 
@@ -36,7 +35,6 @@ class CommonListView<T> extends StatelessWidget {
     this.padding = EdgeInsets.zero,
     this.visibleListCallback,
     this.slideDirectionCallback,
-    this.paginationWidget,
     this.header,
     this.footer,
     this.physics,
