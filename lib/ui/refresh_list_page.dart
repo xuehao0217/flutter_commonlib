@@ -43,6 +43,32 @@ class _RefreshListPage
   @override
   Widget buildPageContent(BuildContext context) {
     return viewModel.datas.obxIfNotEmpty(
+      (datas) => CommonListView.buildListView<HomeListDataDatas>(
+        items: datas,
+        separatorBuilder: (context, index) {
+          return SizedBox(height: 15);
+        },
+        // visibleListCallback: (datas) {
+        //   LoggerHelper.d(
+        //     "visibleListCallback==${datas.map((item) => item.title).toList()}",
+        //   );
+        // },
+        itemBuilder: (index, item) {
+          return Text(
+                "${viewModel.datas[index].title}",
+                style: const TextStyle(color: Colors.white),
+              )
+              .withContainer(
+                color: Colors.green,
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+              )
+              .withIntrinsicHeight();
+        },
+      ).intoRefreshList(viewModel),
+      emptyWidget: Center(child: CircularProgressIndicator()),
+    );
+
+    return viewModel.datas.obxIfNotEmpty(
       (datas) =>
           CommonListView<HomeListDataDatas>(
             items: datas,
@@ -65,13 +91,7 @@ class _RefreshListPage
                   )
                   .withIntrinsicHeight();
             },
-          )
-          //     .intoRefresh(onLoad: () async {
-          //   await  viewModel.getAsyncData();
-          // }, onRefresh: () async {
-          //   await  viewModel.getAsyncData(isRefresh:true);
-          // })
-          .intoEasyRefreshList(
+          ).intoEasyRefreshList(
             viewModel,
             header: const CupertinoHeader(),
             footer: const CupertinoFooter(),

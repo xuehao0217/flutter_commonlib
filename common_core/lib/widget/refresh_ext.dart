@@ -113,7 +113,9 @@ extension SmartRefresherExt<T> on Widget {
       }) {
     return intoRefresh(
       onRefresh: () => viewModel.getRefreshData(),
-      onLoad: () async => await viewModel.getLoadData(),
+      onLoad: () async {
+        return await viewModel.getLoadData();
+      },
       controller: controller,
       scrollController: scrollController,
       enableRefresh: enableRefresh,
@@ -154,8 +156,7 @@ extension SmartRefresherExt<T> on Widget {
         scrollController: scrollController,
         enablePullUp: enablePullUp,
         enablePullDown: enableRefresh,
-        header:
-        header ??
+        header: header ??
             const pull.ClassicHeader(
               // refreshingText: "加载中...",
               // releaseText: "放开刷新",
