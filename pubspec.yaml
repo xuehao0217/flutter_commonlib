@@ -52,7 +52,7 @@ dependencies:
 #  connectivity_plus: ^7.0.0       #https://pub-web.flutter-io.cn/packages/connectivity_plus
   #组件
   extended_image: ^10.0.1          #https://pub-web.flutter-io.cn/packages/extended_image
-  #下拉刷新加载更多
+  #-------------------下拉刷新加载更多------------
   any_refreshable_widget: ^0.2.0   #https://pub-web.flutter-io.cn/packages/any_refreshable_widget
   custom_refresh_indicator: ^4.0.1 #https://pub.dev/packages/custom_refresh_indicator/install
 #  paging_view: ^1.5.6             #https://pub.dev/packages/paging_view
@@ -60,7 +60,7 @@ dependencies:
   smart_scroll: ^1.0.1            #https://pub.dev/packages/smart_scroll
 # pull_to_refresh_notification: ^3.1.1 #https://pub.dev/packages/pull_to_refresh_notification
 # pull_to_refresh: ^2.0.0         #https://github.com/peng8350/flutter_pulltorefresh
-
+  #---------------------------------------------
   path_provider: ^2.1.5           #https://pub-web.flutter-io.cn/packages/path_provider
   image_picker: ^1.1.2            #https://pub-web.flutter-io.cn/packages/image_picker
   url_launcher: ^6.3.1            #https://pub-web.flutter-io.cn/packages/url_launcher/install
