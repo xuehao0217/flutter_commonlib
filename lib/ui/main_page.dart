@@ -71,7 +71,9 @@ class _MainPage extends BaseStatefulWidget with WidgetsBindingObserver {
   bool showStatusBar() => false;
 
   @override
-  bool showBottomNavigationBar() =>false;
+  bool showNavigationBar() {
+    return false;
+  }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
