@@ -148,6 +148,7 @@ class CommonListView<T> extends StatelessWidget {
 
 
   ////////////////////////////////////////////////////////////////////////////////
+  ///这个加上可见回调监听后使用intoRefreshList 会导致下拉刷新加载更多失效
   static ListView buildListView<T>({
     required List<T> items,
     required TypedListViewBuilder<T> itemBuilder,
