@@ -8,7 +8,7 @@ import 'package:flutter/rendering.dart';
 typedef ViewPortCallback = void Function(int firstIndex, int lastIndex);
 
 class ScrollIndexWidget extends StatelessWidget {
-  final SingleChildScrollView child;
+  final ScrollView child;
   final ViewPortCallback callback;
 
   const ScrollIndexWidget(
