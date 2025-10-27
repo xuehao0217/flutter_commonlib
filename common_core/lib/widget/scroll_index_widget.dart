@@ -70,3 +70,76 @@ class ScrollIndexWidget extends StatelessWidget {
   }
 }
 
+
+/// 通用可见索引统计组件
+/// 支持 ListView.separated，自动过滤 separator
+// class ScrollIndexWidget extends StatelessWidget {
+//   final ScrollView child;
+//   final ViewPortCallback callback;
+//
+//   /// header 个数
+//   final int headerCount;
+//
+//   const ScrollIndexWidget({
+//     Key? key,
+//     required this.child,
+//     required this.callback,
+//     this.headerCount = 0, // header 默认 0 个
+//   }) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return NotificationListener<ScrollNotification>(
+//       child: child,
+//       onNotification: _onNotification,
+//     );
+//   }
+//
+//   bool _onNotification(ScrollNotification notice) {
+//     final sliver = findSliverMultiBoxAdaptorElement(notice.context! as Element);
+//     if (sliver == null) return false;
+//
+//     final viewportDimension = notice.metrics.viewportDimension;
+//     final pixels = notice.metrics.pixels;
+//
+//     int? firstIndex;
+//     int? lastIndex;
+//
+//     sliver.visitChildren((child) {
+//       final parentData =
+//       child.renderObject?.parentData as SliverMultiBoxAdaptorParentData?;
+//       if (parentData?.layoutOffset == null) return;
+//
+//       final layoutOffset = parentData!.layoutOffset!;
+//       final index = parentData.index!;
+//
+//       final visibleEnd = pixels + viewportDimension;
+//
+//       // 过滤 separator: ListView.separated 偶数 index 对应 item
+//       final itemIndex = (index - headerCount) ~/ 2;
+//
+//       if (itemIndex < 0) return;
+//
+//       // 判断是否可见
+//       if (layoutOffset + 1 >= pixels && layoutOffset <= visibleEnd) {
+//         firstIndex ??= itemIndex;
+//         lastIndex = itemIndex;
+//       }
+//     });
+//
+//     if (firstIndex != null && lastIndex != null) {
+//       callback(firstIndex, lastIndex);
+//     }
+//
+//     return false;
+//   }
+//
+//   SliverMultiBoxAdaptorElement? findSliverMultiBoxAdaptorElement(Element element) {
+//     if (element is SliverMultiBoxAdaptorElement) return element;
+//     SliverMultiBoxAdaptorElement? target;
+//     element.visitChildElements((child) {
+//       target ??= findSliverMultiBoxAdaptorElement(child);
+//     });
+//     return target;
+//   }
+// }
