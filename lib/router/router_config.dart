@@ -9,6 +9,7 @@ import '../ui/blurry_page.dart';
 import '../ui/camera_watermark.dart';
 import '../ui/download_page.dart';
 import '../ui/flutter_helper_kit.dart';
+import '../ui/girdview_page.dart';
 import '../ui/home_page.dart';
 import '../ui/main_page.dart';
 import '../ui/refresh_list_page.dart';
@@ -30,6 +31,7 @@ class RouterRULConfig {
   static const download = "/download";
   static const flutter_helper_kit = "/flutter_helper_kit";
   static const scroll_demo = "/scroll_demo";
+  static const grid_view = "/grid_view";
 }
 
 
@@ -46,6 +48,7 @@ final List<GetPage>  pages = [
   GetPage(name: RouterRULConfig.blurry, page: () => BlurryPage(),transitionDuration: Duration(milliseconds: 1000)),
   GetPage(name: RouterRULConfig.single_child_scroll, page: () => SingleChildScrollViewPage()),
   GetPage(name: RouterRULConfig.webview, page: () => WebViewPage()),
+  GetPage(name: RouterRULConfig.grid_view, page: () => GridviewPage()),
 
 ];
 

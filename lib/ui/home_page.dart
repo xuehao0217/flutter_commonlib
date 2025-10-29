@@ -253,6 +253,23 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
             ),
           ),
         ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+        CommonButton(
+          elevation: 2,
+          circular: 10,
+          backgroundColor: context.primaryColor,
+          width: double.infinity,
+          height: 50,
+          onPressed: () async {
+            GetXRoute.to(RouterRULConfig.grid_view);
+          },
+          child: Text(
+            "grid_view",
+            style: TextStyle(
+              color: getThemeTextTheme().bodyMedium?.color,
+              fontSize: 16,
+            ),
+          ),
+        ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
 
         Obx(
           () => CommonButton(

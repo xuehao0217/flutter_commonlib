@@ -5,13 +5,13 @@ import 'package:scrollview_observer/scrollview_observer.dart';
 
 typedef onSlideDirectionCallback = void Function(SlideDirection);
 typedef VisibleItemListCallback<T> = void Function(List<T> items);
-typedef TypedListViewBuilder<T> = Widget Function(int index, T item);
+typedef ItemViewBuilder<T> = Widget Function(int index, T item);
 
 enum SlideDirection { SwipeUp, SwipeDown, Def }
 
 class CommonListView<T> extends StatelessWidget {
   final ScrollController? controller;
-  final TypedListViewBuilder<T> itemBuilder;
+  final ItemViewBuilder<T> itemBuilder;
   final EdgeInsetsGeometry? padding;
 
   final VisibleItemListCallback<T>? visibleListCallback;
@@ -148,7 +148,7 @@ class CommonListView<T> extends StatelessWidget {
   ///这个加上可见回调监听后使用intoRefreshList 会导致下拉刷新加载更多失效
   static ListView buildListView<T>({
     required List<T> items,
-    required TypedListViewBuilder<T> itemBuilder,
+    required ItemViewBuilder<T> itemBuilder,
     required IndexedWidgetBuilder separatorBuilder,
     EdgeInsetsGeometry? padding,
     Widget? header,
