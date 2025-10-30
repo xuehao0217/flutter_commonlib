@@ -81,7 +81,7 @@ class CommonListView<T> extends StatelessWidget {
 
     return ListView.separated(
       controller: controller,
-      physics: physics,
+      physics: shrinkWrap ? const NeverScrollableScrollPhysics() : physics,
       shrinkWrap: shrinkWrap,
       padding: padding,
       scrollDirection: scrollDirection,
@@ -163,7 +163,7 @@ class CommonListView<T> extends StatelessWidget {
     final itemTotal = items.length + (hasHeader ? 1 : 0) + (hasFooter ? 1 : 0);
     return ListView.separated(
       controller: controller,
-      physics: physics,
+      physics: shrinkWrap ? const NeverScrollableScrollPhysics() : physics,
       shrinkWrap: shrinkWrap,
       padding: padding ?? EdgeInsets.zero,
       scrollDirection: scrollDirection,

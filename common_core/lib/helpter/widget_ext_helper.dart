@@ -224,3 +224,60 @@ extension WidgetExt on Widget {
   Widget withFittedBox({BoxFit fit = BoxFit.contain}) =>
       FittedBox(fit: fit, child: this);
 }
+
+
+
+// class StudyBuddyWidget extends StatelessWidget {
+//   const StudyBuddyWidget({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return SPHelper.getTid().toWidget(
+//       builder: (tid) {
+//         if (tid != "10") return const SizedBox.shrink();
+//
+//         return const Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Text(
+//               'Your StudyBuddy',
+//               style: TextStyle(color: Color(0xFF222222), fontSize: 20),
+//             ),
+//             SizedBox(height: 4),
+//             Text(
+//               'Fast summary • report polish • solve all',
+//               style: TextStyle(color: Color(0xFF8C8C8C), fontSize: 14),
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+// }
+
+extension FutureBuilderExt<T> on Future<T> {
+  Widget toWidget({
+    required Widget Function(T data) builder,
+    Widget? loading,
+    Widget? error,
+    Widget? empty,
+  }) {
+    return FutureBuilder<T>(
+      future: this,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return loading ?? const SizedBox.shrink();
+        }
+        if (snapshot.hasError) {
+          return error ??
+              Center(child: Text('Error: ${snapshot.error}'));
+        }
+        final data = snapshot.data;
+        if (data == null) {
+          return empty ?? const SizedBox.shrink();
+        }
+        return builder(data);
+      },
+    );
+  }
+}
