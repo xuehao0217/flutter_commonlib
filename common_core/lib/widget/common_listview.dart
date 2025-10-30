@@ -209,6 +209,7 @@ class HorizontalWrapList<T> extends StatelessWidget {
       controller: controller,
       scrollDirection: Axis.horizontal,
       padding: padding,
+      physics:  ClampingScrollPhysics(),
       child: Row(
         children: List.generate(items.length, (index) {
           final itemWidget = itemBuilder(items[index], index);
