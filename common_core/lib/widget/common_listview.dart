@@ -5,7 +5,7 @@ import 'package:scrollview_observer/scrollview_observer.dart';
 
 typedef onSlideDirectionCallback = void Function(SlideDirection);
 typedef VisibleItemListCallback<T> = void Function(List<T> items);
-typedef ItemViewBuilder<T> = Widget Function(int index, T item);
+typedef ItemViewBuilder<T> = Widget Function(T item, int index);
 
 enum SlideDirection { SwipeUp, SwipeDown, Def }
 
@@ -100,7 +100,7 @@ class CommonListView<T> extends StatelessWidget {
         if (hasHeader && index == 0) return header!;
         if (hasFooter && index == itemTotal - 1) return footer!;
         final realIndex = index - (hasHeader ? 1 : 0);
-        return itemBuilder(realIndex, items[realIndex]);
+        return itemBuilder(items[realIndex], realIndex);
       },
     );
   }
@@ -178,7 +178,7 @@ class CommonListView<T> extends StatelessWidget {
         if (hasHeader && index == 0) return header!;
         if (hasFooter && index == itemTotal - 1) return footer!;
         final realIndex = index - (hasHeader ? 1 : 0);
-        return itemBuilder(realIndex, items[realIndex]);
+        return itemBuilder(items[realIndex], realIndex);
       },
     );
   }
@@ -187,19 +187,21 @@ class CommonListView<T> extends StatelessWidget {
 /// 横向滑动组件 解决CommonListView 高度要定死的问题。
 class HorizontalWrapList<T> extends StatelessWidget {
   final List<T> items;
-  final Widget Function(BuildContext context, T item, int index) itemBuilder;
+  final Widget Function(T item, int index) itemBuilder;
   final double spacing;
   final EdgeInsetsGeometry padding;
+  final double sidePadding; // ✅ 新增左右边距参数
   final ScrollController? controller;
 
   const HorizontalWrapList({
-    super.key,
+    Key? key,
     required this.items,
     required this.itemBuilder,
     this.spacing = 8,
     this.padding = EdgeInsets.zero,
+    this.sidePadding = 0, // 默认左右 16
     this.controller,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -207,12 +209,17 @@ class HorizontalWrapList<T> extends StatelessWidget {
       controller: controller,
       scrollDirection: Axis.horizontal,
       padding: padding,
-      child: WrapList(
-        spacing: spacing,
-        items: items,
-        itemBuilder:
-            (BuildContext context, item, int index) =>
-                itemBuilder(context, items[index], index),
+      child: Row(
+        children: List.generate(items.length, (index) {
+          final itemWidget = itemBuilder(items[index], index);
+          return Padding(
+            padding: EdgeInsets.only(
+              left: index == 0 ? sidePadding : spacing / 2,
+              right: index == items.length - 1 ? sidePadding : spacing / 2,
+            ),
+            child: itemWidget,
+          );
+        }),
       ),
     );
   }

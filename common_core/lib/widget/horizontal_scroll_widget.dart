@@ -18,7 +18,7 @@ class HorizontalScrollProgressWidgetDemoPage extends StatelessWidget {
       trackColor: Colors.grey.shade300,
       thumbColor: Colors.blueAccent,
       borderRadius: BorderRadius.circular(3),
-      itemBuilder: (context, item, index) {
+      itemBuilder: (item, index) {
         return Container(
           width: 120,
           height: 100,
@@ -42,7 +42,7 @@ class HorizontalScrollProgressWidgetDemoPage extends StatelessWidget {
 
 class HorizontalScrollProgressWidget<T> extends StatefulWidget {
   final List<T> items;
-  final Widget Function(BuildContext context, T item, int index) itemBuilder;
+  final Widget Function(T item, int index) itemBuilder;
   final double spacing;
   final EdgeInsetsGeometry padding;
   final ScrollController? controller;

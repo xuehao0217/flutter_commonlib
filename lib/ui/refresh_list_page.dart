@@ -53,7 +53,7 @@ class _RefreshListPage
         //     "visibleListCallback==${datas.map((item) => item.title).toList()}",
         //   );
         // },
-        itemBuilder: (index, item) {
+        itemBuilder: (item,index) {
           return Text(
                 "${viewModel.datas[index].title}",
                 style: const TextStyle(color: Colors.white),
@@ -80,7 +80,7 @@ class _RefreshListPage
                 "visibleListCallback==${datas.map((item) => item.title).toList()}",
               );
             },
-            itemBuilder: (index, item) {
+            itemBuilder: ( item,index) {
               return Text(
                     "${viewModel.datas[index].title}",
                     style: const TextStyle(color: Colors.white),
