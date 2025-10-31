@@ -408,3 +408,23 @@ class ImageUtils {
   }
 
 }
+
+
+
+
+extension FileTypeExt on File {
+  /// 获取扩展名（小写）
+  String get ext => path.split('.').last.toLowerCase();
+
+  /// 是否是图片
+  bool get isImage => ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].contains(ext);
+
+  /// 是否是视频
+  bool get isVideo => ['mp4', 'mov', 'avi', 'mkv', 'flv'].contains(ext);
+
+  /// 是否是音频
+  bool get isAudio => ['mp3', 'wav', 'aac', 'flac'].contains(ext);
+
+  /// 是否是文档
+  bool get isDocument => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'].contains(ext);
+}
