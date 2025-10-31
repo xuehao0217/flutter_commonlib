@@ -39,7 +39,7 @@ abstract class BaseVMStatefulWidget<W extends StatefulWidget,VM extends BaseView
 
   @override
   void dispose() {
-    viewModel.dispose();
+    viewModel.onDispose();
     super.dispose();
   }
 }

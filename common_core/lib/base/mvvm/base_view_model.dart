@@ -15,12 +15,12 @@ abstract class BaseViewModel<V extends AbsBaseView> extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    dispose();
+    onDispose();
   }
 
   void showToast(String msg) => view?.showToast(msg);
 
-  void dispose() {
+  void onDispose() {
     if (!cancelToken.isCancelled) cancelToken.cancel();
     view = null;
   }
