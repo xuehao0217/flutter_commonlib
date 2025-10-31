@@ -219,6 +219,30 @@ class ImageUtils {
     }
   }
 
+  /// ===========================
+  /// 获取文件大小
+  ///   file.lengthSync() 返回字节数。
+  ///   toStringAsFixed(1) 保留一位小数。
+  ///   大于等于 1MB 显示 MB，否则显示 KB。
+  /// ===========================
+
+  static String formatFileSize(String filePath) {
+    try {
+      final file = File(filePath);
+      final bytes = file.lengthSync(); // 获取文件大小，单位字节
+      if (bytes >= 1024 * 1024) {
+        double sizeInMb = bytes / (1024 * 1024);
+        return "${sizeInMb.toStringAsFixed(1)} MB";
+      } else {
+        double sizeInKb = bytes / 1024;
+        return "${sizeInKb.toStringAsFixed(1)} KB";
+      }
+    } catch (e) {
+      LoggerHelper.d('获取文件大小失败: $e');
+      return "未知大小";
+    }
+  }
+
   static final ImagePicker _picker = ImagePicker();
 
   /// ===========================
