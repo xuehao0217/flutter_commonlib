@@ -65,6 +65,23 @@ extension WidgetExt on Widget {
     );
   }
 
+
+  /// 🖱️ 点击事件，可传入 BuildContext，并复用原有防抖逻辑
+  Widget clickWithContext(void Function(BuildContext context) onTap, {
+    bool enable = true,
+    Duration throttle = const Duration(milliseconds: 300),
+  }) {
+    return Builder(
+      builder: (context) {
+        return this.withClick(
+              () => onTap(context), // 复用原来的防抖逻辑
+          enable: enable,
+          throttle: throttle,
+        );
+      },
+    );
+  }
+
   // --------------------
   // 🧱 布局与样式
   // --------------------
@@ -223,6 +240,7 @@ extension WidgetExt on Widget {
 
   Widget withFittedBox({BoxFit fit = BoxFit.contain}) =>
       FittedBox(fit: fit, child: this);
+
 }
 
 
