@@ -33,7 +33,7 @@ abstract class BaseVMStatelessWidget<VM extends BaseViewModel> extends BaseState
   Widget build(BuildContext context) {
     // 构建完成后触发的操作
     viewModel =Get.put(createViewModel());
-    viewModel.view = this;
+    viewModel.attachView(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       initData();
     });

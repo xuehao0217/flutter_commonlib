@@ -33,7 +33,7 @@ abstract class BaseVMStatefulWidget<W extends StatefulWidget,VM extends BaseView
   void initState() {
     super.initState();
     viewModel= Get.put(createViewModel());
-    viewModel.view = this;
+    viewModel.attachView(this);
     initData();
   }
 

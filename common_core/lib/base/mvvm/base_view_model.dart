@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import '../../net/dio_utils.dart';
@@ -7,12 +6,11 @@ import '../../net/net.dart';
 import 'base_view_abs.dart';
 
 abstract class BaseViewModel<V extends AbsBaseView> extends GetxController {
-  late V view;
-  late CancelToken cancelToken;
+  V? view;
 
-  BaseViewModel() {
-    cancelToken = CancelToken();
-  }
+  final CancelToken cancelToken = CancelToken();
+
+  void attachView(V view) => this.view = view;
 
   @override
   void onClose() {
@@ -20,13 +18,11 @@ abstract class BaseViewModel<V extends AbsBaseView> extends GetxController {
     dispose();
   }
 
-  void showToast(string) => view.showToast(string);
+  void showToast(String msg) => view?.showToast(msg);
 
   void dispose() {
-    /// 销毁时，将请求取消
-    if (!cancelToken.isCancelled) {
-      cancelToken.cancel();
-    }
+    if (!cancelToken.isCancelled) cancelToken.cancel();
+    view = null;
   }
 
   void asyncRequestNetwork<T>(
@@ -41,37 +37,30 @@ abstract class BaseViewModel<V extends AbsBaseView> extends GetxController {
     CancelToken? cancelToken,
     Options? options,
   }) {
-    if (showLoading) {
-      view.showLoading();
-    }
+    if (showLoading) view?.showLoading();
     HttpUtils.asyncRequestNetwork(
       method,
       url,
       params: params,
       queryParameters: queryParameters,
       options: options,
-      cancelToken: cancelToken ?? cancelToken,
+      cancelToken: cancelToken,
       onSuccess: onSuccess,
       onError: (code, msg) {
         _onError(code, msg, onError);
       },
       onFinally: () {
-        view.hideLoading();
+        view?.hideLoading();
         onFinally?.call();
       },
     );
   }
 
   void _onError(int code, String msg, NetErrorCallback? onError) {
-    /// 异常时直接关闭加载圈，不受isClose影响
-    view.hideLoading();
-    if(code!=NetExceptionHandle.net_cancel){
-      view.showToast(msg);
+    view?.hideLoading();
+    if (code != NetExceptionHandle.net_cancel) {
+      view?.showToast(msg);
     }
-
-    /// 页面如果dispose，则不回调onError
-    if (onError != null) {
-      onError(code, msg);
-    }
+    onError?.call(code, msg);
   }
 }
