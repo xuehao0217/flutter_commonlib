@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:ansicolor/ansicolor.dart';
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:dio/dio.dart';
@@ -80,6 +81,7 @@ class HttpUtils {
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
     Options? options,
+    ProgressCallback? onSendProgress,
   }) async {
     final Response<String> response = await _dio.request<String>(
       url,
@@ -87,6 +89,7 @@ class HttpUtils {
       queryParameters: queryParameters,
       options: _checkOptions(method, options),
       cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
     );
     try {
       final String data = response.data.toString();
@@ -182,37 +185,54 @@ class HttpUtils {
           }
         })
         .whenComplete(() => onFinally?.call());
+  }
 
-    // Stream.fromFuture(
-    //   _request(
-    //     method.value,
-    //     url,
-    //     data: params,
-    //     queryParameters: queryParameters,
-    //     options: options,
-    //     cancelToken: cancelToken,
-    //   ),
-    // ).asBroadcastStream().listen((result) {
-    //     if (result.isSuccess()) {
-    //       var resultData = _jsonConvertAsT<T>(result.data);
-    //       if (resultData != null) {
-    //         onSuccess?.call(resultData);
-    //       } else {
-    //         _onError(result.errorCode, result.errorMsg, onError);
-    //       }
-    //     } else {
-    //       _onError(result.errorCode, result.errorMsg, onError);
-    //     }
-    //   },
-    //   onError: (error) {
-    //     if (CancelToken.isCancel(error)) {
-    //       _onError(NetExceptionHandle.net_cancel, '请求已取消', onError);
-    //     } else {
-    //       _onError(NetExceptionHandle.net_error, error.toString(), onError);
-    //     }
-    //   },
-    //   onDone: onFinally,
-    // );
+  /// 上传文件
+  /// [url] 接口地址
+  /// [file] 本地文件
+  /// [field] 文件表单字段名，默认 "file"
+  /// [extraData] 额外表单参数
+  /// [onSendProgress] 上传进度回调
+  /// [cancelToken] 取消 token
+  /// [options] dio options
+  /// 上传文件并返回泛型 T
+  static Future<T> postFile<T>({
+    required String url,
+    required File file,
+    String field = "file",
+    Map<String, dynamic>? extraData,
+    ProgressCallback? onSendProgress,
+    CancelToken? cancelToken,
+    Options? options,
+  }) async {
+    FormData formData = FormData.fromMap({
+      field: await MultipartFile.fromFile(
+        file.path,
+        filename: file.path.split('/').last,
+      ),
+      if (extraData != null) ...extraData,
+    });
+    options ??= Options(method: 'POST', contentType: 'multipart/form-data');
+
+    final BaseEntity result = await _request(
+      'POST',
+      url,
+      data: formData,
+      cancelToken: cancelToken,
+      options: options,
+      onSendProgress: onSendProgress,
+    );
+    if (result.isSuccess()) {
+      var resultData = _jsonConvertAsT<T>(result.data);
+      if (resultData != null) {
+        return resultData;
+      } else {
+        return Future.error(result);
+      }
+    } else {
+      _onError(result.errorCode, result.errorMsg, null);
+      return Future.error(result);
+    }
   }
 
   static void _onError(int code, String msg, NetErrorCallback? onError) {
