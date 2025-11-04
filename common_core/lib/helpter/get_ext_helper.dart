@@ -23,9 +23,9 @@ main() {
   // );
 
   // 路由跳转
-  GetXRoute.to("/home");
-  GetXRoute.off("/login");
-  GetXRoute.offAll("/main");
+  GetXHelper.to("/home");
+  GetXHelper.off("/login");
+  GetXHelper.offAll("/main");
 }
 
 /// ==========================
@@ -81,7 +81,7 @@ class GetBuilderWidget<T extends GetxController> extends StatelessWidget {
 /// ==========================
 /// GetX 路由封装
 /// ==========================
-class GetXRoute {
+class GetXHelper {
   /// 普通跳转
   static void to(
     String route, {
@@ -108,4 +108,9 @@ class GetXRoute {
   }) {
     Get.offAllNamed(route, arguments: arguments, parameters: parameters);
   }
+
+
+  static T find<T extends GetxController>() => Get.find<T>();
 }
+
+

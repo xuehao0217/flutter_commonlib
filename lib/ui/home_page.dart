@@ -77,7 +77,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           width: double.infinity,
           height: 50,
           onPressed: () {
-            GetXRoute.to(RouterRULConfig.list_refensh);
+            GetXHelper.to(RouterRULConfig.list_refensh);
           },
           child: Text(
             "下拉刷新使用",
@@ -145,7 +145,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           width: double.infinity,
           height: 50,
           onPressed: () async {
-            GetXRoute.to(RouterRULConfig.watermark);
+            GetXHelper.to(RouterRULConfig.watermark);
           },
           child: Text(
             "拍照打水印",
@@ -163,7 +163,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           width: double.infinity,
           height: 50,
           onPressed: () async {
-            GetXRoute.to(
+            GetXHelper.to(
               RouterRULConfig.webview,
               parameters: {
                 WebViewPage.Url: "https://www.baidu.com?hideTitle=1",
@@ -187,7 +187,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           width: double.infinity,
           height: 50,
           onPressed: () {
-            GetXRoute.to(RouterRULConfig.download);
+            GetXHelper.to(RouterRULConfig.download);
           },
           child: Text(
             "版本更新",
@@ -226,7 +226,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           width: double.infinity,
           height: 50,
           onPressed: () {
-            GetXRoute.to(RouterRULConfig.flutter_helper_kit);
+            GetXHelper.to(RouterRULConfig.flutter_helper_kit);
           },
           child: Text(
             "Flutter Helper Kit",
@@ -243,7 +243,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           width: double.infinity,
           height: 50,
           onPressed: () async {
-            GetXRoute.to(RouterRULConfig.scroll_demo);
+            GetXHelper.to(RouterRULConfig.scroll_demo);
           },
           child: Text(
             "BindShowOnScrollDemoPage",
@@ -260,7 +260,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           width: double.infinity,
           height: 50,
           onPressed: () async {
-            GetXRoute.to(RouterRULConfig.grid_view);
+            GetXHelper.to(RouterRULConfig.grid_view);
           },
           child: Text(
             "grid_view",
@@ -291,7 +291,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           tag: "Hero",
           child: Image.asset(R.assetsIcLogo, width: 200, height: 100).withClick(
             () {
-              GetXRoute.to(RouterRULConfig.blurry);
+              GetXHelper.to(RouterRULConfig.blurry);
             },
           ),
         ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
