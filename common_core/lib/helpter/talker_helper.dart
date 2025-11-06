@@ -9,7 +9,7 @@ final talker = TalkerFlutter.init(
     useHistory: true,
     useConsoleLogs: kDebugMode,
     maxHistoryItems: 500,
-    timeFormat: TimeFormat.timeAndSeconds,
+    timeFormat: TimeFormat.yearMonthDayAndTime,
     titles: {
       TalkerKey.httpRequest: '🌐 Request',
       TalkerKey.httpResponse: '✅ Response',
