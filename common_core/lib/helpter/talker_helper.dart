@@ -5,22 +5,30 @@ import 'package:talker_flutter/talker_flutter.dart';
 /// 全局 Talker 实例
 final talker = TalkerFlutter.init(
   settings: TalkerSettings(
-    // enabled: kDebugMode,
-    useHistory: true,
-    useConsoleLogs: kDebugMode,
-    maxHistoryItems: 500,
+    // enabled: kDebugMode, // Debug 模式启用，Release 自动关闭
+    useHistory: true, // 允许在 TalkerScreen 查看历史
+    useConsoleLogs: kDebugMode, // 控制台日志仅 Debug 输出
+    maxHistoryItems: 1000,
     timeFormat: TimeFormat.yearMonthDayAndTime,
+    /// 自定义日志标题
     titles: {
-      TalkerKey.httpRequest: '🌐 Request',
-      TalkerKey.httpResponse: '✅ Response',
-      TalkerKey.error: '❌ Error',
-      TalkerKey.debug: '🐞 Debug',
+      TalkerKey.debug: '🐞 DEBUG',
+      TalkerKey.info: 'ℹ️ INFO',
+      TalkerKey.warning: '⚠️ WARNING',
+      TalkerKey.error: '❌ ERROR',
+      TalkerKey.exception: '💥 EXCEPTION',
+      TalkerKey.httpRequest: '🌐 HTTP →',
+      TalkerKey.httpResponse: '🌐 HTTP ←',
     },
+    /// 自定义颜色方案
     colors: {
+      TalkerKey.debug: AnsiPen()..gray(),
+      TalkerKey.info: AnsiPen()..blue(),
+      TalkerKey.warning: AnsiPen()..yellow(bold: true),
+      TalkerKey.error: AnsiPen()..red(bold: true),
+      TalkerKey.exception: AnsiPen()..magenta(bold: true),
       TalkerKey.httpRequest: AnsiPen()..cyan(),
       TalkerKey.httpResponse: AnsiPen()..green(),
-      TalkerKey.error: AnsiPen()..red(bold: true),
-      TalkerKey.debug: AnsiPen()..gray(),
     },
   ),
 );
