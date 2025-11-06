@@ -86,7 +86,6 @@ class _MyPageState extends BaseStatefulWidget<MyPage> {
       'type': build.type,
       'isPhysicalDevice': build.isPhysicalDevice,
       'systemFeatures': build.systemFeatures,
-      'serialNumber': build.serialNumber,
 
     };
   }

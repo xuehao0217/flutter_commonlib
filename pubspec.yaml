@@ -33,22 +33,22 @@ dependencies:
   cupertino_icons: ^1.0.8
   intl: ^0.20.2                  #日期格式化
   #网络
-  dio: ^5.8.0+1                  #https://pub-web.flutter-io.cn/packages/dio
-  talker_dio_logger: ^4.9.0      #https://pub-web.flutter-io.cn/packages/talker_dio_logger
+  dio: ^5.9.0                    #https://pub-web.flutter-io.cn/packages/dio
+  talker_dio_logger: ^5.0.2      #https://pub-web.flutter-io.cn/packages/talker_dio_logger
   chucker_flutter: 1.8.5         #https://pub-web.flutter-io.cn/packages/chucker_flutter
-  logger: ^2.5.0                 #https://pub-web.flutter-io.cn/packages/logger
+  logger: ^2.6.2                 #https://pub-web.flutter-io.cn/packages/logger
   get: ^4.7.2                    #https://pub-web.flutter-io.cn/packages/get
   #必备
-  flutter_native_splash: ^2.4.6   #https://pub-web.flutter-io.cn/packages/flutter_native_splash
-  flutter_launcher_icons: ^0.14.3 #https://pub-web.flutter-io.cn/packages/flutter_launcher_icons
+  flutter_native_splash: ^2.4.7   #https://pub-web.flutter-io.cn/packages/flutter_native_splash
+  flutter_launcher_icons: ^0.14.4 #https://pub-web.flutter-io.cn/packages/flutter_launcher_icons
   cached_network_image: ^3.4.1    #https://pub-web.flutter-io.cn/packages/cached_network_image
-  flutter_smart_dialog: ^4.9.8+8  #https://juejin.cn/post/7026150456673959943  #使用例子 https://xdd666t.github.io/flutter_use/web/index.html#/smartDialog?dialogType=CustomDialogLocation
-  package_info_plus: ^8.3.0       #https://pub-web.flutter-io.cn/packages/package_info_plus
+  flutter_smart_dialog: ^4.9.8+9  #https://juejin.cn/post/7026150456673959943  #使用例子 https://xdd666t.github.io/flutter_use/web/index.html#/smartDialog?dialogType=CustomDialogLocation
+  package_info_plus: ^9.0.0       #https://pub-web.flutter-io.cn/packages/package_info_plus
   shared_preferences: ^2.5.3      #https://pub-web.flutter-io.cn/packages/shared_preferences/install
   webview_flutter: ^4.13.0        #https://pub.dev/packages/webview_flutter
   permission_handler: ^12.0.1     #https://pub-web.flutter-io.cn/packages/permission_handler/example
-  device_info_plus: ^11.4.0       #https://pub-web.flutter-io.cn/packages/device_info_plus/example
-  flutter_local_notifications: ^19.3.0 #https://pub-web.flutter-io.cn/packages/flutter_local_notifications
+  device_info_plus: ^12.2.0       #https://pub-web.flutter-io.cn/packages/device_info_plus/example
+  flutter_local_notifications: ^19.5.0 #https://pub-web.flutter-io.cn/packages/flutter_local_notifications
 #  connectivity_plus: ^7.0.0       #https://pub-web.flutter-io.cn/packages/connectivity_plus
   #组件
   extended_image: ^10.0.1          #https://pub-web.flutter-io.cn/packages/extended_image
@@ -62,8 +62,8 @@ dependencies:
 # pull_to_refresh: ^2.0.0         #https://github.com/peng8350/flutter_pulltorefresh
   #---------------------------------------------
   path_provider: ^2.1.5           #https://pub-web.flutter-io.cn/packages/path_provider
-  image_picker: ^1.1.2            #https://pub-web.flutter-io.cn/packages/image_picker
-  url_launcher: ^6.3.1            #https://pub-web.flutter-io.cn/packages/url_launcher/install
+  image_picker: ^1.2.0            #https://pub-web.flutter-io.cn/packages/image_picker
+  url_launcher: ^6.3.2            #https://pub-web.flutter-io.cn/packages/url_launcher/install
   flutter_constraintlayout: ^1.7.0-stable #https://github.com/hackware1993/Flutter_ConstraintLayout/blob/master/README_CN.md
   extended_sliver: 2.1.3          #https://pub-web.flutter-io.cn/packages/extended_sliver
   photo_view: ^0.15.0             #https://pub-web.flutter-io.cn/packages/photo_view
@@ -71,9 +71,9 @@ dependencies:
   carousel_slider: ^5.1.1         #https://pub-web.flutter-io.cn/packages/carousel_slider
   #animate
   animate_do: ^4.2.0              #https://pub-web.flutter-io.cn/packages/animate_do
-  animations: ^2.0.11           #https://pub-web.flutter-io.cn/packages/animations
+  animations: ^2.1.0              #https://pub-web.flutter-io.cn/packages/animations
   flutter_animate: ^4.5.2         #https://pub-web.flutter-io.cn/packages/flutter_animate
-  heroine: ^0.4.0+1               #https://pub.dev/packages/heroine
+  heroine: ^0.5.0+2               #https://pub.dev/packages/heroine
   #工具
   open_filex: ^4.7.0            #https://pub-web.flutter-io.cn/packages/open_filex
 
@@ -85,11 +85,11 @@ dependencies:
   #https://github.com/OctMon/flutter_easy
 
   #工具
-  dart_helper_utils: ^5.2.0     #https://pub.dev/packages/dart_helper_utils
-  nb_utils: ^7.1.4              #https://pub.dev/packages/nb_utils
+  dart_helper_utils: ^5.4.0     #https://pub.dev/packages/dart_helper_utils
+  nb_utils: ^7.1.8              #https://pub.dev/packages/nb_utils
   basic_utils: ^5.8.2           #https://pub.dev/packages/basic_utils
-  screwdriver: ^5.10.0          #https://pub.dev/packages/screwdriver   //作用域
-  flutter_helper_utils: ^8.0.2  #https://pub.dev/packages/flutter_helper_utils
+  screwdriver: ^5.11.0          #https://pub.dev/packages/screwdriver   //作用域
+  flutter_helper_utils: ^8.5.0  #https://pub.dev/packages/flutter_helper_utils
   flutter_helper_kit: ^1.0.4    #https://pub.dev/packages/flutter_helper_kit
   sprintf: ^7.0.0               #https://pub-web.flutter-io.cn/packages/sprintf
 

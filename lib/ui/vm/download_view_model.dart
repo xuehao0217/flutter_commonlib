@@ -1,5 +1,6 @@
 import 'package:common_core/base/mvvm/base_view_model.dart';
 import 'package:common_core/helpter/logger_helper.dart';
+import 'package:common_core/helpter/talker_helper.dart';
 import 'package:common_core/net/dio_utils.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';

@@ -8,10 +8,14 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 import 'helpter/firebase_helper.dart';
 import 'helpter/logger_helper.dart';
 import 'helpter/notification_helper.dart';
 import 'helpter/sp_helper.dart';
+import 'helpter/talker_helper.dart';
 export 'helpter/widget_ext_helper.dart';
 export 'widget/common_dialog.dart';
 export 'widget/bottom_navigation_bar.dart';
@@ -60,4 +64,9 @@ class CommonCore {
 
 void removeSplash() {
   FlutterNativeSplash.remove();
+}
+
+
+void openTalkerScreen() {
+  Get.to(() => TalkerScreen(talker: talker));
 }

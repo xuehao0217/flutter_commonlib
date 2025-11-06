@@ -17,6 +17,7 @@ dependencies:
   #网络
   dio:                        #https://pub-web.flutter-io.cn/packages/dio
   talker_dio_logger:          #https://pub-web.flutter-io.cn/packages/talker_dio_logger
+  talker_flutter: ^5.0.0
   chucker_flutter:            #https://pub-web.flutter-io.cn/packages/chucker_flutter
   logger:                     #https://pub-web.flutter-io.cn/packages/logger
   get:                        #https://pub-web.flutter-io.cn/packages/get

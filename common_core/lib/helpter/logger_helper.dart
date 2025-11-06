@@ -49,17 +49,17 @@ void main() {
   // ---------------------------
   // 扩展方法使用示例
   // ---------------------------
-  "扩展方法 debug 日志".logD(tag: "Ext");
-  "扩展方法 warning 日志".logW(tag: "Ext");
+  "扩展方法 debug 日志".loggerD(tag: "Ext");
+  "扩展方法 warning 日志".loggerW(tag: "Ext");
   try {
     int x = 5 ~/ 0;
   } catch (e, stack) {
-    "扩展方法 error 日志".logE(error: e, stackTrace: stack, tag: "Ext");
+    "扩展方法 error 日志".loggerE(error: e, stackTrace: stack, tag: "Ext");
   }
-  "扩展方法 info 日志".logI(tag: "Ext");
-  "扩展方法 trace 日志".logT(tag: "Ext");
-  "扩展方法无堆栈 debug 日志".logDNoStack(tag: "Ext");
-  "扩展方法 JSON 日志".logJson(tag: "Ext");
+  "扩展方法 info 日志".loggerI(tag: "Ext");
+  "扩展方法 trace 日志".loggerT(tag: "Ext");
+  "扩展方法无堆栈 debug 日志".loggerDNoStack(tag: "Ext");
+  "扩展方法 JSON 日志".loggerJson(tag: "Ext");
 }
 
 class LoggerHelper {
@@ -148,18 +148,18 @@ class LoggerHelper {
 
 /// 扩展方法，更直观
 extension StringExtensions on String {
-  void logD({String? tag}) => LoggerHelper.d(this, tag: tag);
+  void loggerD({String? tag}) => LoggerHelper.d(this, tag: tag);
 
-  void logW({String? tag}) => LoggerHelper.w(this, tag: tag);
+  void loggerW({String? tag}) => LoggerHelper.w(this, tag: tag);
 
-  void logE({dynamic error, StackTrace? stackTrace, String? tag}) =>
+  void loggerE({dynamic error, StackTrace? stackTrace, String? tag}) =>
       LoggerHelper.e(this, error: error, stackTrace: stackTrace, tag: tag);
 
-  void logI({String? tag}) => LoggerHelper.i(this, tag: tag);
+  void loggerI({String? tag}) => LoggerHelper.i(this, tag: tag);
 
-  void logT({String? tag}) => LoggerHelper.t(this, tag: tag);
+  void loggerT({String? tag}) => LoggerHelper.t(this, tag: tag);
 
-  void logJson({String? tag}) => LoggerHelper.json(this, tag: tag);
+  void loggerJson({String? tag}) => LoggerHelper.json(this, tag: tag);
 
-  void logDNoStack({String? tag}) => LoggerHelper.dNoStack(this, tag: tag);
+  void loggerDNoStack({String? tag}) => LoggerHelper.dNoStack(this, tag: tag);
 }

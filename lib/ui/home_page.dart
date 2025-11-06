@@ -1,15 +1,18 @@
 import 'dart:convert';
 
 import 'package:common_core/base/mvvm/base_vm_stateful_widget.dart';
+import 'package:common_core/common_core.dart';
 import 'package:common_core/helpter/firebase_helper.dart';
 import 'package:common_core/helpter/get_ext_helper.dart';
 import 'package:common_core/helpter/logger_helper.dart';
 import 'package:common_core/helpter/notification_helper.dart';
+import 'package:common_core/helpter/talker_helper.dart';
 import 'package:common_core/helpter/widget_ext_helper.dart';
 import 'package:common_core/style/theme.dart';
 import 'package:common_core/widget/common_widget.dart';
 import 'package:common_core/widget/input_widget.dart';
 import 'package:common_core/widget/webview/web_view.dart';
+import 'package:dart_helper_utils/dart_helper_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_helper_kit/extensions/context/build_context_extension.dart';
@@ -270,6 +273,55 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
             ),
           ),
         ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+
+
+        CommonButton(
+          elevation: 2,
+          circular: 10,
+          backgroundColor: context.primaryColor,
+          width: double.infinity,
+          height: 50,
+          onPressed: () async {
+            LogHelper.d("这是普通 debug 日志");
+            LogHelper.d("这是带 tag 的 debug 日志", tag: "HomePage");
+            LogHelper.w("这是 warning 日志");
+
+            try {
+              int result = 10 ~/ 0; // 故意制造异常
+            } catch (e, stack) {
+              LoggerHelper.e("捕获到异常", error: e, stackTrace: stack, tag: "Calculator");
+            }
+
+            LogHelper.i("这是 info 日志");
+            LogHelper.t("这是 trace 日志");
+            LogHelper.dNoStack("这是无堆栈 debug 日志", tag: "NoStack");
+
+            Map<String, dynamic> user = {
+              "id": 1001,
+              "name": "Alice",
+              "roles": ["admin", "user"],
+            };
+            LogHelper.json(user, tag: "UserData");
+
+            List<int> numbers = [1, 2, 3, 4, 5];
+            LogHelper.json(numbers, tag: "NumbersList");
+
+            String jsonString = '{"title":"Logger Example","success":true}';
+            LogHelper.json(jsonString, tag: "JSONString");
+
+           await 3.secondsDelay();
+
+           openTalkerScreen();
+          },
+          child: Text(
+            "TalkerScreen",
+            style: TextStyle(
+              color: getThemeTextTheme().bodyMedium?.color,
+              fontSize: 16,
+            ),
+          ),
+        ).withPadding(const EdgeInsets.only(bottom: 15, left: 15, right: 15)),
+
 
         Obx(
           () => CommonButton(

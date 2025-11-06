@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
+import '../helpter/talker_helper.dart';
 import 'base_entity.dart';
 import 'intercept.dart';
 import 'net.dart';
@@ -23,6 +24,7 @@ List<Interceptor> _interceptors = [
   DecodeForChuckerInterceptor(),
   ChuckerDioInterceptor(),
   TalkerDioLogger(
+    talker: talker,
     settings: TalkerDioLoggerSettings(
       printRequestHeaders: true,
       printResponseHeaders: true,
