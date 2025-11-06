@@ -39,6 +39,12 @@ void main() {
   // LoggerHelper 使用示例
   // ---------------------------
 
+  // 关闭所有日志
+  talker.settings = talker.settings.copyWith(enabled: false);
+
+// 重新开启
+  talker.settings = talker.settings.copyWith(enabled: true);
+
   LogHelper.d("这是普通 debug 日志");
   LogHelper.d("这是带 tag 的 debug 日志", tag: "HomePage");
   LogHelper.w("这是 warning 日志");
