@@ -5,11 +5,26 @@ import 'package:talker_flutter/talker_flutter.dart';
 /// 全局 Talker 实例
 final talker = TalkerFlutter.init(
   settings: TalkerSettings(
-    // enabled: kDebugMode, // 是否启用日志
-    useHistory: true, // 是否保留历史记录
-    maxHistoryItems: 300, // 最多保存多少条
+    // enabled: kDebugMode,
+    useHistory: true,
+    useConsoleLogs: kDebugMode,
+    maxHistoryItems: 500,
+    timeFormat: TimeFormat.timeAndSeconds,
+    titles: {
+      TalkerKey.httpRequest: '🌐 Request',
+      TalkerKey.httpResponse: '✅ Response',
+      TalkerKey.error: '❌ Error',
+      TalkerKey.debug: '🐞 Debug',
+    },
+    colors: {
+      TalkerKey.httpRequest: AnsiPen()..cyan(),
+      TalkerKey.httpResponse: AnsiPen()..green(),
+      TalkerKey.error: AnsiPen()..red(bold: true),
+      TalkerKey.debug: AnsiPen()..gray(),
+    },
   ),
 );
+
 
 void main() {
   // ---------------------------
