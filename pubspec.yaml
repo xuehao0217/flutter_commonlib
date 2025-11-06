@@ -58,6 +58,7 @@ dependencies:
 #  paging_view: ^1.5.6             #https://pub.dev/packages/paging_view
   easy_refresh: ^3.4.0            #https://pub.dev/packages/easy_refresh/example
   smart_scroll: ^1.0.1            #https://pub.dev/packages/smart_scroll
+  infinite_scroll_pagination: ^5.1.1 #https://pub-web.flutter-io.cn/packages/infinite_scroll_pagination
 # pull_to_refresh_notification: ^3.1.1 #https://pub.dev/packages/pull_to_refresh_notification
 # pull_to_refresh: ^2.0.0         #https://github.com/peng8350/flutter_pulltorefresh
   #---------------------------------------------
@@ -114,6 +115,7 @@ dependencies:
   extended_tabs: ^5.0.0
   flutter_tts: ^4.2.3
   flutter_confetti: ^0.5.1
+  flutter_dotenv: ^6.0.0
 
 
 
