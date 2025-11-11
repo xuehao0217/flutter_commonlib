@@ -17,7 +17,9 @@ typedef NetSuccessListCallback<T> = Function(List<T> data);
 typedef NetSuccessCallback<T> = Function(T data);
 typedef NetErrorCallback = Function(int code, String msg);
 
-/// 默认dio配置
+/// ============================
+/// 拦截器列表（仅初始化一次）
+/// ============================
 List<Interceptor> _interceptors = [
   HeaderInterceptor(),
   // LoggingInterceptor(),
@@ -38,7 +40,9 @@ List<Interceptor> _interceptors = [
   ),
   RestoreRawDataInterceptor(),
 ];
-
+/// ============================
+/// HttpUtils 核心类
+/// ============================
 class HttpUtils {
   static late Dio _dio;
 
@@ -75,7 +79,7 @@ class HttpUtils {
       _dio.interceptors.add(interceptor);
     });
   }
-
+  /// 内部请求
   static Future<BaseEntity> _request(
     String method,
     String url, {
@@ -113,6 +117,9 @@ class HttpUtils {
     return options;
   }
 
+  /// ============================
+  /// 统一请求方法
+  /// ============================
   static Future<T> requestNetwork<T>(
     Method method,
     String url, {
@@ -236,12 +243,16 @@ class HttpUtils {
       return Future.error(result);
     }
   }
-
+  /// ============================
+  /// 错误处理
+  /// ============================
   static void _onError(int code, String msg, NetErrorCallback? onError) {
     HttpLog.e('接口请求异常： code: $code, msg: $msg');
     onError?.call(code, msg);
   }
-
+  /// ============================
+  /// 动态 Header 管理
+  /// ============================
   static void setHeaders(Map<String, dynamic> map) {
     map.forEach((k, v) => setHeader(k, v));
   }
