@@ -110,28 +110,33 @@ class ImageUtils {
   /// 为图片添加水印
   /// ===========================
   static Future<String?> addWatermarkFromImgPath(
-    BuildContext context,
-    String path,
-    Positioned watermark,
-  ) async {
+      BuildContext context,
+      String path,
+      Positioned positioned,
+      ) async {
+    final imageProvider = FileImage(File(path));
+    final widgetToCapture = Stack(
+      children: [Image(image: imageProvider, fit: BoxFit.cover), positioned],
+    );
     try {
-      final imageProvider = FileImage(File(path));
-      final widgetToCapture = Stack(
-        children: [Image(image: imageProvider, fit: BoxFit.cover), watermark],
+      await getFileImageSize(imageProvider);
+      final bytes = await ImageUtils.createImageFromWidget(
+        context,
+        widgetToCapture,
       );
-
-      final bytes = await createImageFromWidget(context, widgetToCapture);
-      if (bytes != null) return await saveImage(imageData: bytes);
-
-      throw Exception('生成水印图片失败');
+      if (bytes != null) {
+        return await saveImage(imageData: bytes);
+      } else {
+        throw Exception("生成图片失败");
+      }
     } catch (e, st) {
       LoggerHelper.d("生成水印图片失败: $e\n$st");
-      return null;
     }
   }
 
+
   /// 获取 FileImage 的尺寸
-  static Future<Size> _getFileImageSize(FileImage imageProvider) async {
+  static Future<Size> getFileImageSize(FileImage imageProvider) async {
     final completer = Completer<Size>();
     final imageStream = imageProvider.resolve(const ImageConfiguration());
     late final ImageStreamListener listener;
