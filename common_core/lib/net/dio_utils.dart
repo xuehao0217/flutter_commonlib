@@ -38,6 +38,7 @@ List<Interceptor> _interceptors = [
   ),
   RestoreRawDataInterceptor(),
 ];
+
 /// ============================
 /// HttpUtils 核心类
 /// ============================
@@ -77,6 +78,7 @@ class HttpUtils {
       _dio.interceptors.add(interceptor);
     });
   }
+
   /// 内部请求
   static Future<BaseEntity> _request(
     String method,
@@ -164,10 +166,10 @@ class HttpUtils {
     CancelToken? cancelToken,
     Options? options,
   }) {
-    _request(
-          method.value,
+    requestNetwork(
+          method,
           url,
-          data: params,
+          params: params,
           queryParameters: queryParameters,
           options: options,
           cancelToken: cancelToken,
@@ -242,6 +244,7 @@ class HttpUtils {
       return Future.error(result);
     }
   }
+
   /// ============================
   /// 错误处理
   /// ============================
@@ -249,6 +252,7 @@ class HttpUtils {
     HttpLog.e('接口请求异常： code: $code, msg: $msg');
     onError?.call(code, msg);
   }
+
   /// ============================
   /// 动态 Header 管理
   /// ============================
