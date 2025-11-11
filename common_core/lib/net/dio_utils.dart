@@ -209,6 +209,7 @@ class HttpUtils {
     String field = "file",
     Map<String, dynamic>? extraData,
     ProgressCallback? onSendProgress,
+    NetErrorCallback? onError,
     CancelToken? cancelToken,
     Options? options,
   }) async {
@@ -237,7 +238,7 @@ class HttpUtils {
         return Future.error(result);
       }
     } else {
-      _onError(result.errorCode, result.errorMsg, null);
+      _onError(result.errorCode, result.errorMsg, onError);
       return Future.error(result);
     }
   }

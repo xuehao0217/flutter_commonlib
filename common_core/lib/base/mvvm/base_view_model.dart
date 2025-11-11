@@ -57,7 +57,6 @@ abstract class BaseViewModel<V extends AbsBaseView> extends GetxController {
   }
 
   void _onError(int code, String msg, NetErrorCallback? onError) {
-    view?.hideLoading();
     if (code != NetExceptionHandle.net_cancel) {
       view?.showToast(msg);
     }

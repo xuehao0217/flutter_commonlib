@@ -1,12 +1,13 @@
 
 import '../helpter/logger_helper.dart';
+import '../helpter/talker_helper.dart';
 class HttpLog {
   static void d(String msg) {
-    LoggerHelper.d(msg);
+    LogHelper.d(msg);
   }
 
   static void json(String msg) {
-    LoggerHelper.t(msg);
+    LogHelper.t(msg);
   }
 
   static void e(String msg) {
