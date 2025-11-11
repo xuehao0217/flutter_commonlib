@@ -13,8 +13,6 @@ import 'net.dart';
 
 typedef JsonConvertAsT = T? Function<T>(dynamic data);
 
-typedef NetSuccessListCallback<T> = Function(List<T> data);
-typedef NetSuccessCallback<T> = Function(T data);
 typedef NetErrorCallback = Function(int code, String msg);
 
 /// ============================
