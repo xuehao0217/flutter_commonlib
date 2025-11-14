@@ -147,8 +147,8 @@ flutter_native_splash:
   fullscreen: true
   android_12:
     image: assets/ic_splash_bg.png
-    color: "#42a5f5"
-    icon_background_color: "#111111"
+    color: "#5FB7F9"
+    icon_background_color: "#5FB7F9"
 
 
 ## https://pub-web.flutter-io.cn/packages/flutter_launcher_icons

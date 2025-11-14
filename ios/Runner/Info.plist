@@ -49,24 +49,21 @@
 		<true/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
-
 		<!--Permissions for image picker plugin-->
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>Used to demonstrate image picker plugin</string>
 		<key>NSCameraUsageDescription</key>
 		<string>Used to demonstrate image picker plugin</string>
-
-        <!-- 允许任意 HTTP 请求 -->
-        <key>NSAppTransportSecurity</key>
-        <dict>
-            <key>NSAllowsArbitraryLoads</key>
-            <true/>
-        </dict>
-
-        <!-- Permissions for network info plugin -->
-        <key>NSLocationWhenInUseUsageDescription</key>
-        <string>用于获取网络类型</string>
-        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-        <string>用于获取网络类型</string>
+		<!-- 允许任意 HTTP 请求 -->
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+		</dict>
+		<!-- Permissions for network info plugin -->
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>用于获取网络类型</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>用于获取网络类型</string>
 	</dict>
 </plist>

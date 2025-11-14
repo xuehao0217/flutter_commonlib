@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:common_core/base/mvvm/base_view_model.dart';
+import 'package:common_core/helpter/talker_helper.dart';
 import 'package:common_core/net/dio_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_commonlib/entity/home_banner_entity.dart';
@@ -70,5 +71,17 @@ class HomeViewModel extends BaseViewModel {
     } catch (e) {
       debugPrint('Error clearing cache: $e');
     }
+  }
+
+
+  @override
+  void onReady() {
+    super.onReady();
+    "onReady".logI(tag: "log");
+  }
+  @override
+  void onInit() {
+    super.onInit();
+    "onInit".logI(tag: "log");
   }
 }
