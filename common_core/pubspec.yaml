@@ -35,6 +35,7 @@ dependencies:
 #  connectivity_plus:           #https://pub-web.flutter-io.cn/packages/connectivity_plus
   #组件
   extended_image:             #https://pub-web.flutter-io.cn/packages/extended_image
+  dd_check_plugin: ^5.1.0     #https://pub-web.flutter-io.cn/packages/dd_check_plugin
   #-------------------下拉刷新加载更多------------
   any_refreshable_widget:     #https://pub-web.flutter-io.cn/packages/any_refreshable_widget
   custom_refresh_indicator:   #https://pub.dev/packages/custom_refresh_indicator/install

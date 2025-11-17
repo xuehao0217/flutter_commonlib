@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:common_core/base/base_stateful_widget.dart';
 import 'package:common_core/common_core.dart';
 import 'package:common_core/helpter/logger_helper.dart';
 import 'package:common_core/helpter/notification_helper.dart';
+import 'package:common_core/helpter/talker_helper.dart';
 import 'package:common_core/net/dio_utils.dart';
 import 'package:common_core/style/theme.dart';
-// import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:dd_check_plugin/dd_check_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_commonlib/router/router_config.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -26,6 +28,14 @@ Future<void> main() async {
     "App-Platform": "flutter",
   });
 
+  await DdCheckPlugin().init(
+    HttpUtils.dio,
+    initHost: '169.254.48.22', // Change to your computer IP
+    projectName: "X", // Custom Project Name
+    connectSuccess: ( Socket socket, SocketConnect connect) {
+      "DdCheckPlugin connectSuccess".logI();
+    },
+  );
   runApp(MyApp());
 }
 

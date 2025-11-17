@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:ansicolor/ansicolor.dart';
 import 'package:chucker_flutter/chucker_flutter.dart';
+import 'package:dd_check_plugin/dd_check_plugin.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
@@ -77,6 +78,8 @@ class HttpUtils {
     _interceptors.forEach((interceptor) {
       _dio.interceptors.add(interceptor);
     });
+
+
   }
 
   /// 内部请求
