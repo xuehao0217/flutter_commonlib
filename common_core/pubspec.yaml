@@ -62,8 +62,7 @@ dependencies:
   #  fl_paging: ^2.3.0         #https://pub.dev/packages/fl_paging
   #  super_paging: ^0.2.0      #https://pub.dev/packages/super_paging
   #  video_player: ^2.9.5      #https://pub.dev/packages/video_player
-  #install_plugin: ^2.1.0
-  #flutter_statusbarcolor_ns: ^0.6.0  #https://pub.dev/packages/flutter_statusbarcolor_ns/example
+
   #https://github.com/OctMon/flutter_easy
   #工具
   dart_helper_utils:           #https://pub.dev/packages/dart_helper_utils
@@ -73,25 +72,21 @@ dependencies:
   flutter_helper_utils:        #https://pub.dev/packages/flutter_helper_utils
   flutter_helper_kit:          #https://pub.dev/packages/flutter_helper_kit
   sprintf:                     #https://pub-web.flutter-io.cn/packages/sprintf
-
-  firebase_auth: ^6.1.2
-  firebase_core: ^4.2.1
-  firebase_analytics: ^12.0.4
-  firebase_messaging: ^16.0.4
-  firebase_crashlytics: ^5.0.4
-
-#  sign_in_with_apple: ^7.0.1
-#  google_sign_in: ^6.3.0     #https://pub-web.flutter-io.cn/packages/google_sign_in/install
-  gpt_markdown:               #https://pub-web.flutter-io.cn/packages/gpt_markdown/install
-  lottie:                     #https://pub-web.flutter-io.cn/packages/lottie
-  in_app_purchase: ^3.2.3
   flutter_websocket_manager: ^1.0.4
+  in_app_purchase: ^3.2.3      #https://pub-web.flutter-io.cn/packages/in_app_purchase
+
+  firebase_auth:
+  firebase_core:
+  firebase_analytics:
+  firebase_messaging:
+  firebase_crashlytics:
+
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 
 
