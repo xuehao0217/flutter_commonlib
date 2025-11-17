@@ -27,36 +27,61 @@ class CommonTitleBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConstraintLayout(
-      width: matchParent,
+    return SizedBox(
       height: height,
-      children: [
-        Container(
-          color: backgroundColor,
-        ).applyConstraint(width: matchParent, height: matchParent),
-        GestureDetector(
-          onTap: backCallBack,
-          child: Image.asset(backIcon, width: 24, height: 24),
-        ).applyConstraint(
-          size: 24,
-          centerLeftTo: parent,
-          margin: const EdgeInsets.only(left: 15),
-          visibility: showBack ? visible : gone,
-        ),
-        Text(
-          title,
-          style: titleTextStyle ?? _defaultTitleTextStyle,
-        ).applyConstraint(centerTo: parent),
-        Container(child: rightWidget).applyConstraint(
-          centerRightTo: parent,
-          margin: const EdgeInsets.only(right: 15),
-        ),
-        if (showLine)
-          Divider(
-            height: 0.5,
-          ).applyConstraint(bottomCenterTo: parent, height: 0.5),
-      ],
+      width: double.infinity,
+      child: Stack(
+        children: [
+          /// 背景
+          Container(
+            color: backgroundColor,
+          ),
+
+          /// 返回按钮（左侧居中）
+          if (showBack)
+            Positioned(
+              left: 15,
+              top: 0,
+              bottom: 0,
+              child: Center(
+                child: GestureDetector(
+                  onTap: backCallBack,
+                  child: Image.asset(backIcon, width: 24, height: 24),
+                ),
+              ),
+            ),
+
+          /// 标题（整体居中）
+          Center(
+            child: Text(
+              title,
+              style: titleTextStyle ?? _defaultTitleTextStyle,
+            ),
+          ),
+
+          /// 右侧组件（右侧居中）
+          if (rightWidget != null)
+            Positioned(
+              right: 15,
+              top: 0,
+              bottom: 0,
+              child: Center(
+                child: rightWidget,
+              ),
+            ),
+
+          /// 底部分割线
+          if (showLine)
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Divider(height: 0.5, thickness: 0.5),
+            ),
+        ],
+      ),
     );
+
   }
 
   TextStyle get _defaultTitleTextStyle {
