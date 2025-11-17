@@ -1,11 +1,12 @@
+import 'package:common_core/base/base_stateless_widget.dart';
 import 'package:common_core/common_core.dart';
 import 'package:common_core/widget/common_gridview.dart';
 import 'package:flutter/material.dart';
 
 
-class GridviewPage extends StatelessWidget {
+class GridviewPage extends BaseStatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget buildContent(BuildContext context) {
     return CommonGridView<String>(
       items: ['A', 'B', 'C', 'D', 'E', 'F'],
       crossAxisCount: 3,
