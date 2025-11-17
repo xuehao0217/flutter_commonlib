@@ -28,9 +28,10 @@ Future<void> main() async {
     "App-Platform": "flutter",
   });
 
+  ///https://mdddj.github.io/flutterx-doc/en/dio/starter/#write-code
   await DdCheckPlugin().init(
     HttpUtils.dio,
-    initHost: '169.254.48.22', // Change to your computer IP
+    initHost: "192.168.31.101", // Change to your computer IP
     projectName: "X", // Custom Project Name
     connectSuccess: ( Socket socket, SocketConnect connect) {
       "DdCheckPlugin connectSuccess".logI();
