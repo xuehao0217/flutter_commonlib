@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import '../net/dio_utils.dart';
 import 'call_back.dart';
 
@@ -61,6 +62,8 @@ class BuyHelper {
 
   /// 商品缓存
   final Map<String, ProductDetails> _productCache = {};
+  /// 商品优惠价格
+  final Map<String, String> _iosPromoPriceCache = {};
 
   Map<String, ProductDetails> get allProducts =>
       Map.unmodifiable(_productCache);
@@ -126,6 +129,15 @@ class BuyHelper {
 
       for (final p in response.productDetails) {
         _productCache[p.id] = p;
+        // 处理 iOS 优惠价
+        if (p is AppStoreProduct2Details) {
+          final subscription = p.sk2Product.subscription;
+          final offers = subscription?.promotionalOffers ?? [];
+          if (offers.isNotEmpty) {
+            _iosPromoPriceCache[p.id] = offers.first.price.toString();
+            debugPrint("iOS 优惠价缓存: ${p.id} -> ${offers.first.price}");
+          }
+        }
         debugPrint("BuyHelper ✅ 商品缓存: ${p.id}, price=${p.price}");
       }
     } catch (e) {
@@ -334,6 +346,25 @@ class BuyHelper {
       default:
         return code ?? '';
     }
+  }
+
+
+  /// 获取价格信息
+  /// 返回 Map 包含：
+  /*
+    "price": 显示给用户的价格（优惠价优先，如果没有优惠则显示原价）
+    "hasPromo": 是否有优惠
+  */
+  Map<String, dynamic> getIOSPriceInfo(String productId) {
+    final ProductDetails? product = _productCache[productId];
+    if (product == null) return {"price": null, "hasPromo": false};
+
+    final bool hasPromo = _iosPromoPriceCache.containsKey(productId);
+    final String price = hasPromo
+        ? _iosPromoPriceCache[productId]! // 优惠价
+        : _currencySymbol(product.currencyCode) + product.rawPrice.toStringAsFixed(2);
+
+    return {"price": price, "hasPromo": hasPromo};
   }
 
 }

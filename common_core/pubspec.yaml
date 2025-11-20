@@ -73,7 +73,9 @@ dependencies:
   flutter_helper_kit:          #https://pub.dev/packages/flutter_helper_kit
   sprintf:                     #https://pub-web.flutter-io.cn/packages/sprintf
   flutter_websocket_manager: ^1.0.4
+  #支付
   in_app_purchase: ^3.2.3      #https://pub-web.flutter-io.cn/packages/in_app_purchase
+  in_app_purchase_storekit: ^0.4.6+2
 
   firebase_auth:
   firebase_core:
