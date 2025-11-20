@@ -350,21 +350,37 @@ class BuyHelper {
 
 
   /// 获取价格信息
-  /// 返回 Map 包含：
-  /*
-    "price": 显示给用户的价格（优惠价优先，如果没有优惠则显示原价）
-    "hasPromo": 是否有优惠
-  */
-  Map<String, dynamic> getIOSPriceInfo(String productId) {
+  /// 返回 PriceInfo 对象
+  PriceInfo? getPriceInfo(String productId) {
     final ProductDetails? product = _productCache[productId];
-    if (product == null) return {"price": null, "hasPromo": false};
+    if (product == null) return null;
 
     final bool hasPromo = _iosPromoPriceCache.containsKey(productId);
-    final String price = hasPromo
-        ? _iosPromoPriceCache[productId]! // 优惠价
-        : _currencySymbol(product.currencyCode) + product.rawPrice.toStringAsFixed(2);
+    final String originalPrice =
+        _currencySymbol(product.currencyCode) + product.rawPrice.toStringAsFixed(2);
 
-    return {"price": price, "hasPromo": hasPromo};
+    final String displayPrice = hasPromo
+        ? _iosPromoPriceCache[productId]! // 优惠价
+        : originalPrice;
+
+    return PriceInfo(
+      displayPrice: displayPrice,
+      originalPrice: originalPrice,
+      hasPromo: hasPromo,
+    );
   }
 
+}
+
+
+class PriceInfo {
+  final String displayPrice; // 显示给用户的价格（优惠价优先）
+  final String originalPrice; // 原价（原价也可显示给用户）
+  final bool hasPromo; // 是否有优惠/活动价
+
+  PriceInfo({
+    required this.displayPrice,
+    required this.originalPrice,
+    this.hasPromo = false,
+  });
 }
