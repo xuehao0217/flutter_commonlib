@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
+import 'package:nb_utils/nb_utils.dart';
 import '../net/dio_utils.dart';
 import 'call_back.dart';
 
@@ -360,6 +361,15 @@ class BuyHelper {
     return _iosProductPriceCache[productId];
   }
 
+
+  Future<void> showOfferCodeRedemptionSheet() async {
+    if (isIOS) {
+      final InAppPurchaseStoreKitPlatformAddition iosPlatformAddition =
+      _inAppPurchase
+          .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+      await iosPlatformAddition.presentCodeRedemptionSheet();
+      debugPrint("BuyHelper ▶️ 打开 iOS Offer Code 界面");
+    }}
 }
 
 
