@@ -63,7 +63,7 @@ class BuyHelper {
   /// 商品缓存
   final Map<String, ProductDetails> _productCache = {};
   /// 商品优惠价格
-  final Map<String, String> _iosPromoPriceCache = {};
+  final Map<String, ProductPriceInfo> _iosProductPriceCache = {};
 
   Map<String, ProductDetails> get allProducts =>
       Map.unmodifiable(_productCache);
@@ -131,11 +131,17 @@ class BuyHelper {
         _productCache[p.id] = p;
         // 处理 iOS 优惠价
         if (p is AppStoreProduct2Details) {
-          final subscription = p.sk2Product.subscription;
-          final offers = subscription?.promotionalOffers ?? [];
+          final sub = p.sk2Product.subscription;
+          final offers = sub?.promotionalOffers ?? [];
           if (offers.isNotEmpty) {
-            _iosPromoPriceCache[p.id] = offers.first.price.toString();
-            debugPrint("iOS 优惠价缓存: ${p.id} -> ${offers.first.price}");
+            _iosProductPriceCache[p.id] = ProductPriceInfo(
+              displayPrice: offers.first.price.toString(),
+              originalPrice: p.price,
+              hasPromo: true,
+            );
+            debugPrint(
+                "iOS 商品缓存 ✅ : ${p.id}, 原价=${_iosProductPriceCache[p.id]?.originalPrice}, 优惠价=${_iosProductPriceCache[p.id]?.displayPrice}"
+            );
           }
         }
         debugPrint("BuyHelper ✅ 商品缓存: ${p.id}, price=${p.price}");
@@ -348,37 +354,21 @@ class BuyHelper {
     }
   }
 
-
   /// 获取价格信息
   /// 返回 PriceInfo 对象
-  PriceInfo? getPriceInfo(String productId) {
-    final ProductDetails? product = _productCache[productId];
-    if (product == null) return null;
-
-    final bool hasPromo = _iosPromoPriceCache.containsKey(productId);
-    final String originalPrice =
-        _currencySymbol(product.currencyCode) + product.rawPrice.toStringAsFixed(2);
-
-    final String displayPrice = hasPromo
-        ? _iosPromoPriceCache[productId]! // 优惠价
-        : originalPrice;
-
-    return PriceInfo(
-      displayPrice: displayPrice,
-      originalPrice: originalPrice,
-      hasPromo: hasPromo,
-    );
+  ProductPriceInfo? getIOSPriceInfo(String productId) {
+    return _iosProductPriceCache[productId];
   }
 
 }
 
 
-class PriceInfo {
-  final String displayPrice; // 显示给用户的价格（优惠价优先）
-  final String originalPrice; // 原价（原价也可显示给用户）
-  final bool hasPromo; // 是否有优惠/活动价
+class ProductPriceInfo {
+  final String displayPrice; //（优惠/免费试用优先）
+  final String originalPrice; // 原价
+  final bool hasPromo; // 是否有优惠
 
-  PriceInfo({
+  ProductPriceInfo({
     required this.displayPrice,
     required this.originalPrice,
     this.hasPromo = false,
