@@ -143,6 +143,12 @@ class BuyHelper {
             debugPrint(
                 "iOS 商品缓存 ✅ : ${p.id}, 原价=${_iosProductPriceCache[p.id]?.originalPrice}, 优惠价=${_iosProductPriceCache[p.id]?.displayPrice}"
             );
+          }else{
+            _iosProductPriceCache[p.id] = ProductPriceInfo(
+              displayPrice: p.price,
+              originalPrice: p.price,
+              hasPromo: false,
+            );
           }
         }
         debugPrint("BuyHelper ✅ 商品缓存: ${p.id}, price=${p.price}");
