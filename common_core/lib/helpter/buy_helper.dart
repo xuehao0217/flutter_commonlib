@@ -136,7 +136,7 @@ class BuyHelper {
           final offers = sub?.promotionalOffers ?? [];
           if (offers.isNotEmpty) {
             _iosProductPriceCache[p.id] = ProductPriceInfo(
-              displayPrice: offers.first.price.toString(),
+              displayPrice: "${p.currencySymbol}${offers.first.price}",
               originalPrice: p.price,
               hasPromo: true,
             );
