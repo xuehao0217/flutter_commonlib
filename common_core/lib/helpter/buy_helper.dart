@@ -130,24 +130,27 @@ class BuyHelper {
 
       for (final p in response.productDetails) {
         _productCache[p.id] = p;
-        // 处理 iOS 优惠价
         if (p is AppStoreProduct2Details) {
           final sub = p.sk2Product.subscription;
           final offers = sub?.promotionalOffers ?? [];
           if (offers.isNotEmpty) {
             _iosProductPriceCache[p.id] = ProductPriceInfo(
-              displayPrice: "${p.currencySymbol}${offers.first.price}",
-              originalPrice: p.price,
+              promotionalPrice: offers.first.price,
+              originalPrice: p.rawPrice,
               hasPromo: true,
+              currencySymbol: p.currencySymbol,
+              currencyCode: p.currencyCode,
             );
             debugPrint(
-                "iOS 商品缓存 ✅ : ${p.id}, 原价=${_iosProductPriceCache[p.id]?.originalPrice}, 优惠价=${_iosProductPriceCache[p.id]?.displayPrice}"
+              "iOS 商品缓存 ✅ : ${p.id}, 原价=${_iosProductPriceCache[p.id]?.originalPrice}, 优惠价=${_iosProductPriceCache[p.id]?.promotionalPrice}",
             );
-          }else{
+          } else {
             _iosProductPriceCache[p.id] = ProductPriceInfo(
-              displayPrice: p.price,
-              originalPrice: p.price,
+              promotionalPrice: p.rawPrice,
+              originalPrice: p.rawPrice,
               hasPromo: false,
+              currencySymbol: p.currencySymbol,
+              currencyCode: p.currencyCode,
             );
           }
         }
@@ -320,15 +323,13 @@ class BuyHelper {
   /// - 格式化的月均价格字符串，例如 `$0.99/month`
   /// - 若商品未找到则返回 `null`
   String? getMonthlyPrice(String id, {int months = 12}) {
-    final p = _productCache[id];
+    final p = _iosProductPriceCache[id];
     if (p == null) return null;
-
-    // 保留两位小数，防止精度问题
-    final monthly = (p.rawPrice / months * 100).truncateToDouble() / 100.0;
-
-    final symbol = _currencySymbol(p.currencyCode);
-    return "$symbol${monthly.toStringAsFixed(2)}/month";
+    final monthly =
+        (p.promotionalPrice / months * 100).truncateToDouble() / 100.0;
+    return "${p.currencySymbol}${monthly.toStringAsFixed(2)}/month";
   }
+
 
   /// 将货币代码（ISO 4217）转换为对应的符号
   ///
@@ -378,15 +379,29 @@ class BuyHelper {
     }}
 }
 
-
 class ProductPriceInfo {
-  final String displayPrice; //（优惠/免费试用优先）
-  final String originalPrice; // 原价
-  final bool hasPromo; // 是否有优惠
+  final double promotionalPrice; // 优惠价格
+  final double originalPrice;    // 原价
+  final bool hasPromo;           // 是否有优惠
+  final String currencySymbol;   // 货币符号，例如 "$"
+  final String currencyCode;     // 货币代码，例如 "USD"
 
   ProductPriceInfo({
-    required this.displayPrice,
+    required this.promotionalPrice,
     required this.originalPrice,
     this.hasPromo = false,
+    this.currencySymbol = "",
+    this.currencyCode = "",
   });
+
+  String get promotionalPriceDisplay =>
+      "$currencySymbol${_format(promotionalPrice)}";
+
+  String get originalPriceDisplay =>
+      "$currencySymbol${_format(originalPrice)}";
+
+  String _format(double value) {
+    if (value % 1 == 0) return value.toInt().toString();
+    return value.toString();
+  }
 }
