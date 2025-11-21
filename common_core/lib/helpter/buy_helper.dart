@@ -301,12 +301,12 @@ class BuyHelper {
   /// 返回：
   /// - 格式化后的价格字符串，例如 `$4.99`、`¥68.00`
   /// - 若未查询到商品则返回 `null`
-  String? getProductPrice(String id) {
+  String? getProductPrice(String id,{int fixed=2}) {
     final p = _productCache[id];
     if (p == null) return null;
 
     final symbol = _currencySymbol(p.currencyCode);
-    return "$symbol${p.rawPrice.toStringAsFixed(2)}";
+    return "$symbol${p.rawPrice.toStringAsFixed(fixed)}";
   }
 
   /// 获取指定商品的“月均价”字符串（常用于年订阅显示）
