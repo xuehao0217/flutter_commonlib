@@ -322,12 +322,11 @@ class BuyHelper {
   /// 返回：
   /// - 格式化的月均价格字符串，例如 `$0.99/month`
   /// - 若商品未找到则返回 `null`
-  String? getMonthlyPrice(String id, {int months = 12}) {
+  String? getMonthlyPrice(String id, {int fixed=2}) {
     final p = _iosProductPriceCache[id];
     if (p == null) return null;
-    final monthly =
-        (p.promotionalPrice / months * 100).truncateToDouble() / 100.0;
-    return "${p.currencySymbol}${monthly.toStringAsFixed(2)}/month";
+    final monthly = (p.promotionalPrice / 12 * 100).truncateToDouble() / 100.0;
+    return "${p.currencySymbol}${monthly.toStringAsFixed(fixed)}/month";
   }
 
 
