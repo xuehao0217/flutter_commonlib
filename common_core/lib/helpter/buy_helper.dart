@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../net/dio_utils.dart';
 import 'call_back.dart';
@@ -400,7 +401,6 @@ class ProductPriceInfo {
       "$currencySymbol${_format(originalPrice)}";
 
   String _format(double value) {
-    if (value % 1 == 0) return value.toInt().toString();
-    return value.toString();
+    return NumberFormat("0.##").format(value);
   }
 }
