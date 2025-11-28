@@ -45,6 +45,7 @@ class _RefreshListPage
   Widget buildPageContent(BuildContext context) {
     return viewModel.datas.obxIfNotEmpty(
       (datas) => CommonListView.buildListView<HomeListDataDatas>(
+        physics: const ClampingScrollPhysics(),
         items: datas,
         separatorBuilder: (context, index) {
           return SizedBox(height: 15);
