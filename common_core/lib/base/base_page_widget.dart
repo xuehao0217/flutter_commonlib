@@ -55,6 +55,13 @@ mixin BaseWidgetMixin {
     height: context.statusBarHeight,
   );
 
+  ///底部NavigationBarWidget
+  Widget getNavigationBarWidget(BuildContext context)=> Container(
+      height: context.navigationBarHeight,
+      color: setPageBgColor()
+  );
+
+
   /// 公共标题栏 widget
   Widget getCommonTitleBarWidget(BuildContext context) => CommonTitleBar(
     showBack: showBackIcon(),
@@ -76,7 +83,7 @@ mixin BaseWidgetMixin {
       if (showTitleBar()) getCommonTitleBarWidget(context),
       content.withContainer(color: setPageBgColor()).withExpanded(),
       if (showNavigationBar())
-        Container(height: context.navigationBarHeight, color: setPageBgColor()),
+        getNavigationBarWidget(context),
     ],
   );
 
