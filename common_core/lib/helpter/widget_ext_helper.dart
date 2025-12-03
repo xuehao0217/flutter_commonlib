@@ -140,7 +140,7 @@ extension WidgetExt on Widget {
 
   Widget withCenter() => Center(child: this);
 
-  /// 🛡️ 添加 SafeArea 包裹
+  /// 🛡️ 添加 SafeArea 包裹   top 是否避开顶部状态栏 bottom 是否避开底部系统区
   Widget withSafeArea({bool top = true, bool bottom = true}) =>
       SafeArea(top: top, bottom: bottom, child: this);
 
