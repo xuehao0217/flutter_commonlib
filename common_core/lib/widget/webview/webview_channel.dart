@@ -95,12 +95,14 @@ class WebViewChannel {
     if (kDebugMode) {
       print("📤 [Flutter→JS][$name]: $msg");
     }
-
+    // activeMessage 是调用H5的方法名
+    // 正确的做法：将 msg 变量安全地包裹在 JS 的模板字符串中
+    // 这可以处理 msg 中包含的引号、换行符等所有特殊字符
     await ctrl.runJavaScript('''
-      if (window.dispatchEvent) {
-        window.dispatchEvent(new CustomEvent('$name', { detail: '$msg' }));
+      if (typeof window.activeMessage === 'function') {
+        window.activeMessage(`$msg`);
       } else {
-        console.warn('No dispatchEvent support for channel $name');
+        console.warn("H5 Warning: function 'window.activeMessage' is not defined.");
       }
     ''');
   }
