@@ -70,9 +70,9 @@ class WebViewChannel {
 
   /// Flutter 监听 H5 消息（单独设置 callback）
   static void listen(
-      void Function(String msg) onMessage, {
-        String? channelName,
-      }) {
+    void Function(String msg) onMessage, {
+    String? channelName,
+  }) {
     final name = channelName ?? defaultChannelName;
     _listeners[name] = onMessage;
   }
@@ -80,10 +80,10 @@ class WebViewChannel {
   /// Flutter 发送消息给 H5
   /// 如果未传 controller，会使用绑定时缓存的 controller
   static Future<void> postMessage(
-      String msg, {
-        WebViewController? controller,
-        String? channelName,
-      }) async {
+    String msg, {
+    WebViewController? controller,
+    String? channelName,
+  }) async {
     final name = channelName ?? defaultChannelName;
     final ctrl = controller ?? _controllers[name];
 
@@ -107,26 +107,30 @@ class WebViewChannel {
     ''');
   }
 
-
   static Future<void> setToken(
-      String token, {
-        WebViewController? controller,
-        String? channelName,
-      }) async {
+    String token, {
+    WebViewController? controller,
+    String? channelName,
+  }) async {
+    await runJavaScript(
+      'window.localStorage.setItem("auth_token", `$token`)',
+      controller: controller,
+      channelName: channelName,
+    );
+  }
+
+  static Future<void> runJavaScript(
+    String javaScript, {
+    WebViewController? controller,
+    String? channelName,
+  }) async {
     final name = channelName ?? defaultChannelName;
     final ctrl = controller ?? _controllers[name];
-
 
     if (ctrl == null) {
       if (kDebugMode) print("❌ WebViewChannel: controller 未绑定，无法发送消息");
       return;
     }
-    if (kDebugMode) {
-      print("📤 [Flutter→JS][setToken]: $token");
-    }
-
-    await ctrl.runJavaScript(
-        'window.localStorage.setItem("auth_token", `$token`)'
-    );
+    await ctrl.runJavaScript(javaScript);
   }
 }
