@@ -106,4 +106,27 @@ class WebViewChannel {
       }
     ''');
   }
+
+
+  static Future<void> setToken(
+      String token, {
+        WebViewController? controller,
+        String? channelName,
+      }) async {
+    final name = channelName ?? defaultChannelName;
+    final ctrl = controller ?? _controllers[name];
+
+
+    if (ctrl == null) {
+      if (kDebugMode) print("❌ WebViewChannel: controller 未绑定，无法发送消息");
+      return;
+    }
+    if (kDebugMode) {
+      print("📤 [Flutter→JS][setToken]: $token");
+    }
+
+    await ctrl.runJavaScript(
+        'window.localStorage.setItem("auth_token", `$token`)'
+    );
+  }
 }
