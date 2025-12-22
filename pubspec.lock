@@ -888,10 +888,10 @@ packages:
     dependency: "direct main"
     description:
       name: heroine
-      sha256: "03b6b43d0f766af576bbb32e4b0402147732f9112ae21b5bdcc70f9597000ad0"
+      sha256: "229449329c9d959b337530d8599c9ac3471efdbd2f790b8a10f0d10806656b0b"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.5.0+3"
+    version: "0.7.0"
   hive_ce:
     dependency: transitive
     description:
@@ -1536,10 +1536,10 @@ packages:
     dependency: "direct main"
     description:
       name: shared_preferences
-      sha256: "6e8bf70b7fef813df4e9a36f658ac46d107db4b4cfe1048b477d4e453a8159f5"
+      sha256: "2939ae520c9024cb197fc20dee269cd8cdbf564c8b5746374ec6cacdc5169e64"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.5.3"
+    version: "2.5.4"
   shared_preferences_android:
     dependency: transitive
     description:
@@ -1637,10 +1637,10 @@ packages:
     dependency: "direct main"
     description:
       name: smooth_page_indicator
-      sha256: b21ebb8bc39cf72d11c7cfd809162a48c3800668ced1c9da3aade13a32cf6c1c
+      sha256: "4b497e9898d095de40d246db943371183fa7482492a88391cfa8415ef94d57ba"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.2.1"
+    version: "2.0.1"
   source_gen:
     dependency: transitive
     description:
