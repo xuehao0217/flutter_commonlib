@@ -11,6 +11,7 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_commonlib/ui/vm/refresh_list_view_model.dart';
+import 'package:get/get.dart';
 import '../entity/home_list_entity.dart';
 
 class RefreshListPage extends StatefulWidget {
@@ -43,6 +44,34 @@ class _RefreshListPage
 
   @override
   Widget buildPageContent(BuildContext context) {
+    return Obx(
+      () => SmartRefresherListView(
+        viewModel: viewModel,
+        listView: CommonListView.buildListView<HomeListDataDatas>(
+          physics: const ClampingScrollPhysics(),
+          items: viewModel.datas,
+          separatorBuilder: (context, index) {
+            return SizedBox(height: 15);
+          },
+          // visibleListCallback: (datas) {
+          //   LoggerHelper.d(
+          //     "visibleListCallback==${datas.map((item) => item.title).toList()}",
+          //   );
+          // },
+          itemBuilder: (item, index) {
+            return Text(
+                  "${viewModel.datas[index].title}",
+                  style: const TextStyle(color: Colors.white),
+                )
+                .withContainer(
+                  color: Colors.green,
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                );
+          },
+        ),
+      ),
+    );
+
     return viewModel.datas.obxIfNotEmpty(
       (datas) => CommonListView.buildListView<HomeListDataDatas>(
         physics: const ClampingScrollPhysics(),
@@ -55,7 +84,7 @@ class _RefreshListPage
         //     "visibleListCallback==${datas.map((item) => item.title).toList()}",
         //   );
         // },
-        itemBuilder: (item,index) {
+        itemBuilder: (item, index) {
           return Text(
                 "${viewModel.datas[index].title}",
                 style: const TextStyle(color: Colors.white),
@@ -63,8 +92,7 @@ class _RefreshListPage
               .withContainer(
                 color: Colors.green,
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-              )
-              .withIntrinsicHeight();
+              );
         },
       ).intoRefreshList(viewModel),
       emptyWidget: Center(child: CircularProgressIndicator()),
@@ -82,7 +110,7 @@ class _RefreshListPage
                 "visibleListCallback==${datas.map((item) => item.title).toList()}",
               );
             },
-            itemBuilder: ( item,index) {
+            itemBuilder: (item, index) {
               return Text(
                     "${viewModel.datas[index].title}",
                     style: const TextStyle(color: Colors.white),

@@ -1,12 +1,13 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_helper_utils/flutter_helper_utils.dart';
-import 'package:flutter/animation.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import '../base/mvvm/base_list_view_model.dart';
-import 'common_listview.dart';
-import 'package:easy_refresh/easy_refresh.dart' as easy;
 import 'package:smart_scroll/smart_scroll.dart' as pull;
+
+// --- Existing Extensions (Untouched) ---
 
 extension EasyRefreshExt<T> on Widget {
   EasyRefresh intoEasyRefresh({
@@ -38,7 +39,6 @@ extension EasyRefreshExt<T> on Widget {
                 _controller.resetFooter();
               }
               : null,
-      // ✅ 不传则完全禁用
       onLoad: () async {
         if (onLoad != null) {
           var hasMore = await onLoad();
@@ -53,27 +53,27 @@ extension EasyRefreshExt<T> on Widget {
     );
   }
 
-
-  EasyRefresh intoEasyRefreshList(BaseListViewModel viewModel, {
+  EasyRefresh intoEasyRefreshList(
+    BaseListViewModel viewModel, {
     Header? header,
     Footer? footer,
     EasyRefreshController? controller,
     ScrollController? scrollController,
     bool refreshOnStart = false,
-  }) => intoEasyRefresh(onRefresh: () => viewModel.getRefreshData(),
-        onLoad: () async {
-          return await viewModel.getLoadData();
-        },
-        header: header,
-        footer: footer, controller: controller,
-        scrollController: scrollController,
-        refreshOnStart: refreshOnStart);
+  }) => intoEasyRefresh(
+    onRefresh: () => viewModel.getRefreshData(),
+    onLoad: () async {
+      return await viewModel.getLoadData();
+    },
+    header: header,
+    footer: footer,
+    controller: controller,
+    scrollController: scrollController,
+    refreshOnStart: refreshOnStart,
+  );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
 extension RefreshControllerExt on pull.RefreshController {
-  /// 完成下拉刷新
   void finishRefresh({bool success = true, bool noMore = false}) {
     if (success) {
       if (noMore) {
@@ -85,11 +85,9 @@ extension RefreshControllerExt on pull.RefreshController {
     }
   }
 
-  /// 完成上拉加载
   void finishLoad({bool success = true, bool noMore = false}) {
     if (success) {
       if (noMore) {
-        loadComplete();
         loadNoData();
       } else {
         loadComplete();
@@ -100,17 +98,17 @@ extension RefreshControllerExt on pull.RefreshController {
   }
 }
 
-extension SmartRefresherExt<T> on Widget {
-  /// 和 intoEasyRefreshList 对齐的封装
+
+extension SmartRefresherExt<T> on ListView {
   pull.RefreshConfiguration intoRefreshList(
-      BaseListViewModel viewModel, {
-        pull.RefreshController? controller,
-        ScrollController? scrollController,
-        bool enableRefresh = true,
-        bool enablePullUp = true,
-        Widget? header,
-        Widget? footer,
-      }) {
+    BaseListViewModel viewModel, {
+    pull.RefreshController? controller,
+    ScrollController? scrollController,
+    bool enableRefresh = true,
+    bool enablePullUp = true,
+    Widget? header,
+    Widget? footer,
+  }) {
     return intoRefresh(
       onRefresh: () => viewModel.getRefreshData(),
       onLoad: () async {
@@ -125,7 +123,6 @@ extension SmartRefresherExt<T> on Widget {
     );
   }
 
-
   pull.RefreshConfiguration intoRefresh({
     required Future<bool> Function()? onLoad,
     required Future<void> Function()? onRefresh,
@@ -137,8 +134,7 @@ extension SmartRefresherExt<T> on Widget {
     Widget? footer,
   }) {
     pull.RefreshController _controller =
-        controller ?? pull.RefreshController(initialRefresh: false);
-
+        controller ?? pull.RefreshController(initialRefresh: true);
     return pull.RefreshConfiguration(
       headerTriggerDistance: 80.0,
       maxOverScrollExtent: 100,
@@ -147,21 +143,8 @@ extension SmartRefresherExt<T> on Widget {
         scrollController: scrollController,
         enablePullUp: enablePullUp,
         enablePullDown: enableRefresh,
-        header: header ??
-            const pull.ClassicHeader(
-              // refreshingText: "加载中...",
-              // releaseText: "放开刷新",
-              // completeText: "刷新完成",
-              // idleText: "下拉刷新",
-            ),
-        footer:
-        footer ??
-            const pull.ClassicFooter(
-              // loadingText: "加载中...",
-              // noDataText: "到底了~",
-              // idleText: "加载完成",
-              // failedText: "加载失败",
-            ),
+        header: header ?? const pull.ClassicHeader(),
+        footer: footer ?? const pull.ClassicFooter(),
         controller: _controller,
         onRefresh: () async {
           if (onRefresh != null) {
@@ -181,6 +164,77 @@ extension SmartRefresherExt<T> on Widget {
         },
         child: this,
       ),
+    );
+  }
+}
+
+
+class SmartRefresherListView<T> extends StatefulWidget {
+  final BaseListViewModel<T> viewModel;
+  final bool enableRefresh;
+  final bool enablePullUp;
+  final Widget? header;
+  final Widget? footer;
+  final Widget? emptyWidget;
+  final Widget? loadingWidget;
+  final ListView listView;
+
+  const SmartRefresherListView({
+    super.key,
+    required this.viewModel,
+    this.enableRefresh = true,
+    this.enablePullUp = true,
+    this.header,
+    this.footer,
+    this.emptyWidget,
+    this.loadingWidget,
+    required this.listView,
+  });
+
+  @override
+  State<SmartRefresherListView<T>> createState() => _SmartRefresherListViewState<T>();
+}
+
+class _SmartRefresherListViewState<T> extends State<SmartRefresherListView<T>> {
+  late final pull.RefreshController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = pull.RefreshController(initialRefresh: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _onRefresh() async {
+    await widget.viewModel.getRefreshData();
+    _controller.finishRefresh();
+  }
+
+  Future<void> _onLoading() async {
+    final hasMore = await widget.viewModel.getLoadData();
+    if (!hasMore) {
+      _controller.finishLoad(noMore: true);
+    } else {
+      _controller.finishLoad();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return pull.SmartScroll(
+      controller: _controller,
+      enablePullDown: widget.enableRefresh,
+      enablePullUp: widget.enablePullUp,
+      header: widget.header ?? const pull.ClassicHeader(),
+      footer: widget.footer ?? pull.ClassicFooter(),
+      onRefresh: _onRefresh,
+      onLoading: _onLoading,
+      child: widget.listView,
     );
   }
 }

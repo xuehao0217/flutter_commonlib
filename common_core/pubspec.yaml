@@ -41,6 +41,7 @@ dependencies:
   custom_refresh_indicator:   #https://pub.dev/packages/custom_refresh_indicator/install
   paging_view:                #https://pub.dev/packages/paging_view
   easy_refresh:               #https://pub.dev/packages/easy_refresh/example
+  infinite_scroll_pagination:
   smart_scroll:               #https://pub.dev/packages/smart_scroll
   #pull_to_refresh: ^2.0.0    #https://github.com/peng8350/flutter_pulltorefresh
   #---------------------------------------------
