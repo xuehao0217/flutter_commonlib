@@ -229,10 +229,10 @@ packages:
     dependency: "direct main"
     description:
       name: chucker_flutter
-      sha256: "318ad88a35d44126eb981b1f7739984734ca0942f505030d91e93f243b23661c"
+      sha256: "43d0a8a2fc1439cca7cde9df6e22c2ce3c9d5d20e1ee2b3677676b180b0642bc"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.9.0"
+    version: "1.9.1"
   cli_util:
     dependency: transitive
     description:
@@ -864,10 +864,10 @@ packages:
     dependency: "direct main"
     description:
       name: gpt_markdown
-      sha256: "8174983f2ed7d8576d25810913e3afe3f8ffdaa3172c0c823b7cfc289b67f380"
+      sha256: "9b88dfaffea644070b648c204ca4a55745a49f4ad0b58ed0ab70913ad593c7a1"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.4"
+    version: "1.1.5"
   graphs:
     dependency: transitive
     description:
