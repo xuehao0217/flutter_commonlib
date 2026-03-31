@@ -1,181 +1,171 @@
 name: flutter_commonlib
-description: "A new Flutter project."
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+description: "基于 common_core 的 Flutter 应用壳，聚合业务入口与共享依赖。"
+# 私有包：不向 pub.dev 发布；若需发布请删除本行。
+publish_to: "none"
 
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
-# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
-# Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-# In Windows, build-name is used as the major, minor, and patch parts
-# of the product and file versions while build-number is used as the build suffix.
+# 应用版本：name+build；构建时可用 --build-name / --build-number 覆盖。
+# Android：versionName / versionCode；iOS：CFBundleShortVersionString / CFBundleVersion。
 version: 1.0.0+1
 
+# Dart SDK 下限：须与团队 Flutter 自带的 Dart 版本一致，升级 Flutter 时请核对。
 environment:
   sdk: ^3.9.0-100.2.beta
 
 dependencies:
+  # --- Flutter SDK ---
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
 
-  # 本地模块依赖
+  # --- 本地模块 ---
   common_core:
     path: ./common_core
 
+  # --- UI 基础 ---
+  cupertino_icons: ^1.0.8 # iOS 风格图标字体
 
-  cupertino_icons: ^1.0.8
-  intl: ^0.20.2                  #日期格式化
-  #网络
-  dio: ^5.9.0                    #https://pub-web.flutter-io.cn/packages/dio
-  talker_flutter: ^5.1.9
-  talker_dio_logger: ^5.1.9      #https://pub-web.flutter-io.cn/packages/talker_dio_logger
-  chucker_flutter: ^1.9.1         #https://pub-web.flutter-io.cn/packages/chucker_flutter
-  dd_check_plugin: ^5.1.0        # 与 common_core 一致；main 直接引用需声明依赖
-  logger: ^2.6.2                 #https://pub-web.flutter-io.cn/packages/logger
-  get: ^4.7.3                    #https://pub-web.flutter-io.cn/packages/get
-  #必备
-  flutter_native_splash: ^2.4.7   #https://pub-web.flutter-io.cn/packages/flutter_native_splash
-  flutter_launcher_icons: ^0.14.4 #https://pub-web.flutter-io.cn/packages/flutter_launcher_icons
-  cached_network_image: ^3.4.1    #https://pub-web.flutter-io.cn/packages/cached_network_image
-  flutter_smart_dialog: ^5.1.0  #https://juejin.cn/post/7026150456673959943  #使用例子 https://xdd666t.github.io/flutter_use/web/index.html#/smartDialog?dialogType=CustomDialogLocation
-  package_info_plus: ^9.0.0       #https://pub-web.flutter-io.cn/packages/package_info_plus
-  shared_preferences: ^2.5.4      #https://pub-web.flutter-io.cn/packages/shared_preferences/install
-  webview_flutter: ^4.13.0        #https://pub.dev/packages/webview_flutter
-  permission_handler: ^12.0.1     #https://pub-web.flutter-io.cn/packages/permission_handler/example
-  device_info_plus: ^12.3.0       #https://pub-web.flutter-io.cn/packages/device_info_plus/example
-  flutter_local_notifications: ^21.0.0 #https://pub-web.flutter-io.cn/packages/flutter_local_notifications
-#  connectivity_plus: ^7.0.0       #https://pub-web.flutter-io.cn/packages/connectivity_plus
-  #组件
-  extended_image: ^10.0.1          #https://pub-web.flutter-io.cn/packages/extended_image
-  #-------------------下拉刷新加载更多------------
-  any_refreshable_widget: ^0.2.0   #https://pub-web.flutter-io.cn/packages/any_refreshable_widget
-  custom_refresh_indicator: ^4.0.1 #https://pub.dev/packages/custom_refresh_indicator/install
-#  paging_view: ^1.5.6             #https://pub.dev/packages/paging_view
-  easy_refresh: ^3.4.0            #https://pub.dev/packages/easy_refresh/example
-  smart_scroll: ^1.0.1            #https://pub.dev/packages/smart_scroll
-  infinite_scroll_pagination: ^5.1.1 #https://pub-web.flutter-io.cn/packages/infinite_scroll_pagination
-# pull_to_refresh_notification: ^3.1.1 #https://pub.dev/packages/pull_to_refresh_notification
-# pull_to_refresh: ^2.0.0         #https://github.com/peng8350/flutter_pulltorefresh
-  #---------------------------------------------
-  path_provider: ^2.1.5           #https://pub-web.flutter-io.cn/packages/path_provider
-  image_picker: ^1.2.1            #https://pub-web.flutter-io.cn/packages/image_picker
-  url_launcher: ^6.3.2            #https://pub-web.flutter-io.cn/packages/url_launcher/install
-  flutter_constraintlayout: ^1.7.0-stable #https://github.com/hackware1993/Flutter_ConstraintLayout/blob/master/README_CN.md
-  extended_sliver: 2.1.3          #https://pub-web.flutter-io.cn/packages/extended_sliver
-  photo_view: ^0.15.0             #https://pub-web.flutter-io.cn/packages/photo_view
-  scrollview_observer: ^1.26.2    #https://pub.dev/packages/scrollview_observer
-  carousel_slider: ^5.1.1         #https://pub-web.flutter-io.cn/packages/carousel_slider
-  #animate
-  animate_do: ^4.2.0              #https://pub-web.flutter-io.cn/packages/animate_do
-  animations: ^2.1.1              #https://pub-web.flutter-io.cn/packages/animations
-  flutter_animate: ^4.5.2         #https://pub-web.flutter-io.cn/packages/flutter_animate
-  heroine: ^0.7.0               #https://pub.dev/packages/heroine
-  #工具
-  open_filex: ^4.7.0            #https://pub-web.flutter-io.cn/packages/open_filex
+  # --- 国际化 ---
+  intl: ^0.20.2 # 日期、数字等本地化格式化
 
-  #  fl_paging: ^2.3.0               #https://pub.dev/packages/fl_paging
-  #  super_paging: ^0.2.0            #https://pub.dev/packages/super_paging
-  #  video_player: ^2.9.5            #https://pub.dev/packages/video_player
-  #install_plugin: ^2.1.0
-  #flutter_statusbarcolor_ns: ^0.6.0  #https://pub.dev/packages/flutter_statusbarcolor_ns/example
-  #https://github.com/OctMon/flutter_easy
+  # --- 路由与状态 ---
+  get: ^4.7.3 # 路由、依赖注入与状态管理
 
-  #工具
-  dart_helper_utils: ^5.4.1     #https://pub.dev/packages/dart_helper_utils
-  nb_utils: ^7.1.8              #https://pub.dev/packages/nb_utils
-  basic_utils: ^5.8.2           #https://pub.dev/packages/basic_utils
-  screwdriver: ^5.11.0          #https://pub.dev/packages/screwdriver   //作用域
-  flutter_helper_utils: ^8.5.0  #https://pub.dev/packages/flutter_helper_utils
-  flutter_helper_kit: ^1.0.4    #https://pub.dev/packages/flutter_helper_kit
-  sprintf: ^7.0.0               #https://pub-web.flutter-io.cn/packages/sprintf
+  # --- 网络、日志与调试 ---
+  dio: ^5.9.0 # HTTP 客户端
+  talker_flutter: ^5.1.9 # 控制台日志与错误展示
+  talker_dio_logger: ^5.1.9 # Dio 请求/响应日志
+  chucker_flutter: ^1.9.1 # 应用内抓包调试 UI
+  dd_check_plugin: ^5.1.0 # 与 common_core 一致；main 直接引用需在壳工程声明
+  logger: ^2.6.2 # 结构化日志输出
 
+  # --- 应用通用能力（启动资源、弹窗、存储、系统能力）---
+  flutter_native_splash: ^2.4.7 # 启动屏生成（见底部 flutter_native_splash 配置）
+  flutter_launcher_icons: ^0.14.4 # 应用图标生成（见底部 flutter_launcher_icons 配置）
+  cached_network_image: ^3.4.1 # 网络图片缓存
+  flutter_smart_dialog: ^5.1.0 # 全局弹窗/Toast/Loading
+  package_info_plus: ^9.0.0 # 包名、版本号等
+  shared_preferences: ^2.5.4 # 键值本地存储
+  webview_flutter: ^4.13.0 # 内嵌 WebView
+  permission_handler: ^12.0.1 # 运行时权限申请
+  device_info_plus: ^12.3.0 # 设备信息
+  flutter_local_notifications: ^21.0.0 # 本地通知
+  # connectivity_plus: ^7.0.0 # 网络连接状态（未启用）
 
-  firebase_auth: ^6.3.0
+  # --- 图片、列表与布局组件 ---
+  extended_image: ^10.0.1 # 扩展图片（手势、裁剪等）
+  # --- 下拉刷新与分页 ---
+  any_refreshable_widget: ^0.2.0 # 可刷新列表封装
+  custom_refresh_indicator: ^4.0.1 # 自定义下拉指示器
+  easy_refresh: ^3.4.0 # 下拉刷新库
+  smart_scroll: ^1.0.1 # 智能滚动辅助
+  infinite_scroll_pagination: ^5.1.1 # 无限滚动分页
+  # paging_view: ^1.5.6
+  # pull_to_refresh_notification: ^3.1.1
+  # pull_to_refresh: ^2.0.0
+  path_provider: ^2.1.5 # 应用目录路径
+  image_picker: ^1.2.1 # 相册/相机选图
+  url_launcher: ^6.3.2 # 打开外链、拨号、邮件等
+  flutter_constraintlayout: ^1.7.0-stable # 约束布局
+  extended_sliver: 2.1.3 # 扩展 Sliver 组件
+  photo_view: ^0.15.0 # 图片查看缩放
+  scrollview_observer: ^1.26.2 # ScrollView 子项监听
+  carousel_slider: ^5.1.1 # 轮播
+
+  # --- 动画 ---
+  animate_do: ^4.2.0 # 预设动画封装
+  animations: ^2.1.1 # Material 动画模式
+  flutter_animate: ^4.5.2 # 声明式动画链
+  heroine: ^0.7.0 # Hero 过渡增强
+
+  # --- 工具与扩展库 ---
+  open_filex: ^4.7.0 # 打开本地文件（系统关联应用）
+  dart_helper_utils: ^5.4.1 # 纯 Dart 工具方法
+  nb_utils: ^7.1.8 # 常用 Flutter 工具集合
+  basic_utils: ^5.8.2 # 字符串、日期等基础工具
+  screwdriver: ^5.11.0 # Dart 扩展方法（作用域增强）
+  flutter_helper_utils: ^8.5.0 # Flutter 侧辅助工具
+  flutter_helper_kit: ^1.0.4 # 组件与工具套件
+  sprintf: ^7.0.0 # 格式化字符串
+  # 以下为历史/可选依赖，需要时再取消注释并核对版本
+  # fl_paging: ^2.3.0
+  # super_paging: ^0.2.0
+  # video_player: ^2.9.5
+  # install_plugin: ^2.1.0
+  # flutter_statusbarcolor_ns: ^0.6.0
+  # https://github.com/OctMon/flutter_easy
+
+  # --- Firebase（初始化顺序：先 firebase_core，再各子模块）---
   firebase_core: ^4.6.0
+  firebase_auth: ^6.3.0
   firebase_analytics: ^12.2.0
   firebase_messaging: ^16.1.3
   firebase_crashlytics: ^5.1.0
 
-
-
-  #  sign_in_with_apple: ^7.0.1
-  #  google_sign_in: ^6.3.0     #https://pub-web.flutter-io.cn/packages/google_sign_in/install
-  gpt_markdown: ^1.1.5       #https://pub-web.flutter-io.cn/packages/gpt_markdown/install
-  lottie: ^3.3.2              #https://pub-web.flutter-io.cn/packages/lottie
-#  flutter_websocket_manager: ^1.0.4
-#  flutter_client_sse: ^2.0.3
-  shimmer_animation: ^2.2.2
-  smooth_page_indicator: ^2.0.1
-  buttons_tabbar: ^1.3.15
-  extended_tabs: ^5.0.0
-  flutter_tts: ^4.2.3
-  flutter_confetti: ^0.5.1
-  flutter_dotenv: ^6.0.0
-
-
-
+  # --- 业务与展示（Markdown、动效、Tab、环境变量等）---
+  # sign_in_with_apple: ^7.0.1
+  # google_sign_in: ^6.3.0
+  gpt_markdown: ^1.1.5 # GPT 风格 Markdown 渲染
+  lottie: ^3.3.2 # Lottie 动画
+  # flutter_websocket_manager: ^1.0.4
+  # flutter_client_sse: ^2.0.3
+  shimmer_animation: ^2.2.2 # 骨架屏闪烁
+  smooth_page_indicator: ^2.0.1 # 页面指示器
+  buttons_tabbar: ^1.3.15 # 按钮样式 TabBar
+  extended_tabs: ^5.0.0 # 扩展 Tab 能力
+  flutter_tts: ^4.2.3 # 文字转语音
+  flutter_confetti: ^0.5.1 # 礼花动效
+  flutter_dotenv: ^6.0.0 # .env 环境变量加载
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
 
-
-
-
+# Flutter 资源配置
 flutter:
+  # 启用代码生成（如 l10n、json_serializable 等，依项目 l10n.yaml / build_runner 而定）
   generate: true
   uses-material-design: true
+  # 静态资源目录；子目录内文件会一并打包，新增根级目录需在此追加条目
   assets:
     - assets/
 
-
-
-
-
-#https://pub-web.flutter-io.cn/packages/flutter_native_splash
-##  执行命令
-##  dart run flutter_native_splash:create
+# -----------------------------------------------------------------------------
+# flutter_native_splash：生成原生启动屏资源
+# 文档：https://pub.dev/packages/flutter_native_splash
+# 生成：dart run flutter_native_splash:create
+# -----------------------------------------------------------------------------
 flutter_native_splash:
-  color: "#5FB7F9"
-  image: assets/ic_splash_bg.png
-  android_gravity: center # 设置图片居中
-  ios_content_mode: center # 在iOS上也确保图片居中
-  fullscreen: true
-  android_12:
-    image: assets/ic_splash_bg.png
-    color: "#5FB7F9"
-    icon_background_color: "#5FB7F9"
+  color: "#5FB7F9" # 启动屏背景色（十六进制，含或不含 # 均可，此处与 image 搭配）
+  image: assets/ic_splash_bg.png # 居中主图；建议提供 @2x/@3x 或足够分辨率
+  android_gravity: center # Android 上图的对齐方式（如 center、fill 等）
+  ios_content_mode: center # iOS 上 UIImageView 的 contentMode（与上图配合）
+  fullscreen: true # 是否全屏显示启动屏（隐藏状态栏区域依平台而定）
+  android_12: # Android 12+ 专用启动画面（系统 SplashScreen API）
+    image: assets/ic_splash_bg.png # 12+ 上显示的图标/图
+    color: "#5FB7F9" # 12+ 窗口背景色
+    icon_background_color: "#5FB7F9" # 自适应图标衬底颜色（与品牌色一致时常同 color）
 
-
-## https://pub-web.flutter-io.cn/packages/flutter_launcher_icons
-##  执行命令
-##  flutter pub get
-##  dart run flutter_launcher_icons
+# -----------------------------------------------------------------------------
+# flutter_launcher_icons：从单张源图生成各平台应用图标
+# 文档：https://pub.dev/packages/flutter_launcher_icons
+# 生成：dart run flutter_launcher_icons（需先 flutter pub get）
+# -----------------------------------------------------------------------------
 flutter_launcher_icons:
-  android: "ic_launcher"
-  ios: true
-  image_path: "assets/ic_logo.png"
-  min_sdk_android: 21 # android min sdk min:16, default 21
-#  web:
-#    generate: true
-#    image_path: "assets/ic_launcher.jpeg"
-#    background_color: "#hexcode"
-#    theme_color: "#hexcode"
-#  windows:
-#    generate: true
-#    image_path: "assets/ic_launcher.jpeg"
-#    icon_size: 48 # min:48, max:256, default: 48
-#  macos:
-#    generate: true
-#    image_path: "assets/ic_launcher.jpeg"
-
+  android: "ic_launcher" # Android 自适应图标名称（mipmap 资源前缀）
+  ios: true # 为 iOS 生成 Assets.xcassets 中的 AppIcon 集
+  image_path: "assets/ic_logo.png" # 源图路径（建议 1024px 方形、无透明边）
+  min_sdk_android: 21 # 生成脚本使用的 Android minSdk 下限（包默认 21；勿低于 16 的插件要求）
+  # web:
+  #   generate: true
+  #   image_path: "assets/ic_launcher.jpeg"
+  #   background_color: "#hexcode"
+  #   theme_color: "#hexcode"
+  # windows:
+  #   generate: true
+  #   image_path: "assets/ic_launcher.jpeg"
+  #   icon_size: 48 # min:48, max:256, default: 48
+  # macos:
+  #   generate: true
+  #   image_path: "assets/ic_launcher.jpeg"

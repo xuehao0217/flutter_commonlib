@@ -249,14 +249,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
-  convert_object:
-    dependency: transitive
-    description:
-      name: convert_object
-      sha256: a88cf2501cbe150c4c1e3f58787ba8fdf912c04cc470ba6d2aceeb9836dd36dd
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
   cross_file:
     dependency: transitive
     description:
@@ -301,10 +293,10 @@ packages:
     dependency: "direct main"
     description:
       name: dart_helper_utils
-      sha256: "7943ab137b85692a9483a3ac952061505b6ca798fb1338600cc9291f86f269ec"
+      sha256: "951225cbb4049e4c21bb623de4bb5696eb0cd33d4e8e2b65d689ff0759c8066e"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0"
+    version: "5.4.2"
   dart_style:
     dependency: transitive
     description:
@@ -618,10 +610,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_helper_utils
-      sha256: "61734d8ab758a2515df03dfe1eec3715f0eb0c32af849f9350eb6d610c305715"
+      sha256: "70c1e1bfd60ebed4435f78a030b07f61a2c711bb310a398cf30e1f5878ecc678"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.0"
+    version: "8.5.0"
   flutter_launcher_icons:
     dependency: "direct main"
     description:

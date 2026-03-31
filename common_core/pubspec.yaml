@@ -1,112 +1,120 @@
 name: common_core
-description: "A new Flutter Model."
-
+description: "可被宿主应用引用的 Flutter 业务核心库（网络、UI 组件、工具与 Firebase 等）。"
 version: 1.0.0+1
-#publish_to: none  # 表示这是本地包
+# 本地包：不向 pub.dev 发布；若需发布请删除下行注释并配置 publish_to。
+# publish_to: "none"
 
+# Dart SDK 下限：须与宿主应用及团队 Flutter 版本一致。
 environment:
   sdk: ^3.9.0-100.2.beta
 
-
 dependencies:
+  # --- Flutter SDK ---
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.8
-  intl: ^0.20.2                  #日期格式化
-  #网络
-  dio:                        #https://pub-web.flutter-io.cn/packages/dio
-  talker_dio_logger:          #https://pub-web.flutter-io.cn/packages/talker_dio_logger
-  talker_flutter:              #https://pub-web.flutter-io.cn/packages/talker_flutter
-  chucker_flutter:            #https://pub-web.flutter-io.cn/packages/chucker_flutter
-  logger:                     #https://pub-web.flutter-io.cn/packages/logger
-  get:                        #https://pub-web.flutter-io.cn/packages/get
-  #必备
-  flutter_native_splash:      #https://pub-web.flutter-io.cn/packages/flutter_native_splash
-  flutter_launcher_icons:     #https://pub-web.flutter-io.cn/packages/flutter_launcher_icons
-  cached_network_image:       #https://pub-web.flutter-io.cn/packages/cached_network_image
-  flutter_smart_dialog:       #https://juejin.cn/post/7026150456673959943  #使用例子 https://xdd666t.github.io/flutter_use/web/index.html#/smartDialog?dialogType=CustomDialogLocation
-  package_info_plus:          #https://pub-web.flutter-io.cn/packages/package_info_plus
-  shared_preferences:         #https://pub-web.flutter-io.cn/packages/shared_preferences/install
-  webview_flutter:            #https://pub.dev/packages/webview_flutter
-  permission_handler:         #https://pub-web.flutter-io.cn/packages/permission_handler/example
-  device_info_plus:           #https://pub-web.flutter-io.cn/packages/device_info_plus/example
-  flutter_local_notifications: ^21.0.0 #https://pub-web.flutter-io.cn/packages/flutter_local_notifications
-  connectivity_plus: ^6.1.4     #https://pub-web.flutter-io.cn/packages/connectivity_plus（与 HeaderInterceptor 显式一致）
-  #组件
-  extended_image:             #https://pub-web.flutter-io.cn/packages/extended_image
-  dd_check_plugin: ^5.1.0     #https://pub-web.flutter-io.cn/packages/dd_check_plugin
-  #-------------------下拉刷新加载更多------------
-  any_refreshable_widget:     #https://pub-web.flutter-io.cn/packages/any_refreshable_widget
-  custom_refresh_indicator:   #https://pub.dev/packages/custom_refresh_indicator/install
-  paging_view:                #https://pub.dev/packages/paging_view
-  easy_refresh:               #https://pub.dev/packages/easy_refresh/example
-  infinite_scroll_pagination:
-  smart_scroll:               #https://pub.dev/packages/smart_scroll
-  #pull_to_refresh: ^2.0.0    #https://github.com/peng8350/flutter_pulltorefresh
-  #---------------------------------------------
-  path_provider:              #https://pub-web.flutter-io.cn/packages/path_provider
-  image_picker:               #https://pub-web.flutter-io.cn/packages/image_picker
-  url_launcher:               #https://pub-web.flutter-io.cn/packages/url_launcher/install
-  flutter_constraintlayout:   #https://github.com/hackware1993/Flutter_ConstraintLayout/blob/master/README_CN.md
-  extended_sliver:            #https://pub-web.flutter-io.cn/packages/extended_sliver
-  photo_view:                 #https://pub-web.flutter-io.cn/packages/photo_view
-  scrollview_observer:        #https://pub.dev/packages/scrollview_observer
-  carousel_slider:            #https://pub-web.flutter-io.cn/packages/carousel_slider
-  #animate
-  animate_do:                 #https://pub-web.flutter-io.cn/packages/animate_do
-  animations:                 #https://pub-web.flutter-io.cn/packages/animations
-  flutter_animate:            #https://pub-web.flutter-io.cn/packages/flutter_animate
-  #工具
-  open_filex:                  #https://pub-web.flutter-io.cn/packages/open_filex
+  # --- UI 基础 ---
+  cupertino_icons: ^1.0.8 # iOS 风格图标字体；https://pub-web.flutter-io.cn/packages/cupertino_icons
 
-  #  fl_paging: ^2.3.0         #https://pub.dev/packages/fl_paging
-  #  super_paging: ^0.2.0      #https://pub.dev/packages/super_paging
-  #  video_player: ^2.9.5      #https://pub.dev/packages/video_player
+  # --- 国际化 ---
+  intl: ^0.20.2 # 日期、数字等本地化格式化；https://pub-web.flutter-io.cn/packages/intl
 
-  #https://github.com/OctMon/flutter_easy
-  #工具
-  dart_helper_utils:           #https://pub.dev/packages/dart_helper_utils
-  nb_utils:                    #https://pub.dev/packages/nb_utils
-  basic_utils:                 #https://pub.dev/packages/basic_utils
-  screwdriver:                 #https://pub.dev/packages/screwdriver   //作用域
-  flutter_helper_utils:        #https://pub.dev/packages/flutter_helper_utils
-  flutter_helper_kit:          #https://pub.dev/packages/flutter_helper_kit
-  sprintf:                     #https://pub-web.flutter-io.cn/packages/sprintf
-  flutter_websocket_manager: ^1.0.4
-  #支付
-  in_app_purchase: ^3.2.3      #https://pub-web.flutter-io.cn/packages/in_app_purchase
-  in_app_purchase_storekit: ^0.4.6+2
+  # --- 路由与状态 ---
+  get: ^4.7.3 # 路由、依赖注入与状态管理；https://pub-web.flutter-io.cn/packages/get
 
-  firebase_auth:
-  firebase_core:
-  firebase_analytics:
-  firebase_messaging:
-  firebase_crashlytics:
+  # --- 网络、日志与调试 ---
+  dio: ^5.9.0 # HTTP 客户端；https://pub-web.flutter-io.cn/packages/dio
+  talker_dio_logger: ^5.1.9 # Dio 请求/响应日志；https://pub-web.flutter-io.cn/packages/talker_dio_logger
+  talker_flutter: ^5.1.9 # 控制台日志与错误展示；https://pub-web.flutter-io.cn/packages/talker_flutter
+  chucker_flutter: ^1.9.1 # 应用内抓包调试 UI；https://pub-web.flutter-io.cn/packages/chucker_flutter
+  logger: ^2.6.2 # 结构化日志输出；https://pub-web.flutter-io.cn/packages/logger
 
+  # --- 应用通用能力（启动资源、弹窗、存储、系统能力）---
+  flutter_native_splash: ^2.4.7 # 启动屏资源生成；https://pub-web.flutter-io.cn/packages/flutter_native_splash
+  flutter_launcher_icons: ^0.14.4 # 应用图标生成；https://pub-web.flutter-io.cn/packages/flutter_launcher_icons
+  cached_network_image: ^3.4.1 # 网络图片缓存；https://pub-web.flutter-io.cn/packages/cached_network_image
+  flutter_smart_dialog: ^5.1.0 # 全局弹窗/Toast/Loading；文档 https://juejin.cn/post/7026150456673959943 ，示例 https://xdd666t.github.io/flutter_use/web/index.html#/smartDialog?dialogType=CustomDialogLocation
+  package_info_plus: ^9.0.0 # 包名、版本号等；https://pub-web.flutter-io.cn/packages/package_info_plus
+  shared_preferences: ^2.5.4 # 键值本地存储；https://pub-web.flutter-io.cn/packages/shared_preferences/install
+  webview_flutter: ^4.13.0 # 内嵌 WebView；https://pub.dev/packages/webview_flutter
+  permission_handler: ^12.0.1 # 运行时权限申请；https://pub-web.flutter-io.cn/packages/permission_handler/example
+  device_info_plus: ^12.3.0 # 设备信息；https://pub-web.flutter-io.cn/packages/device_info_plus/example
+  flutter_local_notifications: ^21.0.0 # 本地通知；https://pub-web.flutter-io.cn/packages/flutter_local_notifications
+  connectivity_plus: ^6.1.4 # 网络连接状态（与 HeaderInterceptor 等显式一致）；https://pub-web.flutter-io.cn/packages/connectivity_plus
 
+  # --- 图片、列表与布局组件 ---
+  extended_image: ^10.0.1 # 扩展图片（手势、裁剪等）；https://pub-web.flutter-io.cn/packages/extended_image
+  dd_check_plugin: ^5.1.0 # 调试检查插件；https://pub-web.flutter-io.cn/packages/dd_check_plugin
+
+  # --- 下拉刷新与分页 ---
+  any_refreshable_widget: ^0.2.0 # 可刷新列表封装；https://pub-web.flutter-io.cn/packages/any_refreshable_widget
+  custom_refresh_indicator: ^4.0.1 # 自定义下拉指示器；https://pub.dev/packages/custom_refresh_indicator/install
+  paging_view: ^2.8.1 # 分页列表视图；https://pub.dev/packages/paging_view
+  easy_refresh: ^3.4.0 # 下拉刷新；https://pub.dev/packages/easy_refresh/example
+  infinite_scroll_pagination: ^5.1.1 # 无限滚动分页；https://pub-web.flutter-io.cn/packages/infinite_scroll_pagination
+  smart_scroll: ^1.0.1 # 智能滚动辅助；https://pub.dev/packages/smart_scroll
+  # pull_to_refresh: ^2.0.0 # 备选；https://github.com/peng8350/flutter_pulltorefresh
+
+  path_provider: ^2.1.5 # 应用目录路径；https://pub-web.flutter-io.cn/packages/path_provider
+  image_picker: ^1.2.1 # 相册/相机选图；https://pub-web.flutter-io.cn/packages/image_picker
+  url_launcher: ^6.3.2 # 打开外链、拨号、邮件等；https://pub-web.flutter-io.cn/packages/url_launcher/install
+  flutter_constraintlayout: ^1.7.0-stable # 约束布局；https://github.com/hackware1993/Flutter_ConstraintLayout/blob/master/README_CN.md
+  extended_sliver: 2.1.3 # 扩展 Sliver；https://pub-web.flutter-io.cn/packages/extended_sliver
+  photo_view: ^0.15.0 # 图片查看缩放；https://pub-web.flutter-io.cn/packages/photo_view
+  scrollview_observer: ^1.26.2 # ScrollView 子项监听；https://pub.dev/packages/scrollview_observer
+  carousel_slider: ^5.1.1 # 轮播；https://pub-web.flutter-io.cn/packages/carousel_slider
+
+  # --- 动画 ---
+  animate_do: ^4.2.0 # 预设动画封装；https://pub-web.flutter-io.cn/packages/animate_do
+  animations: ^2.1.1 # Material 动画模式；https://pub-web.flutter-io.cn/packages/animations
+  flutter_animate: ^4.5.2 # 声明式动画链；https://pub-web.flutter-io.cn/packages/flutter_animate
+
+  # --- 工具与扩展库 ---
+  open_filex: ^4.7.0 # 打开本地文件；https://pub-web.flutter-io.cn/packages/open_filex
+  # fl_paging: ^2.3.0 # https://pub.dev/packages/fl_paging
+  # super_paging: ^0.2.0 # https://pub.dev/packages/super_paging
+  # video_player: ^2.9.5 # https://pub.dev/packages/video_player
+  # https://github.com/OctMon/flutter_easy
+  dart_helper_utils: ^5.4.1 # 纯 Dart 工具；https://pub.dev/packages/dart_helper_utils
+  nb_utils: ^7.1.8 # 常用 Flutter 工具集合；https://pub.dev/packages/nb_utils
+  basic_utils: ^5.8.2 # 字符串、日期等基础工具；https://pub.dev/packages/basic_utils
+  screwdriver: ^5.11.0 # Dart 扩展方法（作用域增强）；https://pub.dev/packages/screwdriver
+  flutter_helper_utils: ^8.5.0 # Flutter 侧辅助工具；https://pub.dev/packages/flutter_helper_utils
+  flutter_helper_kit: ^1.0.4 # 组件与工具套件；https://pub.dev/packages/flutter_helper_kit
+  sprintf: ^7.0.0 # 格式化字符串；https://pub-web.flutter-io.cn/packages/sprintf
+
+  flutter_websocket_manager: ^1.0.4 # WebSocket 管理；https://pub.dev/packages/flutter_websocket_manager
+
+  # --- 应用内购买 ---
+  in_app_purchase: ^3.2.3 # 应用内购买；https://pub-web.flutter-io.cn/packages/in_app_purchase
+  in_app_purchase_storekit: ^0.4.6+2 # iOS StoreKit 2 实现；https://pub.dev/packages/in_app_purchase_storekit
+
+  # --- Firebase（初始化顺序：先 firebase_core，再各子模块）---
+  firebase_core: ^4.6.0 # https://pub.dev/packages/firebase_core
+  firebase_auth: ^6.3.0 # https://pub.dev/packages/firebase_auth
+  firebase_analytics: ^12.2.0 # https://pub.dev/packages/firebase_analytics
+  firebase_messaging: ^16.1.3 # https://pub.dev/packages/firebase_messaging
+  firebase_crashlytics: ^5.1.0 # https://pub.dev/packages/firebase_crashlytics
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
 
-
-
+# Flutter 资源配置（作为子模块/库被宿主引用时，由宿主决定是否再声明资源）
 flutter:
   uses-material-design: true
   assets:
     - assets/
-  #  fonts:
-  #    - family: DINPRO
-  #      fonts:
-  #        - asset: assets/fonts/dinpro.ttf
-  #        - asset: assets/fonts/dinpro_bold.ttf
-  #        - asset: assets/fonts/dinpro_medium.ttf
+  # fonts:
+  #   - family: DINPRO
+  #     fonts:
+  #       - asset: assets/fonts/dinpro.ttf
+  #       - asset: assets/fonts/dinpro_bold.ttf
+  #       - asset: assets/fonts/dinpro_medium.ttf
 
-
-
+  # 以 Android Library / iOS Framework 方式集成到宿主时的模块元数据（见 Flutter 官方 add-to-app 文档）
   module:
-    androidX: true
-    androidPackage: com.xueh.common_core
-    iosBundleIdentifier: com.xueh.commonCore
+    androidX: true # 使用 AndroidX 依赖
+    androidPackage: com.xueh.common_core # Android 侧包名/命名空间
+    iosBundleIdentifier: com.xueh.commonCore # iOS Bundle ID 前缀
