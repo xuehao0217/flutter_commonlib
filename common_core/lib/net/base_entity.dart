@@ -1,8 +1,9 @@
-
+/// 统一 HTTP 响应壳：与后端约定 `errorCode == 0` 为成功，[data] 为泛型解析入口。
 class BaseEntity {
   final int errorCode;
   final String errorMsg;
-  final dynamic data;  // 使用 dynamic 以支持 Map 和 List
+  /// 业务数据，多为 Map / List，由宿主 [JsonConvertAsT] 转成模型。
+  final dynamic data;
 
   const BaseEntity({
     required this.errorCode,

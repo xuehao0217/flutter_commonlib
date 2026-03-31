@@ -1,3 +1,4 @@
+// 双按钮文案弹窗（SmartDialog）；色值硬编码，暗色下宜自行换肤。
 import 'package:common_core/common_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

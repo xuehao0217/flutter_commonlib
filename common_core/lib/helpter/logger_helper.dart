@@ -1,3 +1,4 @@
+// 基于 package:logger 的调试封装；文件内 void main 仅为示例。
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
@@ -62,6 +63,7 @@ void main() {
   "扩展方法 JSON 日志".loggerJson(tag: "Ext");
 }
 
+/// 控制台日志工具类；[enable] 在 release 默认关闭。
 class LoggerHelper {
   /// 日志是否启用（release 自动关闭）
   static bool enable = kDebugMode;

@@ -23,8 +23,8 @@ typedef OnPushTapCallback =
 
 enum PushSource { MessageOpenedApp, InitialMessage }
 
+/// Firebase 初始化、Crashlytics、FCM 与本地通知点击；后台消息入口须在宿主 [main] 注册。
 class FirebaseHelper {
-  // 单例
   static final FirebaseHelper instance = FirebaseHelper._internal();
 
   factory FirebaseHelper() => instance;

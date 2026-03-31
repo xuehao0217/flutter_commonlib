@@ -22,7 +22,7 @@ typedef PurchaseResultCallback =
 /// 收据验证回调（需业务侧实现）
 typedef VerifyPurchaseCallback = Future<bool> Function(PurchaseDetails details);
 
-/// 内购封装。宿主在应用启动时调用 [initialize]，再按需 [loadProducts]（商品 ID 由业务配置）。
+/// 应用内购买封装（[in_app_purchase]）。宿主在启动时调用 [initialize]，再按需 [loadProducts]；校验由 [VerifyPurchaseCallback] 注入。
 class BuyHelper {
   /// 全局唯一实例
   static final BuyHelper instance = BuyHelper._internal();

@@ -1,4 +1,4 @@
-
+// SmartDialog 的 Toast / Loading 轻封装。
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';

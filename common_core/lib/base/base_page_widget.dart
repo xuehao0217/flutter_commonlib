@@ -1,4 +1,4 @@
-// 抽出 BaseWidgetMixin，用于复用通用逻辑
+// 页面通用骨架：状态栏、标题栏、内容区、底部安全区（能力见 [BaseWidgetMixin]）。
 import 'package:common_core/common_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_helper_kit/extensions/context/build_context_extension.dart';
@@ -11,6 +11,9 @@ import '../style/theme.dart';
 /// 公共基类抽取：BaseWidgetMixin
 /// ================================
 
+/// 状态栏、标题栏、内容区、底部占位与返回逻辑；与 [BaseStatefulWidget]、[BaseStatelessWidget] 组合使用。
+///
+/// 默认返回为 [Get.back]；配色建议与 [appLightThemeData] / [appDarkThemeData] 对齐。
 mixin BaseWidgetMixin {
   /// 设置是否展示返回按钮
   bool showBackIcon() => true;

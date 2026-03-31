@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 typedef FromJson<T> = T Function(Map<String, dynamic> json);
 
+/// [SharedPreferences] 封装：使用前须调用 [init]（一般在 [CommonCore.init] 中完成）。
 class SPUtil {
   SPUtil._();
 

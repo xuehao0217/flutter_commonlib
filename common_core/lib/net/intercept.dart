@@ -74,6 +74,7 @@ class HeaderInterceptor extends Interceptor {
   }
 }
 
+/// 调试：打印请求/响应耗时与 body（默认未加入 [HttpUtils] 拦截器链）。
 class LoggingInterceptor extends Interceptor {
   late DateTime _startTime;
   late DateTime _endTime;
@@ -120,7 +121,7 @@ class LoggingInterceptor extends Interceptor {
   }
 }
 
-// 解码给Chucker看
+/// 将字符串响应解码为 JSON，供 Chucker 展示；与 [RestoreRawDataInterceptor] 成对使用。
 class DecodeForChuckerInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
@@ -134,7 +135,7 @@ class DecodeForChuckerInterceptor extends Interceptor {
   }
 }
 
-// 还原原始data给业务
+/// 将 [DecodeForChuckerInterceptor] 保存的原始字符串写回 [Response.data]，避免业务侧拿到 Map 而丢失文本。
 class RestoreRawDataInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {

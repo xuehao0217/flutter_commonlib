@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+/// 自定义顶栏：左侧返回图、居中标题、可选右侧组件与底部分割线。
 class CommonTitleBar extends StatelessWidget {
   final String backIcon;
   final String title;
@@ -94,11 +95,8 @@ class CommonTitleBar extends StatelessWidget {
   }
 }
 
+/// 基于 [RawMaterialButton] 的矩形按钮，可关水波纹（[splashColor]/[highlightColor] 置透明）。
 class CommonButton extends StatelessWidget {
-  //取消水波纹的效果这个设置成透明
-  // highlightColor: Colors.transparent,
-  // splashColor: Colors.transparent,
-
   final Widget child;
   final double circular, width, height, highlightElevation, elevation;
   final EdgeInsetsGeometry? padding;

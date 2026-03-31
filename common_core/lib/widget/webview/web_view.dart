@@ -1,4 +1,4 @@
-
+// WebView 示例页：Get 参数、hideTitle/hideBack query、[WebBuildConfig] 右侧扩展。
 import 'package:common_core/common_core.dart';
 import 'package:common_core/helpter/talker_helper.dart';
 import 'package:common_core/widget/webview/web_build_config.dart';
@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../base/base_stateful_widget.dart';
+
+/// 宿主可通过 Get 参数 [Url]、[Title] 或构造函数传入加载地址与标题。
 class WebViewPage extends StatefulWidget {
   static String Url = "url";
   static String Title = "title";

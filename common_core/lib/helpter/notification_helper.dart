@@ -69,8 +69,8 @@ void setOnBackgroundTap(NotificationTapCallback callback) {
   onBackgroundTap = callback;
 }
 
+/// [flutter_local_notifications] 单例；[showLocalNotification] 前会 [ensureNotificationPermissions]。
 class NotificationHelper {
-  // 单例
   static final NotificationHelper instance = NotificationHelper._internal();
 
   factory NotificationHelper() => instance;

@@ -10,9 +10,13 @@ import 'package:flutter_helper_kit/flutter_helper_kit.dart';
 
 import 'base_page_widget.dart';
 
+/// 全局路由观察者，供需要感知 push/pop 的页面订阅（见 [didPush] / [didPopNext]）。
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
 
+/// 带通用布局的 [StatefulWidget] 基类：默认 [keepAlive]、注册 [routeObserver]、合成 [buildCommonStructure]。
+///
+/// 子类实现 [buildPageContent] 作为中间内容区；标题栏是否展示由 [BaseWidgetMixin] 控制。
 abstract class BaseStatefulWidget<W extends StatefulWidget> extends State<W>
     with AutomaticKeepAliveClientMixin, RouteAware, BaseWidgetMixin {
 

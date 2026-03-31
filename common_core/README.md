@@ -31,3 +31,11 @@ flutter analyze
 Package 内 **`module:`**（Android / iOS）配置用于可选的 **add-to-app** 场景；若仅作为 path 包被主工程引用，以主工程构建为准。
 
 更完整的项目说明、路由与 CI，见仓库根目录 [**README.md**](../README.md)。
+
+## 代码注释说明
+
+- **入口与网络**：`lib/common_core.dart`、`lib/net/dio_utils.dart`、`lib/net/base_entity.dart` 等配有 `///` 说明职责与约定。
+- **页面基类**：`lib/base/`、`lib/base/mvvm/` 描述布局、GetX 生命周期与 `initData` 调用时机。
+- **无 `library` 指令的文件**：顶部使用 `//` 文件说明，避免 `dangling_library_doc_comments`；公共类仍以 `///` 为主。
+
+未逐行注释的组件（如部分 `widget/*.dart`）可按需补 [dartdoc](https://dart.dev/tools/dartdoc)。

@@ -1,4 +1,8 @@
-/// 公共库入口：[CommonCore.init] 初始化壳层；Widget/工具见下方 export。
+/// `common_core`：可复用壳层与工具集合。
+///
+/// - 入口：[CommonCore.init] 串联启动图、系统 UI、Chucker、本地通知、SP、Firebase 等。
+/// - 对外导出：通用组件（[CommonTitleBar]、[BottomNavigationBarWidget] 等）、扩展与 WebView 页，详见下方 `export`。
+/// - 宿主须在 `main` 中调用 [HttpUtils.init] 配置 baseUrl 与 JSON 解析。
 library common_core;
 
 import 'dart:convert';
@@ -25,8 +29,9 @@ export 'widget/input_widget.dart';
 export 'widget/tab_widget.dart';
 export 'widget/webview/web_view.dart';
 
+/// 应用壳层初始化入口，由宿主在 `main` 中 `await` 调用一次。
 class CommonCore {
-  /// [androidNotificationIcon] 为 Android `res/drawable` 下的资源名，勿传 Flutter `assets/...`。
+  /// [androidNotificationIcon]：Android 通知 small icon 的 **drawable 资源名**（如 `ic_stat_notification`），勿传 `assets/...` 路径。
   Future<void> init({String androidNotificationIcon = 'ic_stat_notification'}) async {
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -64,11 +69,12 @@ class CommonCore {
   }
 }
 
+/// 移除启动图（若 [CommonCore.init] 中已 `preserve`）。
 void removeSplash() {
   FlutterNativeSplash.remove();
 }
 
-
+/// 打开 Talker 诊断页（依赖 [talker] 单例）。
 void openTalkerScreen() {
   Get.to(() => TalkerScreen(talker: talker));
 }

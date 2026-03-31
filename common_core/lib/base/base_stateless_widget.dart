@@ -5,6 +5,7 @@ import '../style/theme.dart';
 import 'base_page_widget.dart';
 
 
+/// 带通用布局的 [StatelessWidget] 基类，子类实现 [buildContent]。
 abstract class BaseStatelessWidget extends StatelessWidget with BaseWidgetMixin {
   const BaseStatelessWidget({super.key});
 

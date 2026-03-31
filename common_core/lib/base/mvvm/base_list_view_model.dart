@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'base_view_model.dart';
 
+/// 简单分页列表：维护 [datas]，默认 [onInit] 时拉首屏；[getLoadData] 用于上拉加载更多。
 abstract class BaseListViewModel<T> extends BaseViewModel {
   final datas = <T>[].obs;
 

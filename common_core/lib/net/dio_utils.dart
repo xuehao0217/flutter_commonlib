@@ -40,9 +40,9 @@ List<Interceptor> _interceptors = [
   RestoreRawDataInterceptor(),
 ];
 
-/// ============================
-/// HttpUtils 核心类
-/// ============================
+/// Dio 单例与统一请求入口；须在宿主 `main` 调用 [init] 注入 [baseUrl] 与 [JsonConvertAsT]。
+///
+/// [BaseOptions.validateStatus] 恒为 true，HTTP 层错误亦进入 [BaseEntity] 或 [DioException] 分支，由业务约定处理。
 class HttpUtils {
   static late Dio _dio;
 

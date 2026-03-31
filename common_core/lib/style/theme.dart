@@ -1,3 +1,4 @@
+// 全局亮/暗主题与状态栏辅助（与 Get 暗黑、isDarkMode 配合）。
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
