@@ -7,37 +7,6 @@ import 'package:nb_utils/nb_utils.dart';
 import '../net/dio_utils.dart';
 import 'call_back.dart';
 
-Future<void> main() async {
-  BuyHelper.instance.initialize(
-    onPurchaseResult: (status, details, error) {
-
-    },
-    verifyPurchase: (details) {
-      return HttpUtils.requestNetwork(
-        Method.post,
-        "verify",
-        params: {"jws": details.verificationData.serverVerificationData},
-      );
-    },
-    stateCallBack: (state) {
-      if (state == BuyStateType.start) {
-        // showLoading();
-      } else if (state == BuyStateType.finish) {
-        // hideLoading();
-      }
-    },
-  );
-  // 查询商品
-  await BuyHelper.instance.loadProducts({
-    "premier_month_1",
-    "premier_month_12",
-    "pro_month_1",
-    "pro_month_12",
-    "starter_month_1",
-    "starter_month_12",
-  });
-}
-
 enum PurchaseType { consumable, nonConsumable, subscription }
 
 enum BuyStateType { start, finish }
@@ -53,6 +22,7 @@ typedef PurchaseResultCallback =
 /// 收据验证回调（需业务侧实现）
 typedef VerifyPurchaseCallback = Future<bool> Function(PurchaseDetails details);
 
+/// 内购封装。宿主在应用启动时调用 [initialize]，再按需 [loadProducts]（商品 ID 由业务配置）。
 class BuyHelper {
   /// 全局唯一实例
   static final BuyHelper instance = BuyHelper._internal();

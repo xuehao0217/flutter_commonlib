@@ -5,7 +5,7 @@ version: 1.0.0+1
 #publish_to: none  # 表示这是本地包
 
 environment:
-  sdk: ^3.7.0-209.1.beta
+  sdk: ^3.9.0-100.2.beta
 
 
 dependencies:
@@ -31,8 +31,8 @@ dependencies:
   webview_flutter:            #https://pub.dev/packages/webview_flutter
   permission_handler:         #https://pub-web.flutter-io.cn/packages/permission_handler/example
   device_info_plus:           #https://pub-web.flutter-io.cn/packages/device_info_plus/example
-  flutter_local_notifications: #https://pub-web.flutter-io.cn/packages/flutter_local_notifications
-#  connectivity_plus:           #https://pub-web.flutter-io.cn/packages/connectivity_plus
+  flutter_local_notifications: ^21.0.0 #https://pub-web.flutter-io.cn/packages/flutter_local_notifications
+  connectivity_plus: ^6.1.4     #https://pub-web.flutter-io.cn/packages/connectivity_plus（与 HeaderInterceptor 显式一致）
   #组件
   extended_image:             #https://pub-web.flutter-io.cn/packages/extended_image
   dd_check_plugin: ^5.1.0     #https://pub-web.flutter-io.cn/packages/dd_check_plugin

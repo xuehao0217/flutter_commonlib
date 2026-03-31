@@ -1,13 +1,10 @@
 
 import 'package:common_core/common_core.dart';
-import 'package:common_core/helpter/logger_helper.dart';
 import 'package:common_core/helpter/talker_helper.dart';
 import 'package:common_core/widget/webview/web_build_config.dart';
 import 'package:common_core/widget/webview/webview_channel.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../base/base_stateful_widget.dart';
 class WebViewPage extends StatefulWidget {
@@ -34,7 +31,6 @@ class _WebViewPageState extends BaseStatefulWidget<WebViewPage> {
   late WebViewController controller;
   String _pageTitle = "Loading..."; // 默认标题
   double _progress = 0.0;
-  double opacity = 0.0;
 
   @override
   void initState() {
@@ -50,12 +46,12 @@ class _WebViewPageState extends BaseStatefulWidget<WebViewPage> {
           },
           onPageStarted: (String url) {},
           onPageFinished: (String url) async {
-            var title =
-            widget.title.isEmpty
+            final title = widget.title.isNotEmpty
                 ? widget.title
-                : await controller.getTitle() ?? "";
+                : (await controller.getTitle() ?? '');
+            if (!mounted) return;
             setState(() {
-              _pageTitle = title;
+              _pageTitle = title.isEmpty ? '网页' : title;
             });
           },
           onHttpError: (HttpResponseError error) {},
@@ -67,12 +63,6 @@ class _WebViewPageState extends BaseStatefulWidget<WebViewPage> {
         ),
       )
       ..loadRequest(Uri.parse(widget.url));
-
-    controller.setOnScrollPositionChange((ScrollPositionChange change) {
-      setState(() {
-        opacity = (change.y / 150).clamp(0.0, 1.0);
-      });
-    });
 
     WebViewChannel.bind(controller);
   }
@@ -118,9 +108,16 @@ class _WebViewPageState extends BaseStatefulWidget<WebViewPage> {
             children: [
               WebViewWidget(controller: controller),
               if (!showTitleBar())
-                Opacity(
-                  opacity: opacity,
-                  child: getCommonTitleBarWidget(context),
+                // 不透明叠层，保证返回/关闭始终可点（不再用滚动 opacity，避免初始全透明）
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: Material(
+                    elevation: 0,
+                    color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.92),
+                    child: getCommonTitleBarWidget(context),
+                  ),
                 ),
             ],
           ).withExpanded(),
@@ -131,14 +128,29 @@ class _WebViewPageState extends BaseStatefulWidget<WebViewPage> {
 
   @override
   Widget? setRightTitleContent() {
-    // 使用单例配置，通过当前 WebView 的 url 获取对应的 Widget
-    return WebBuildConfig().buildRightTitleContent(context, widget.url);
+    final extra = WebBuildConfig().buildRightTitleContent(context, widget.url);
+    // hideTitle=1 时标题栏叠在 WebView 上；原先用滚动透明度导致初始不可见、无法点返回。
+    // 右侧「关闭」始终退出当前页（不受站内 history 影响）。
+    if (!showTitleBar()) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          extra,
+          IconButton(
+            icon: const Icon(Icons.close_rounded),
+            tooltip: '关闭',
+            onPressed: () => Get.back(),
+          ),
+        ],
+      );
+    }
+    return extra;
   }
 
   @override
   Future<void> onBackPressed() async {
     if (await controller.canGoBack()) {
-      controller.goBack();
+      await controller.goBack();
     } else {
       super.onBackPressed();
     }

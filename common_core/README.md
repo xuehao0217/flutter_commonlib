@@ -1,11 +1,33 @@
 # common_core
 
-A new Flutter project.
+本目录为 **Flutter package**，由主工程 [`flutter_commonlib`](../README.md) 通过 **path 依赖** 引用，集中存放：
 
-## Getting Started
+- **网络**：`HttpUtils`（Dio）、拦截器、`BaseEntity`
+- **MVVM 基类**：`BaseViewModel`、`BaseVMStatefulWidget` 等
+- **主题**：`style/theme.dart`（与主工程 `GetMaterialApp` 配合）
+- **通用组件**：`lib/widget/`（列表、对话框、WebView 封装、底部导航等）
+- **辅助能力**：`helpter/` 下的日志、本地存储、Firebase、通知等（目录名为历史拼写）
 
-For help getting started with Flutter development, view the online
-[documentation](https://flutter.dev/).
+## 使用方式
 
-For instructions integrating Flutter modules to your existing applications,
-see the [add-to-app documentation](https://flutter.dev/to/add-to-app).
+在主工程 `pubspec.yaml` 中：
+
+```yaml
+dependencies:
+  common_core:
+    path: ./common_core
+```
+
+初始化入口为 **`CommonCore.init`**（见 `lib/common_core.dart`），具体参数与顺序以源码为准。
+
+## 开发与测试
+
+```bash
+cd common_core
+flutter pub get
+flutter analyze
+```
+
+Package 内 **`module:`**（Android / iOS）配置用于可选的 **add-to-app** 场景；若仅作为 path 包被主工程引用，以主工程构建为准。
+
+更完整的项目说明、路由与 CI，见仓库根目录 [**README.md**](../README.md)。

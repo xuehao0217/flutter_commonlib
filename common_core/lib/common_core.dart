@@ -1,3 +1,4 @@
+/// 公共库入口：[CommonCore.init] 初始化壳层；Widget/工具见下方 export。
 library common_core;
 
 import 'dart:convert';
@@ -9,7 +10,6 @@ import 'package:chucker_flutter/chucker_flutter.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'helpter/firebase_helper.dart';
 import 'helpter/logger_helper.dart';
@@ -26,7 +26,8 @@ export 'widget/tab_widget.dart';
 export 'widget/webview/web_view.dart';
 
 class CommonCore {
-  Future<void> init(String logo) async {
+  /// [androidNotificationIcon] 为 Android `res/drawable` 下的资源名，勿传 Flutter `assets/...`。
+  Future<void> init({String androidNotificationIcon = 'ic_stat_notification'}) async {
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
@@ -51,10 +52,11 @@ class CommonCore {
       DeviceOrientation.portraitDown,
     ]);
 
-    ChuckerFlutter.showOnRelease = true;
+    // 发布包不展示 Chucker 调试入口；开发/Profile 可按需改为 true
+    ChuckerFlutter.showOnRelease = false;
     ChuckerFlutter.showNotification = false;
 
-    NotificationHelper().initialize(logo: logo);
+    NotificationHelper().initialize(androidDefaultIcon: androidNotificationIcon);
 
     SPUtil.init();
 

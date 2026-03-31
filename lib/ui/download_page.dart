@@ -1,10 +1,7 @@
-import 'package:common_core/base/mvvm/base_vm_stateful_widget.dart';
 import 'package:common_core/base/mvvm/base_vm_stateless_widget.dart';
 import 'package:common_core/common_core.dart';
 import 'package:common_core/style/theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_commonlib/style/color.dart';
 import 'package:flutter_commonlib/ui/vm/download_view_model.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_utils/get_utils.dart';

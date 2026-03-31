@@ -1,6 +1,5 @@
 import 'package:common_core/base/base_stateful_widget.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,10 +11,10 @@ class MyPage extends StatefulWidget {
 
 class _MyPageState extends BaseStatefulWidget<MyPage> {
   @override
-  Color setStatusBarColor() => Colors.deepPurpleAccent;
+  Color setStatusBarColor() => Colors.transparent;
 
   @override
-  String setTitle() => "我的";
+  String setTitle() => '我的';
 
   @override
   bool showTitleBar() => false;
@@ -35,19 +34,9 @@ class _MyPageState extends BaseStatefulWidget<MyPage> {
       if (defaultTargetPlatform == TargetPlatform.iOS) {
         deviceData = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
       }
-      // deviceData = switch (defaultTargetPlatform) {
-      //   TargetPlatform.android =>
-      //       _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
-      //   TargetPlatform.iOS =>
-      //       _readIosDeviceInfo(await deviceInfoPlugin.iosInfo),
-      //   TargetPlatform.fuchsia => throw UnimplementedError(),
-      //   TargetPlatform.linux => throw UnimplementedError(),
-      //   TargetPlatform.macOS => throw UnimplementedError(),
-      //   TargetPlatform.windows => throw UnimplementedError(),
-      // };
     } on PlatformException {
       deviceData = <String, dynamic>{
-        'Error:': 'Failed to get platform version.'
+        'Error:': 'Failed to get platform version.',
       };
     }
 
@@ -86,7 +75,6 @@ class _MyPageState extends BaseStatefulWidget<MyPage> {
       'type': build.type,
       'isPhysicalDevice': build.isPhysicalDevice,
       'systemFeatures': build.systemFeatures,
-
     };
   }
 
@@ -110,12 +98,12 @@ class _MyPageState extends BaseStatefulWidget<MyPage> {
   String _getAppBarTitle() => kIsWeb
       ? 'Web Browser info'
       : switch (defaultTargetPlatform) {
-          TargetPlatform.android => 'Android Device Info',
-          TargetPlatform.iOS => 'iOS Device Info',
-          TargetPlatform.linux => 'Linux Device Info',
-          TargetPlatform.windows => 'Windows Device Info',
-          TargetPlatform.macOS => 'MacOS Device Info',
-          TargetPlatform.fuchsia => 'Fuchsia Device Info',
+          TargetPlatform.android => 'Android 设备',
+          TargetPlatform.iOS => 'iOS 设备',
+          TargetPlatform.linux => 'Linux 设备',
+          TargetPlatform.windows => 'Windows 设备',
+          TargetPlatform.macOS => 'macOS 设备',
+          TargetPlatform.fuchsia => 'Fuchsia 设备',
         };
 
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
@@ -123,49 +111,70 @@ class _MyPageState extends BaseStatefulWidget<MyPage> {
 
   @override
   Widget buildPageContent(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
-    double physicalScreenWidth = screenWidth * devicePixelRatio;
-    double physicalScreenHeight = screenHeight * devicePixelRatio;
-    print("buildPageContent----screenWidth==${screenWidth}  screenHeight=${screenHeight}  physicalScreenWidth=${physicalScreenWidth}   physicalScreenHeight==${physicalScreenHeight}");
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_getAppBarTitle()),
-        elevation: 4,
-      ),
-      body: ListView(
-        children: _deviceData.keys.map(
-          (String property) {
-            return Row(
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    property,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Text(
-                      '${_deviceData[property]}',
-                      maxLines: 10,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
+    final cs = Theme.of(context).colorScheme;
+    final keys = _deviceData.keys.toList();
+
+    if (kDebugMode) {
+      final mq = MediaQuery.of(context);
+      debugPrint(
+        'MyPage screen ${mq.size.width}×${mq.size.height} dpr ${mq.devicePixelRatio}',
+      );
+    }
+
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar.large(
+          pinned: true,
+          backgroundColor: cs.surface,
+          surfaceTintColor: cs.surfaceTint,
+          title: Text(_getAppBarTitle()),
+        ),
+        if (keys.isEmpty)
+          const SliverFillRemaining(
+            child: Center(child: CircularProgressIndicator()),
+          )
+        else
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final key = keys[index];
+                  final value = '${_deviceData[key]}';
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(14),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              key,
+                              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                    color: cs.onSurfaceVariant,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 0.2,
+                                  ),
+                            ),
+                            const SizedBox(height: 6),
+                            SelectableText(
+                              value,
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    height: 1.35,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ],
-            );
-          },
-        ).toList(),
-      ),
+                  );
+                },
+                childCount: keys.length,
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

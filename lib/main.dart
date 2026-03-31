@@ -1,63 +1,116 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:common_core/base/base_stateful_widget.dart';
 import 'package:common_core/common_core.dart';
-import 'package:common_core/helpter/logger_helper.dart';
-import 'package:common_core/helpter/notification_helper.dart';
 import 'package:common_core/helpter/talker_helper.dart';
 import 'package:common_core/net/dio_utils.dart';
 import 'package:common_core/style/theme.dart';
 import 'package:dd_check_plugin/dd_check_plugin.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_commonlib/l10n/app_localizations.dart';
 import 'package:flutter_commonlib/router/router_config.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 
 import 'api/http_api.dart';
-import 'generated/assets.dart';
 import 'generated/json/base/json_convert_content.dart';
 
-Future<void> main() async {
-  await CommonCore().init(R.assetsIcLogo);
-
-  HttpUtils.init(HttpApi.baseUrl,JsonConvert.fromJsonAsT,headers: {
-    "App-Version": "1.0.0",
-    "App-Platform": "flutter",
-  });
-
-  ///https://mdddj.github.io/flutterx-doc/en/dio/starter/#write-code
-  await DdCheckPlugin().init(
-    HttpUtils.dio,
-    initHost: "192.168.31.101", // Change to your computer IP
-    projectName: "X", // Custom Project Name
-    connectSuccess: ( Socket socket, SocketConnect connect) {
-      "DdCheckPlugin connectSuccess".logI();
-    },
-  );
-  runApp(MyApp());
+/// FCM 后台 isolate 入口，须顶层且带 [pragma]；内联再调 [Firebase.initializeApp]。
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
 }
 
+void main() {
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-class MyApp extends StatelessWidget {
+    await CommonCore().init();
+
+    HttpUtils.init(HttpApi.baseUrl, JsonConvert.fromJsonAsT, headers: {
+      "App-Version": "1.0.0",
+      "App-Platform": "flutter",
+    });
+
+    /// 仅 Debug 连接本机抓包；发布包不初始化。
+    if (kDebugMode) {
+      await DdCheckPlugin().init(
+        HttpUtils.dio,
+        initHost: "192.168.31.101",
+        projectName: "X",
+        connectSuccess: (Socket socket, SocketConnect connect) {
+          "DdCheckPlugin connectSuccess".logI();
+        },
+      );
+    }
+    runApp(const MyApp());
+  }, (Object error, StackTrace stack) {
+    if (kDebugMode) {
+      FlutterError.dumpErrorToConsole(
+        FlutterErrorDetails(exception: error, stack: stack),
+      );
+    }
+    if (Firebase.apps.isNotEmpty) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: false);
+    }
+  });
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void dispose() {
+    if (!currentRouterController.isClosed) {
+      currentRouterController.close();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       locale: const Locale('zh', 'CN'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: appLightThemeData,
       darkTheme: appDarkThemeData,
       themeMode: ThemeMode.system,
-      initialRoute: RouterRULConfig.main,
-      builder: FlutterSmartDialog.init(),
-      // 注册路由观察者
-      navigatorObservers: <NavigatorObserver>[routeObserver,ChuckerFlutter.navigatorObserver],
-      routingCallback: (routing) {
-        currentRouterController.add("${routing?.current}");
+      initialRoute: RouterUrlConfig.main,
+      builder: (context, child) {
+        final smartChild = FlutterSmartDialog.init()(context, child);
+        final mq = MediaQuery.of(context);
+        final clamped = mq.textScaler.clamp(
+          minScaleFactor: 0.85,
+          maxScaleFactor: 1.45,
+        );
+        return MediaQuery(
+          data: mq.copyWith(textScaler: clamped),
+          child: smartChild,
+        );
       },
-      // 定义路由表
+      navigatorObservers: <NavigatorObserver>[
+        routeObserver,
+        if (kDebugMode) ChuckerFlutter.navigatorObserver,
+      ],
+      routingCallback: (routing) {
+        if (!currentRouterController.isClosed) {
+          currentRouterController.add("${routing?.current}");
+        }
+      },
       getPages: pages,
     );
   }

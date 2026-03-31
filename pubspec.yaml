@@ -24,6 +24,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # 本地模块依赖
   common_core:
@@ -37,6 +39,7 @@ dependencies:
   talker_flutter: ^5.1.9
   talker_dio_logger: ^5.1.9      #https://pub-web.flutter-io.cn/packages/talker_dio_logger
   chucker_flutter: ^1.9.1         #https://pub-web.flutter-io.cn/packages/chucker_flutter
+  dd_check_plugin: ^5.1.0        # 与 common_core 一致；main 直接引用需声明依赖
   logger: ^2.6.2                 #https://pub-web.flutter-io.cn/packages/logger
   get: ^4.7.3                    #https://pub-web.flutter-io.cn/packages/get
   #必备
@@ -49,7 +52,7 @@ dependencies:
   webview_flutter: ^4.13.0        #https://pub.dev/packages/webview_flutter
   permission_handler: ^12.0.1     #https://pub-web.flutter-io.cn/packages/permission_handler/example
   device_info_plus: ^12.3.0       #https://pub-web.flutter-io.cn/packages/device_info_plus/example
-  flutter_local_notifications: ^19.5.0 #https://pub-web.flutter-io.cn/packages/flutter_local_notifications
+  flutter_local_notifications: ^21.0.0 #https://pub-web.flutter-io.cn/packages/flutter_local_notifications
 #  connectivity_plus: ^7.0.0       #https://pub-web.flutter-io.cn/packages/connectivity_plus
   #组件
   extended_image: ^10.0.1          #https://pub-web.flutter-io.cn/packages/extended_image
@@ -124,11 +127,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^6.0.0
 
 
 
 
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - assets/

@@ -1,20 +1,62 @@
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'net.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 
+import 'net.dart';
+
+/// 请求头拦截：包信息 / 设备信息在进程内缓存，仅网络类型每次刷新。
 class HeaderInterceptor extends Interceptor {
+  static PackageInfo? _cachedPackageInfo;
+  static Map<String, String>? _cachedDeviceHeaders;
+
   @override
-  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    final deviceInfoPlugin = DeviceInfoPlugin();
+  Future<void> onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
+    _cachedPackageInfo ??= await PackageInfo.fromPlatform();
+    final packageInfo = _cachedPackageInfo!;
+
+    if (_cachedDeviceHeaders == null) {
+      final deviceInfoPlugin = DeviceInfoPlugin();
+      if (Platform.isIOS) {
+        final iosInfo = await deviceInfoPlugin.iosInfo;
+        _cachedDeviceHeaders = {
+          "appName": packageInfo.appName,
+          "version": packageInfo.version,
+          "buildNumber": packageInfo.buildNumber,
+          "packageName": packageInfo.packageName,
+          "deviceId": iosInfo.identifierForVendor ?? '',
+          "model": iosInfo.utsname.machine,
+          "modelName": iosInfo.model,
+          "os": "iOS",
+          "osVersion": iosInfo.systemVersion,
+          "brand": "Apple",
+          "platform": "flutter",
+        };
+      } else if (Platform.isAndroid) {
+        final androidInfo = await deviceInfoPlugin.androidInfo;
+        _cachedDeviceHeaders = {
+          "appName": packageInfo.appName,
+          "version": packageInfo.version,
+          "buildNumber": packageInfo.buildNumber,
+          "packageName": packageInfo.packageName,
+          "deviceId": androidInfo.id,
+          "model": androidInfo.model,
+          "brand": androidInfo.brand,
+          "os": "Android",
+          "osVersion": androidInfo.version.release,
+          "platform": "flutter",
+        };
+      }
+    }
 
     final connectivity = await Connectivity().checkConnectivity();
-
-    String networkType = switch (connectivity.first) {
+    final networkType = switch (connectivity.first) {
       ConnectivityResult.wifi => 'WiFi',
       ConnectivityResult.mobile => 'Mobile',
       ConnectivityResult.none => 'None',
@@ -22,42 +64,15 @@ class HeaderInterceptor extends Interceptor {
       _ => 'Unknown',
     };
 
-    if (Platform.isIOS) {
-      final iosInfo = await deviceInfoPlugin.iosInfo;
+    if (_cachedDeviceHeaders != null) {
       options.headers.addAll({
-        "appName": packageInfo.appName,
-        "version": packageInfo.version,
-        "buildNumber": packageInfo.buildNumber,
-        "packageName": packageInfo.packageName,
-        "deviceId": iosInfo.identifierForVendor,
-        "model": iosInfo.utsname.machine,
-        "modelName": iosInfo.model,
-        "os": "iOS",
-        "osVersion": iosInfo.systemVersion,
-        "brand": "Apple",
+        ..._cachedDeviceHeaders!,
         "networkType": networkType,
-        "platform": "flutter",
-      });
-    } else if (Platform.isAndroid) {
-      final androidInfo = await deviceInfoPlugin.androidInfo;
-      options.headers.addAll({
-        "appName": packageInfo.appName,
-        "version": packageInfo.version,
-        "buildNumber": packageInfo.buildNumber,
-        "packageName": packageInfo.packageName,
-        "deviceId": androidInfo.id,
-        "model": androidInfo.model,
-        "brand": androidInfo.brand,
-        "os": "Android",
-        "osVersion": androidInfo.version.release,
-        "networkType": networkType,
-        "platform": "flutter",
       });
     }
     super.onRequest(options, handler);
   }
 }
-
 
 class LoggingInterceptor extends Interceptor {
   late DateTime _startTime;
@@ -70,7 +85,9 @@ class LoggingInterceptor extends Interceptor {
     if (options.queryParameters.isEmpty) {
       HttpLog.d('RequestUrl: ${options.baseUrl}${options.path}');
     } else {
-      HttpLog.d('RequestUrl: ${options.baseUrl}${options.path}?${Transformer.urlEncodeMap(options.queryParameters)}');
+      HttpLog.d(
+        'RequestUrl: ${options.baseUrl}${options.path}?${Transformer.urlEncodeMap(options.queryParameters)}',
+      );
     }
     HttpLog.d('RequestMethod: ${options.method}');
     HttpLog.d('RequestHeaders:${options.headers}');
@@ -80,7 +97,10 @@ class LoggingInterceptor extends Interceptor {
   }
 
   @override
-  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
+  void onResponse(
+    Response<dynamic> response,
+    ResponseInterceptorHandler handler,
+  ) {
     _endTime = DateTime.now();
     final int duration = _endTime.difference(_startTime).inMilliseconds;
     if (response.statusCode == 200) {
@@ -88,7 +108,6 @@ class LoggingInterceptor extends Interceptor {
     } else {
       HttpLog.e('ResponseCode: ${response.statusCode}');
     }
-    // 输出结果
     HttpLog.json(response.data.toString());
     HttpLog.d('----------End: $duration 毫秒----------');
     super.onResponse(response, handler);
@@ -100,9 +119,6 @@ class LoggingInterceptor extends Interceptor {
     super.onError(err, handler);
   }
 }
-
-
-
 
 // 解码给Chucker看
 class DecodeForChuckerInterceptor extends Interceptor {

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:common_core/base/mvvm/base_view_model.dart';
+import 'package:common_core/helpter/logger_helper.dart';
 import 'package:common_core/helpter/talker_helper.dart';
 import 'package:common_core/net/dio_utils.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class HomeViewModel extends BaseViewModel {
       Method.get,
       HttpApi.banner,
       onSuccess: (data) {
-        print("object===${data.length}");
+        LoggerHelper.d('banner count: ${data.length}', tag: 'HomeVM');
       },
     );
   }
@@ -29,7 +30,7 @@ class HomeViewModel extends BaseViewModel {
       Method.get,
       HttpApi.banner,
       onSuccess: (data) {
-        print("object===${data}");
+        LoggerHelper.d('banner: $data', tag: 'HomeVM');
       },
     );
   }

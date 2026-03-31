@@ -158,6 +158,7 @@ class HttpUtils {
     }
   }
 
+  /// 回调版请求：成功时 [requestNetwork] 已解析为 `T`，此处直接交给 [onSuccess]。
   static void asyncRequestNetwork<T>(
     Method method,
     String url, {
@@ -169,7 +170,7 @@ class HttpUtils {
     CancelToken? cancelToken,
     Options? options,
   }) {
-    requestNetwork(
+    requestNetwork<T>(
           method,
           url,
           params: params,
@@ -177,21 +178,14 @@ class HttpUtils {
           options: options,
           cancelToken: cancelToken,
         )
-        .then((result) {
-          if (result.isSuccess()) {
-            final resultData = _jsonConvertAsT<T>(result.data);
-            if (resultData != null) {
-              onSuccess?.call(resultData);
-            } else {
-              _onError(result.errorCode, result.errorMsg, onError);
-            }
-          } else {
-            _onError(result.errorCode, result.errorMsg, onError);
-          }
+        .then((T data) {
+          onSuccess?.call(data);
         })
-        .catchError((error) {
-          if (CancelToken.isCancel(error)) {
+        .catchError((Object error) {
+          if (error is DioException && CancelToken.isCancel(error)) {
             _onError(NetExceptionHandle.net_cancel, '请求已取消', onError);
+          } else if (error is BaseEntity) {
+            _onError(error.errorCode, error.errorMsg, onError);
           } else {
             _onError(NetExceptionHandle.net_error, error.toString(), onError);
           }

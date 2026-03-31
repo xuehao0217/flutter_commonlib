@@ -1,14 +1,11 @@
 // 抽出 BaseWidgetMixin，用于复用通用逻辑
-import 'dart:ui';
 import 'package:common_core/common_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_helper_kit/extensions/context/build_context_extension.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../assets/assets.dart';
 import '../style/theme.dart';
-import '../widget/common_widget.dart';
 
 /// ================================
 /// 公共基类抽取：BaseWidgetMixin
@@ -33,17 +30,17 @@ mixin BaseWidgetMixin {
   /// 返回按钮图标
   String setBackIcon() => CommonR.assetsIconBackBlack;
 
-  /// 标题栏背景色
+  /// 标题栏背景色（与 [appLightThemeData] / [appDarkThemeData] 的 surface 对齐）
   Color setTitleBgColor() =>
-      isDarkMode() ? Colors.black : Colors.white;
+      isDarkMode() ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC);
 
   /// 状态栏背景色
   Color setStatusBarColor() =>
-      isDarkMode() ? Colors.black : Colors.white;
+      isDarkMode() ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC);
 
   /// 页面背景色
   Color setPageBgColor() =>
-      isDarkMode() ? Colors.black : Colors.white;
+      isDarkMode() ? const Color(0xFF0F172A) : const Color(0xFFF1F5F9);
 
   /// 标题栏右侧内容
   Widget? setRightTitleContent() => null;

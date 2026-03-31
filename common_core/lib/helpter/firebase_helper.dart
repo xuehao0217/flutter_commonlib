@@ -7,40 +7,16 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'package:get/get.dart';
 
 import 'logger_helper.dart';
 import 'notification_helper.dart';
 
-/// 需要手动添加 : FCM 的 onBackgroundMessage handler 必须是顶层函数或静态函数
-// FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-// Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   await Firebase.initializeApp();
-//   // 数据存本地/发本地通知等
-//   LoggerHelper.d("firebaseMessagingBackgroundHandler===${message.data}");
-// }
-
-void main() {
-  setOnForegroundTap((response) {
-    final map = jsonDecode(response.payload.toString());
-    var router = map["router"];
-    var arguments = map["arguments"];
-  });
-
-  setOnBackgroundTap((response) {
-    LoggerHelper.d('后台点击通知回调 payload: ${response}');
-  });
-
-  // 设置推送点击回调
-  FirebaseHelper.instance.setPushTapCallback((message, source) {
-    LoggerHelper.d(
-      "Push tapped! Source: $source, payload: ${message.data}",
-      tag: "Main",
-    );
-    // 这里可以根据 message.data 跳转页面
-  });
-}
+/// 后台 handler 已在宿主 [main] 注册 [FirebaseMessaging.onBackgroundMessage]。
 
 typedef OnPushTapCallback =
     void Function(RemoteMessage message, PushSource source);
@@ -70,7 +46,55 @@ class FirebaseHelper {
     // 前台消息监听
     FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
 
+    _registerNotificationCallbacks();
+
     LoggerHelper.d("FirebaseMessaging initialized");
+  }
+
+  /// 本地通知点击与 FCM 推送点击监听：须在 [Firebase.initializeApp] 之后注册。
+  void _registerNotificationCallbacks() {
+    setOnForegroundTap((response) {
+      try {
+        final payload = response.payload;
+        if (payload == null || payload.isEmpty) return;
+        final map = jsonDecode(payload.toString()) as Map<String, dynamic>;
+        LoggerHelper.d(
+          'Foreground notification tap payload: $map',
+          tag: 'FCM',
+        );
+      } catch (e, st) {
+        LoggerHelper.e(
+          'Foreground notification tap parse failed',
+          error: e,
+          stackTrace: st,
+        );
+      }
+    });
+
+    setOnBackgroundTap((response) {
+      LoggerHelper.d('后台点击通知回调 payload: ${response}');
+    });
+
+    setPushTapCallback((message, source) {
+      LoggerHelper.d(
+        "Push tapped! Source: $source, payload: ${message.data}",
+        tag: "Main",
+      );
+      _navigateFromPushPayload(message.data);
+    });
+  }
+
+  /// payload 中 `route` 或 `router` 为 Get 路由名时尝试 [Get.toNamed]。
+  void _navigateFromPushPayload(Map<String, dynamic> data) {
+    final route = data['route'] ?? data['router'];
+    if (route is! String || route.isEmpty) return;
+    final nav = Get.key.currentState;
+    if (nav == null || !nav.mounted) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (Get.key.currentState?.mounted ?? false) {
+        Get.toNamed(route, arguments: data['arguments']);
+      }
+    });
   }
 
   /// 设置推送点击回调

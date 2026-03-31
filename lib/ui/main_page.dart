@@ -1,7 +1,8 @@
 import 'package:common_core/base/base_stateful_widget.dart';
 import 'package:common_core/widget/bottom_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_commonlib/l10n/app_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'home_page.dart';
@@ -9,7 +10,7 @@ import 'msg_page.dart';
 import 'my_page.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({Key? key}) : super(key: key);
+  const MainPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _MainPage();
@@ -34,25 +35,38 @@ class _MainPage extends BaseStatefulWidget with WidgetsBindingObserver {
   }
 
   @override
-  Widget buildPageContent(BuildContext context) => BottomNavigationBarWidget(
-    lightSelectedItemColor: Colors.deepPurpleAccent,
-    lightUnselectedItemColor: Colors.grey,
-    darkSelectedItemColor: Colors.white,
-    darkUnselectedItemColor: Colors.white38,
-
-    bottomNavigationBarItems: const [
-      // 导航子项
-      BottomNavigationBarItem(
-        // 图标
-        icon: Icon(Icons.home),
-        // 文字内容
-        label: '首页',
-      ),
-      BottomNavigationBarItem(icon: Icon(Icons.message_rounded), label: '消息'),
-      BottomNavigationBarItem(icon: Icon(Icons.people), label: '我的'),
-    ],
-    children: [HomePage(), MsgPage(), MyPage()],
-  );
+  Widget buildPageContent(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return BottomNavigationBarWidget(
+      bottomNavigationBarItems: [
+        BottomNavigationBarItem(
+          icon: Semantics(
+            label: l10n.tabHome,
+            button: true,
+            child: const Icon(Icons.home),
+          ),
+          label: l10n.tabHome,
+        ),
+        BottomNavigationBarItem(
+          icon: Semantics(
+            label: l10n.tabMessage,
+            button: true,
+            child: const Icon(Icons.message_rounded),
+          ),
+          label: l10n.tabMessage,
+        ),
+        BottomNavigationBarItem(
+          icon: Semantics(
+            label: l10n.tabMine,
+            button: true,
+            child: const Icon(Icons.people),
+          ),
+          label: l10n.tabMine,
+        ),
+      ],
+      children: [HomePage(), MsgPage(), MyPage()],
+    );
+  }
 
   @override
   bool showTitleBar() => false;
@@ -67,24 +81,23 @@ class _MainPage extends BaseStatefulWidget with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!kDebugMode) return;
     switch (state) {
       case AppLifecycleState.resumed:
-        // 处理应用恢复到前台的逻辑
-        print("didChangeAppLifecycleState  处理应用恢复到前台的逻辑");
+        debugPrint('didChangeAppLifecycleState resumed');
         break;
       case AppLifecycleState.inactive:
-        // 处理应用即将进入后台的逻辑
-        print("didChangeAppLifecycleState  处理应用即将进入后台的逻辑");
+        debugPrint('didChangeAppLifecycleState inactive');
         break;
       case AppLifecycleState.paused:
-        // 处理应用进入后台的逻辑，如保存数据、暂停定时任务等
-        print("didChangeAppLifecycleState 处理应用进入后台的逻辑，如保存数据、暂停定时任务等");
+        debugPrint('didChangeAppLifecycleState paused');
         break;
       case AppLifecycleState.detached:
-        // 处理应用终止或关闭的逻辑
-        print("didChangeAppLifecycleState 处理应用终止或关闭的逻辑");
+        debugPrint('didChangeAppLifecycleState detached');
         break;
       case AppLifecycleState.hidden:
+        debugPrint('didChangeAppLifecycleState hidden');
+        break;
     }
   }
 }

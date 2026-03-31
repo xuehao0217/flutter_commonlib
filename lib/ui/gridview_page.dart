@@ -3,7 +3,6 @@ import 'package:common_core/common_core.dart';
 import 'package:common_core/widget/common_gridview.dart';
 import 'package:flutter/material.dart';
 
-
 class GridviewPage extends BaseStatelessWidget {
   @override
   Widget buildContent(BuildContext context) {
@@ -25,7 +24,7 @@ class GridviewPage extends BaseStatelessWidget {
         ).withCenter(),
       ),
       emptyView: Center(child: Text("😕 No Items Available")),
-      itemViewBuilder: ( item, index) {
+      itemViewBuilder: (item, index) {
         return Container(
           decoration: BoxDecoration(
             color: Colors.blue.shade100,

@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  "tabHome": "Home",
+  "@tabHome": {
+    "description": "Bottom navigation: home tab"
+  },
+  "tabMessage": "Messages",
+  "@tabMessage": {
+    "description": "Bottom navigation: messages tab"
+  },
+  "tabMine": "Profile",
+  "@tabMine": {
+    "description": "Bottom navigation: profile tab"
+  }
+}

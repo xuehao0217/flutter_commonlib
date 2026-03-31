@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
 class SingleChildScrollViewPage extends StatefulWidget {
   @override
@@ -10,15 +9,17 @@ class SingleChildScrollViewPage extends StatefulWidget {
 }
 
 class _SingleChildScrollViewState extends State<SingleChildScrollViewPage> {
-  ScrollController mController = new ScrollController();
+  ScrollController mController = ScrollController();
 
   bool showToTopBtn = false; //是否显示“返回到顶部”按钮
 
   @override
   void initState() {
-    //监听滚动事件，打印滚动位置
+    super.initState();
     mController.addListener(() {
-      print(mController.offset); //打印滚动位置
+      if (kDebugMode) {
+        debugPrint('scroll offset: ${mController.offset}');
+      }
       if (mController.offset < getKey1Height() && showToTopBtn) {
         setState(() {
           showToTopBtn = false;

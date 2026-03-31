@@ -96,13 +96,14 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
     final brightness = Theme.of(context).brightness;
 
     // 根据亮暗模式自动选择颜色
+    final cs = Theme.of(context).colorScheme;
     final Color selectedColor = brightness == Brightness.dark
-        ? (widget.darkSelectedItemColor ?? Colors.white)
-        : (widget.lightSelectedItemColor ?? Colors.deepPurpleAccent);
+        ? (widget.darkSelectedItemColor ?? cs.primary)
+        : (widget.lightSelectedItemColor ?? cs.primary);
 
     final Color unselectedColor = brightness == Brightness.dark
-        ? (widget.darkUnselectedItemColor ?? Colors.white60)
-        : (widget.lightUnselectedItemColor ?? Colors.blueGrey);
+        ? (widget.darkUnselectedItemColor ?? cs.onSurfaceVariant)
+        : (widget.lightUnselectedItemColor ?? cs.onSurfaceVariant);
 
     return Scaffold(
       // 主体内容区
@@ -120,7 +121,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
           highlightColor: Colors.transparent, // 去掉长按高亮
         ),
         child: BottomNavigationBar(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: cs.surfaceContainer,
           currentIndex: currentIndex,
           selectedFontSize: widget.selectedFontSize,
           unselectedFontSize: widget.unselectedFontSize,

@@ -1,22 +1,55 @@
-import 'dart:convert';
+import 'dart:io' show Platform;
+
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'logger_helper.dart';
 
-void main() {
-  ElevatedButton(
-    onPressed: () async {
-      // 测试前台显示本地通知
-      await NotificationHelper.instance.showLocalNotification(
-        "测试通知",
-        "这是一条测试通知",
-        id: DateTime.now().hashCode,
-        payload: '{"key":"value"}',
+/// 请求并检查通知权限（Android 13+ / iOS）。
+///
+/// Android：须已在 Manifest 中声明 [POST_NOTIFICATIONS]。
+/// 返回 `true` 表示可展示通知（或当前平台无需请求）。
+Future<bool> ensureNotificationPermissions(
+  FlutterLocalNotificationsPlugin plugin,
+) async {
+  if (kIsWeb) return false;
+  try {
+    if (Platform.isAndroid) {
+      final android = plugin.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+      final already = await android?.areNotificationsEnabled() ?? false;
+      if (already) return true;
+      final granted = await android?.requestNotificationsPermission();
+      if (granted == true) return true;
+      return await android?.areNotificationsEnabled() ?? false;
+    }
+    if (Platform.isIOS) {
+      final ios = plugin.resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>();
+      final r = await ios?.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
       );
-    },
-    child: const Text('显示测试通知'),
-  );
+      return r ?? false;
+    }
+    if (Platform.isMacOS) {
+      final mac = plugin.resolvePlatformSpecificImplementation<
+          MacOSFlutterLocalNotificationsPlugin>();
+      final r = await mac?.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+      return r ?? false;
+    }
+  } catch (e, st) {
+    LoggerHelper.e(
+      'ensureNotificationPermissions failed',
+      error: e,
+      stackTrace: st,
+    );
+  }
+  return true;
 }
 
 typedef NotificationTapCallback = void Function(NotificationResponse response);
@@ -48,11 +81,17 @@ class NotificationHelper {
       FlutterLocalNotificationsPlugin();
 
   /// 初始化通知插件
-  /// [logo] Android 通知图标名称（放在 res/drawable 下），默认 'app_icon'
-  Future<void> initialize({String logo = 'app_icon'}) async {
+  ///
+  /// [androidDefaultIcon] 须为 **Android drawable 资源名**（如 `ic_stat_notification`），
+  /// 不能传 Flutter 的 `assets/...` 路径，否则 small icon 解析失败、通知无法展示。
+  Future<void> initialize({String androidDefaultIcon = 'ic_stat_notification'}) async {
     try {
-      final androidInit = AndroidInitializationSettings(logo);
-      const iosInit = DarwinInitializationSettings();
+      final androidInit = AndroidInitializationSettings(androidDefaultIcon);
+      const iosInit = DarwinInitializationSettings(
+        requestAlertPermission: true,
+        requestSoundPermission: true,
+        requestBadgePermission: true,
+      );
 
       final settings = InitializationSettings(
         android: androidInit,
@@ -60,13 +99,15 @@ class NotificationHelper {
       );
 
       await _notificationsPlugin.initialize(
-        settings,
+        settings: settings,
         onDidReceiveNotificationResponse: onDidReceiveNotification,
         onDidReceiveBackgroundNotificationResponse:
             onDidReceiveBackgroundNotification,
       );
 
-      LoggerHelper.d("NotificationHelper initialized with logo: $logo");
+      LoggerHelper.d(
+        "NotificationHelper initialized, Android icon drawable: $androidDefaultIcon",
+      );
     } catch (e, st) {
       LoggerHelper.e(
         "NotificationHelper initialization failed",
@@ -97,7 +138,7 @@ class NotificationHelper {
   /// [playSound] 是否播放声音
   /// [enableVibration] 是否振动
   /// [enableLights] 是否闪灯
-  /// [icon] 通知图标名称（默认 'app_icon'）
+  /// [icon] Android small icon 的 drawable 名（默认 `ic_stat_notification`）
   NotificationDetails buildNotificationDetails({
     String? localImagePath,
     // iOS
@@ -140,7 +181,7 @@ class NotificationHelper {
       playSound: playSound,
       enableVibration: enableVibration,
       enableLights: enableLights,
-      icon: icon ?? 'app_icon',
+      icon: (icon != null && icon.isNotEmpty) ? icon : 'ic_stat_notification',
       largeIcon:
           localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
     );
@@ -155,7 +196,9 @@ class NotificationHelper {
   /// [id] 通知ID，用于区分不同通知，默认 1
   /// [notificationDetails] 自定义通知细节对象，如果为空会使用默认构建方法
   /// [payload] 通知附带数据，可用于跳转页面或传递业务参数
-  Future<void> showLocalNotification(
+  ///
+  /// 返回是否已成功发起展示（含权限通过）；未授权时为 `false`。
+  Future<bool> showLocalNotification(
     String title,
     String body, {
     int id = 1,
@@ -163,16 +206,26 @@ class NotificationHelper {
     String? payload,
   }) async {
     try {
+      final ok = await ensureNotificationPermissions(_notificationsPlugin);
+      if (!ok) {
+        LoggerHelper.w(
+          'Local notification skipped: permission not granted',
+          tag: 'Notification',
+        );
+        return false;
+      }
       await _notificationsPlugin.show(
-        id,
-        title,
-        body,
-        notificationDetails ?? buildNotificationDetails(),
+        id: id,
+        title: title,
+        body: body,
+        notificationDetails: notificationDetails ?? buildNotificationDetails(),
         payload: payload,
       );
       LoggerHelper.d("Notification shown: $title, id: $id, payload: $payload");
+      return true;
     } catch (e, st) {
       LoggerHelper.e("Failed to show notification", error: e, stackTrace: st);
+      return false;
     }
   }
 }
