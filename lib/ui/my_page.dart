@@ -3,6 +3,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_commonlib/auth/auth_service.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -133,7 +134,20 @@ class _MyPageState extends BaseStatefulWidget<MyPage> {
           const SliverFillRemaining(
             child: Center(child: CircularProgressIndicator()),
           )
-        else
+        else ...[
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+              child: Card(
+                child: ListTile(
+                  leading: const Icon(Icons.logout_rounded),
+                  title: const Text('退出登录'),
+                  subtitle: const Text('清除本地凭证并返回登录页'),
+                  onTap: () => AuthService.to.logout(),
+                ),
+              ),
+            ),
+          ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
             sliver: SliverList(
@@ -174,6 +188,7 @@ class _MyPageState extends BaseStatefulWidget<MyPage> {
               ),
             ),
           ),
+        ],
       ],
     );
   }

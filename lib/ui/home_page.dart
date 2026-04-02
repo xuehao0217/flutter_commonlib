@@ -8,6 +8,7 @@ import 'package:dart_helper_utils/dart_helper_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chucker_flutter/chucker_flutter.dart';
+import '../auth/auth_service.dart';
 import '../generated/assets.dart';
 import '../router/router_config.dart';
 import 'vm/home_view_model.dart';
@@ -145,6 +146,42 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           subtitle: '网格列表示例',
           colorScheme: cs,
           onTap: () => GetXHelper.to(RouterUrlConfig.grid_view),
+        ),
+        Card(
+          margin: const EdgeInsets.only(bottom: 8),
+          clipBehavior: Clip.antiAlias,
+          child: Obx(
+            () => SwitchListTile.adaptive(
+              secondary: Icon(
+                AuthService.to.isLoggedIn.value
+                    ? Icons.verified_user_outlined
+                    : Icons.person_off_outlined,
+                color: cs.primary,
+              ),
+              title: const Text('模拟登录状态'),
+              subtitle: Text(
+                AuthService.to.isLoggedIn.value
+                    ? '开：视为已登录，点下方 Demo 直接进入演示页'
+                    : '关：视为未登录，点下方 Demo 会先进登录页',
+              ),
+              value: AuthService.to.isLoggedIn.value,
+              onChanged: (v) async {
+                if (v) {
+                  await AuthService.to.markLoggedInForDemo();
+                } else {
+                  await AuthService.to.clearSessionKeepNavigation();
+                }
+              },
+            ),
+          ),
+        ),
+        _DemoTile(
+          icon: Icons.filter_alt_outlined,
+          title: '登录门控 Demo',
+          subtitle: '仅本按钮：未登录先去登录页，成功后自动进演示页',
+          colorScheme: cs,
+          onTap: () =>
+              AuthService.openWithLoginGateIfNeeded(RouterUrlConfig.middleware_demo),
         ),
         _SectionTitle(
           icon: Icons.terminal_rounded,

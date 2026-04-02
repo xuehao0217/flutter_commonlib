@@ -14,6 +14,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_commonlib/l10n/app_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_commonlib/auth/auth_service.dart';
 import 'package:flutter_commonlib/router/router_config.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
@@ -34,21 +36,40 @@ void main() {
 
     await CommonCore().init();
 
+    await Get.putAsync<AuthService>(() async {
+      final auth = AuthService();
+      await auth.init();
+      return auth;
+    });
+
     HttpUtils.init(HttpApi.baseUrl, JsonConvert.fromJsonAsT, headers: {
       "App-Version": "1.0.0",
       "App-Platform": "flutter",
     });
 
     /// 仅 Debug 连接本机抓包；发布包不初始化。
+    /// 抓包机不可达时会长时间阻塞 socket，故加超时，避免一直停在原生启动图。
     if (kDebugMode) {
-      await DdCheckPlugin().init(
-        HttpUtils.dio,
-        initHost: "192.168.31.101",
-        projectName: "X",
-        connectSuccess: (Socket socket, SocketConnect connect) {
-          "DdCheckPlugin connectSuccess".logI();
-        },
-      );
+      try {
+        await DdCheckPlugin()
+            .init(
+              HttpUtils.dio,
+              initHost: "192.168.31.101",
+              projectName: "X",
+              connectSuccess: (Socket socket, SocketConnect connect) {
+                "DdCheckPlugin connectSuccess".logI();
+              },
+            )
+            .timeout(const Duration(seconds: 3));
+      } on TimeoutException {
+        "DdCheckPlugin init 超时，已跳过（请检查 initHost 网络）".logI();
+      } catch (e, st) {
+        "DdCheckPlugin init 失败: $e".logI();
+        assert(() {
+          debugPrintStack(stackTrace: st);
+          return true;
+        }());
+      }
     }
     runApp(const MyApp());
   }, (Object error, StackTrace stack) {
@@ -71,6 +92,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    // 首帧后再移除原生启动图，避免部分机型上 remove 过早无效而一直停在欢迎页。
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FlutterNativeSplash.remove();
+    });
+  }
+
   @override
   void dispose() {
     if (!currentRouterController.isClosed) {

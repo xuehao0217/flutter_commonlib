@@ -3,7 +3,6 @@ import 'package:common_core/widget/bottom_navigation_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_commonlib/l10n/app_localizations.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'home_page.dart';
 import 'msg_page.dart';
@@ -20,12 +19,7 @@ class _MainPage extends BaseStatefulWidget with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    initialization();
     WidgetsBinding.instance.addObserver(this);
-  }
-
-  void initialization() async {
-    FlutterNativeSplash.remove();
   }
 
   @override
