@@ -1,0 +1,44 @@
+---
+description: Dart/Flutter 编码与 MVVM+GetX 约定
+globs: "**/*.dart"
+alwaysApply: false
+---
+
+# Dart / Flutter 约定
+
+## import 顺序
+
+1. `dart:...`
+2. `package:flutter/...`、`package:flutter_commonlib/...`
+3. `package:common_core/...`
+4. 其他第三方 `package:`
+5. 相对路径 `../`、`./`  
+组间空一行。
+
+## 命名
+
+- 类：大驼峰；文件：snake_case。
+- 路由名与 `RouterUrlConfig` 常量一致，字符串优先 **snake_case**（如 `list_refresh`）。
+- 新 `GetPage` 必须同步增加 `RouterUrlConfig` 项。
+
+## MVVM + GetX
+
+- 页面复杂逻辑进 **ViewModel**，继承 `BaseViewModel`；页面用 `BaseVMStatefulWidget` / `BaseVMStatelessWidget` 绑定。
+- 网络走 `asyncRequestNetwork` / `HttpUtils`；成功语义对齐 `BaseEntity`、`errorCode == 0`；依赖基类 **CancelToken**，不在页面关闭后裸回调。
+- 路由：`GetMaterialApp`、`getPages`；调试 Observer（如 Chucker）仅 `kDebugMode`。
+
+## 日志与异常
+
+- 优先 **LoggerHelper / Talker**，避免依赖 `print`；敏感信息勿打日志。
+- 未捕获异常：`runZonedGuarded` + Debug 控制台；Firebase 已初始化时再 **Crashlytics.recordError**。
+
+## 平台
+
+- FCM 后台入口：`@pragma('vm:entry-point')` 顶层函数，内联 `Firebase.initializeApp`。
+- Loading/Toast：与 `AbsBaseView` 一致时用 **FlutterSmartDialog**。
+- 主题：`appLightThemeData` / `appDarkThemeData`，色值尽量走 `ColorScheme` / `lib/style/`，少散落硬编码。
+
+## 注释
+
+- `common_core` 对外 API、重要 `init`：用 `///` 简述用途与约束。
+- `analysis_options` 含 `flutter_lints`；宿主与 `common_core` 改 lint 宜同步评估。

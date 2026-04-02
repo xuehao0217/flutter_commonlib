@@ -1,0 +1,22 @@
+---
+description: 模块边界与目录约定（flutter_commonlib + common_core）
+alwaysApply: true
+---
+
+# 工程模块
+
+- **宿主** `flutter_commonlib`：`main`、路由、`GetMaterialApp`、业务页面、宿主 `HttpApi` / `entity` / `generated`。
+- **库** `common_core`：MVVM 基类、`HttpUtils`/`BaseEntity`、通用 Widget、`CommonCore.init`；**不放具体业务接口 path**（由宿主 `HttpUtils.init` + `HttpApi` 承担）。
+
+## 放置位置
+
+| 内容 | 位置 |
+|------|------|
+| 页面 | `lib/ui/`（`*_page.dart` 等） |
+| ViewModel | `lib/ui/vm/*_view_model.dart` |
+| 接口路径 | `lib/api/http_api.dart`（`static const`） |
+| 路由 | `lib/router/router_config.dart`：`RouterUrlConfig` + `GetPage` 列表 |
+| 实体 | `lib/entity/`；生成代码 `lib/generated/json/` |
+| 库内工具/UI | `common_core/lib/helpter/`（历史目录名，新 import 与之一致）、`widget/`、`net/`、`base/` |
+
+完整说明见仓库 [`docs/flutter_code_standards.md`](docs/flutter_code_standards.md)。
