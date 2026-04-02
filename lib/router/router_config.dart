@@ -18,6 +18,7 @@ import '../ui/my_page.dart';
 import '../ui/refresh_list_page.dart';
 import '../ui/scroll_demo_page.dart';
 import '../ui/single_child_scroll.dart';
+import '../ui/avatar_crop_demo_page.dart';
 
 /// 应用内路由名常量（与 [pages] 中 [GetPage.name] 一致）。
 class RouterUrlConfig {
@@ -37,6 +38,7 @@ class RouterUrlConfig {
   static const grid_view = "/grid_view";
   static const middleware_demo = "/middleware_demo";
   static const locale_theme_demo = "/locale_theme_demo";
+  static const avatar_crop_demo = "/avatar_crop_demo";
 }
 
 final List<GetPage> pages = [
@@ -56,6 +58,7 @@ final List<GetPage> pages = [
   GetPage(name: RouterUrlConfig.grid_view, page: () => GridviewPage()),
   GetPage(name: RouterUrlConfig.middleware_demo, page: () => const MiddlewareDemoPage()),
   GetPage(name: RouterUrlConfig.locale_theme_demo, page: () => const LocaleThemeDemoPage()),
+  GetPage(name: RouterUrlConfig.avatar_crop_demo, page: () => const AvatarCropDemoPage()),
 ];
 
 

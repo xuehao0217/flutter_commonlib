@@ -82,6 +82,13 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           onTap: () => GetXHelper.to(RouterUrlConfig.watermark),
         ),
         _DemoTile(
+          icon: Icons.crop_rounded,
+          title: '头像裁剪',
+          subtitle: '相册选图并裁成圆形头像',
+          colorScheme: cs,
+          onTap: () => GetXHelper.to(RouterUrlConfig.avatar_crop_demo),
+        ),
+        _DemoTile(
           icon: Icons.language_rounded,
           title: 'WebView',
           subtitle: '内嵌浏览器',
