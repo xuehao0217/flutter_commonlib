@@ -1,0 +1,22 @@
+{
+  "@@locale": "es",
+  "tabHome": "Inicio",
+  "tabMessage": "Mensajes",
+  "tabMine": "Perfil",
+  "localeThemeDemoTitle": "Idioma y tema",
+  "localeThemeDemoSubtitle": "Cambio en tiempo real y guardado (SP)",
+  "appearanceLanguage": "Idioma",
+  "appearanceTheme": "Tema",
+  "langFollowSystem": "Idioma del dispositivo",
+  "langEnglish": "Inglés",
+  "langChineseSimplified": "Chino (simplificado)",
+  "langJapanese": "Japonés",
+  "langFrench": "Francés",
+  "langSpanish": "Español",
+  "langKorean": "Coreano",
+  "langGerman": "Alemán",
+  "themeFollowSystem": "Tema del dispositivo",
+  "themeLight": "Claro",
+  "themeDark": "Oscuro",
+  "localeSavedHint": "Guardado. Las pestañas se actualizan al volver."
+}

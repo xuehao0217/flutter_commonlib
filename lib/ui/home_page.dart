@@ -8,6 +8,7 @@ import 'package:dart_helper_utils/dart_helper_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chucker_flutter/chucker_flutter.dart';
+import 'package:flutter_commonlib/l10n/app_localizations.dart';
 import '../auth/auth_service.dart';
 import '../generated/assets.dart';
 import '../router/router_config.dart';
@@ -37,6 +38,7 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
   @override
   Widget buildPageContent(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
@@ -53,15 +55,11 @@ class _HomePage extends BaseVMStatefulWidget<HomePage, HomeViewModel> {
           const EdgeInsets.only(bottom: 8),
         ),
         _DemoTile(
-          icon: Icons.dark_mode_outlined,
-          title: '主题切换',
-          subtitle: '当前：${Get.isDarkMode ? "深色" : "浅色"}',
+          icon: Icons.translate_rounded,
+          title: l10n.localeThemeDemoTitle,
+          subtitle: l10n.localeThemeDemoSubtitle,
           colorScheme: cs,
-          onTap: () {
-            Get.changeThemeMode(
-              Get.isDarkMode ? ThemeMode.light : ThemeMode.dark,
-            );
-          },
+          onTap: () => GetXHelper.to(RouterUrlConfig.locale_theme_demo),
         ),
         _SectionTitle(
           icon: Icons.route_rounded,

@@ -10,6 +10,7 @@ import '../ui/flutter_helper_kit.dart';
 import '../ui/gridview_page.dart';
 import '../ui/home_page.dart';
 import '../ui/login_page.dart';
+import '../ui/locale_theme_demo_page.dart';
 import '../ui/main_page.dart';
 import '../ui/middleware_demo_page.dart';
 import '../ui/msg_page.dart';
@@ -35,6 +36,7 @@ class RouterUrlConfig {
   static const scroll_demo = "/scroll_demo";
   static const grid_view = "/grid_view";
   static const middleware_demo = "/middleware_demo";
+  static const locale_theme_demo = "/locale_theme_demo";
 }
 
 final List<GetPage> pages = [
@@ -53,6 +55,7 @@ final List<GetPage> pages = [
   GetPage(name: RouterUrlConfig.webview, page: () => WebViewPage()),
   GetPage(name: RouterUrlConfig.grid_view, page: () => GridviewPage()),
   GetPage(name: RouterUrlConfig.middleware_demo, page: () => const MiddlewareDemoPage()),
+  GetPage(name: RouterUrlConfig.locale_theme_demo, page: () => const LocaleThemeDemoPage()),
 ];
 
 

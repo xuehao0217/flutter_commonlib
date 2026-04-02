@@ -17,6 +17,7 @@ import 'package:flutter_commonlib/l10n/app_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_commonlib/auth/auth_service.dart';
 import 'package:flutter_commonlib/router/router_config.dart';
+import 'package:flutter_commonlib/settings/locale_theme_controller.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 
@@ -41,6 +42,9 @@ void main() {
       await auth.init();
       return auth;
     });
+
+    Get.put(LocaleThemeController());
+    await Get.find<LocaleThemeController>().load();
 
     HttpUtils.init(HttpApi.baseUrl, JsonConvert.fromJsonAsT, headers: {
       "App-Version": "1.0.0",
@@ -111,14 +115,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    final localeTheme = Get.find<LocaleThemeController>();
+    return Obx(
+      () => GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      locale: const Locale('zh', 'CN'),
+      locale: localeTheme.appMaterialLocale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      localeListResolutionCallback: (locales, supported) {
+        return basicLocaleListResolution(locales, supported);
+      },
       theme: appLightThemeData,
       darkTheme: appDarkThemeData,
-      themeMode: ThemeMode.system,
+      themeMode: localeTheme.materialThemeMode,
       initialRoute: RouterUrlConfig.main,
       builder: (context, child) {
         final smartChild = FlutterSmartDialog.init()(context, child);
@@ -142,6 +151,7 @@ class _MyAppState extends State<MyApp> {
         }
       },
       getPages: pages,
+    ),
     );
   }
 }

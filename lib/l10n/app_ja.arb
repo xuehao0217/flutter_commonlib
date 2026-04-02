@@ -1,0 +1,22 @@
+{
+  "@@locale": "ja",
+  "tabHome": "ホーム",
+  "tabMessage": "メッセージ",
+  "tabMine": "マイページ",
+  "localeThemeDemoTitle": "言語とテーマ",
+  "localeThemeDemoSubtitle": "実行時の切り替えと SP への保存",
+  "appearanceLanguage": "言語",
+  "appearanceTheme": "テーマ",
+  "langFollowSystem": "端末の言語に合わせる",
+  "langEnglish": "英語",
+  "langChineseSimplified": "中国語（簡体字）",
+  "langJapanese": "日本語",
+  "langFrench": "フランス語",
+  "langSpanish": "スペイン語",
+  "langKorean": "韓国語",
+  "langGerman": "ドイツ語",
+  "themeFollowSystem": "端末のテーマに合わせる",
+  "themeLight": "ライト",
+  "themeDark": "ダーク",
+  "localeSavedHint": "保存しました。戻るとタブなどが更新されます。"
+}

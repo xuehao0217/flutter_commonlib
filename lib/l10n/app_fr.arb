@@ -1,0 +1,22 @@
+{
+  "@@locale": "fr",
+  "tabHome": "Accueil",
+  "tabMessage": "Messages",
+  "tabMine": "Profil",
+  "localeThemeDemoTitle": "Langue et thème",
+  "localeThemeDemoSubtitle": "Changement à l'exécution et enregistrement (SP)",
+  "appearanceLanguage": "Langue",
+  "appearanceTheme": "Thème",
+  "langFollowSystem": "Langue de l'appareil",
+  "langEnglish": "Anglais",
+  "langChineseSimplified": "Chinois (simplifié)",
+  "langJapanese": "Japonais",
+  "langFrench": "Français",
+  "langSpanish": "Espagnol",
+  "langKorean": "Coréen",
+  "langGerman": "Allemand",
+  "themeFollowSystem": "Thème de l'appareil",
+  "themeLight": "Clair",
+  "themeDark": "Sombre",
+  "localeSavedHint": "Enregistré. Les onglets se mettent à jour au retour."
+}

@@ -11,5 +11,21 @@
   "tabMine": "Profile",
   "@tabMine": {
     "description": "Bottom navigation: profile tab"
-  }
+  },
+  "localeThemeDemoTitle": "Language & theme",
+  "localeThemeDemoSubtitle": "Runtime locale + theme with persistence (SP)",
+  "appearanceLanguage": "Language",
+  "appearanceTheme": "Theme",
+  "langFollowSystem": "Use device language",
+  "langEnglish": "English",
+  "langChineseSimplified": "Chinese (Simplified)",
+  "langJapanese": "Japanese",
+  "langFrench": "French",
+  "langSpanish": "Spanish",
+  "langGerman": "German",
+  "langKorean": "Korean",
+  "themeFollowSystem": "Use device theme",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "localeSavedHint": "Saved. Tabs update after returning."
 }

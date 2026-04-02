@@ -1,0 +1,22 @@
+{
+  "@@locale": "ko",
+  "tabHome": "홈",
+  "tabMessage": "메시지",
+  "tabMine": "내 정보",
+  "localeThemeDemoTitle": "언어 및 테마",
+  "localeThemeDemoSubtitle": "실행 중 전환 및 SP 저장",
+  "appearanceLanguage": "언어",
+  "appearanceTheme": "테마",
+  "langFollowSystem": "기기 언어 따름",
+  "langEnglish": "영어",
+  "langChineseSimplified": "중국어(간체)",
+  "langJapanese": "일본어",
+  "langFrench": "프랑스어",
+  "langSpanish": "스페인어",
+  "langKorean": "한국어",
+  "langGerman": "독일어",
+  "themeFollowSystem": "기기 테마 따름",
+  "themeLight": "라이트",
+  "themeDark": "다크",
+  "localeSavedHint": "저장됨. 돌아가면 탭 등이 갱신됩니다."
+}

@@ -16,4 +16,53 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tabMine => 'Profile';
+
+  @override
+  String get localeThemeDemoTitle => 'Language & theme';
+
+  @override
+  String get localeThemeDemoSubtitle =>
+      'Runtime locale + theme with persistence (SP)';
+
+  @override
+  String get appearanceLanguage => 'Language';
+
+  @override
+  String get appearanceTheme => 'Theme';
+
+  @override
+  String get langFollowSystem => 'Use device language';
+
+  @override
+  String get langEnglish => 'English';
+
+  @override
+  String get langChineseSimplified => 'Chinese (Simplified)';
+
+  @override
+  String get langJapanese => 'Japanese';
+
+  @override
+  String get langFrench => 'French';
+
+  @override
+  String get langSpanish => 'Spanish';
+
+  @override
+  String get langGerman => 'German';
+
+  @override
+  String get langKorean => 'Korean';
+
+  @override
+  String get themeFollowSystem => 'Use device theme';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get localeSavedHint => 'Saved. Tabs update after returning.';
 }

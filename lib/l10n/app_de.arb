@@ -1,0 +1,22 @@
+{
+  "@@locale": "de",
+  "tabHome": "Start",
+  "tabMessage": "Nachrichten",
+  "tabMine": "Profil",
+  "localeThemeDemoTitle": "Sprache & Design",
+  "localeThemeDemoSubtitle": "Wechsel zur Laufzeit mit Speicherung (SP)",
+  "appearanceLanguage": "Sprache",
+  "appearanceTheme": "Design",
+  "langFollowSystem": "Gerätesprache",
+  "langEnglish": "Englisch",
+  "langChineseSimplified": "Chinesisch (vereinfacht)",
+  "langJapanese": "Japanisch",
+  "langFrench": "Französisch",
+  "langSpanish": "Spanisch",
+  "langKorean": "Koreanisch",
+  "langGerman": "Deutsch",
+  "themeFollowSystem": "Gerätedesign",
+  "themeLight": "Hell",
+  "themeDark": "Dunkel",
+  "localeSavedHint": "Gespeichert. Tabs aktualisieren sich nach Zurück."
+}
