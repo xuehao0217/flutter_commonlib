@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'package:common_core/base/mvvm/base_view_model.dart';
 import 'package:common_core/helpter/image_utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -58,8 +56,10 @@ class WatermarkViewModel extends BaseViewModel {
       final takePhotoPath = await ImageUtils.pickImagePath(
         source: ImageSource.camera,
       );
+      if (!context.mounted) return;
       if (takePhotoPath != null) {
-        var newPath=await ImageUtils.fixColor(takePhotoPath);
+        var newPath = await ImageUtils.fixColor(takePhotoPath);
+        if (!context.mounted) return;
         var path = await ImageUtils.addWatermarkFromImgPath(
           context,
           newPath!,
@@ -68,7 +68,18 @@ class WatermarkViewModel extends BaseViewModel {
             right: 25,
             child: Text(
               "拍照并直接添加水印（不显示预览）",
-              style: TextStyle(color: Colors.deepPurple),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                shadows: [
+                  Shadow(
+                    color: Colors.black54,
+                    blurRadius: 5,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
             ),
           ),
         );

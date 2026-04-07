@@ -5,8 +5,8 @@ import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:common_core/base/base_stateful_widget.dart';
 import 'package:common_core/common_core.dart';
 import 'package:common_core/helpter/talker_helper.dart';
+import 'package:common_core/style/theme.dart' as core_theme;
 import 'package:common_core/net/dio_utils.dart';
-import 'package:common_core/style/theme.dart';
 import 'package:dd_check_plugin/dd_check_plugin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -18,6 +18,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_commonlib/auth/auth_service.dart';
 import 'package:flutter_commonlib/router/router_config.dart';
 import 'package:flutter_commonlib/settings/locale_theme_controller.dart';
+import 'package:flutter_commonlib/theme/apple_hig_theme.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 
@@ -125,8 +126,12 @@ class _MyAppState extends State<MyApp> {
       localeListResolutionCallback: (locales, supported) {
         return basicLocaleListResolution(locales, supported);
       },
-      theme: appLightThemeData,
-      darkTheme: appDarkThemeData,
+      theme: localeTheme.isAppleDesign
+          ? AppleHigTheme.lightTheme
+          : core_theme.appLightThemeData,
+      darkTheme: localeTheme.isAppleDesign
+          ? AppleHigTheme.darkTheme
+          : core_theme.appDarkThemeData,
       themeMode: localeTheme.materialThemeMode,
       initialRoute: RouterUrlConfig.main,
       builder: (context, child) {

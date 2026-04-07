@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:flutter_commonlib/settings/locale_theme_controller.dart';
 import 'package:get/get.dart';
 
 import '../auth/auth_service.dart';
@@ -26,7 +28,18 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _submit() async {
-    if (!(_formKey.currentState?.validate() ?? false)) return;
+    if (!LocaleThemeController.to.isAppleDesign) {
+      if (!(_formKey.currentState?.validate() ?? false)) return;
+    } else {
+      if (_accountCtrl.text.trim().isEmpty) {
+        SmartDialog.showToast('请输入账号');
+        return;
+      }
+      if (_passwordCtrl.text.isEmpty) {
+        SmartDialog.showToast('请输入密码');
+        return;
+      }
+    }
     setState(() => _busy = true);
     try {
       await AuthService.to.login(
@@ -56,6 +69,15 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    return Obx(() {
+      if (LocaleThemeController.to.isAppleDesign) {
+        return _buildCupertino(context);
+      }
+      return _buildMaterial(context);
+    });
+  }
+
+  Widget _buildMaterial(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     return Scaffold(
       body: SafeArea(
@@ -63,14 +85,16 @@ class _LoginPageState extends State<LoginPage> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 400),
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
               child: Form(
                 key: _formKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Icon(Icons.lock_outline_rounded, size: 56, color: cs.primary),
+                    Icon(Icons.lock_outline_rounded,
+                        size: 56, color: cs.primary),
                     const SizedBox(height: 20),
                     Text(
                       '登录',
@@ -119,7 +143,8 @@ class _LoginPageState extends State<LoginPage> {
                           ? const SizedBox(
                               height: 22,
                               width: 22,
-                              child: CircularProgressIndicator(strokeWidth: 2),
+                              child:
+                                  CircularProgressIndicator(strokeWidth: 2),
                             )
                           : const Text('登 录'),
                     ),
@@ -127,6 +152,92 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCupertino(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('登录'),
+        backgroundColor: cs.surface.withValues(alpha: 0.92),
+      ),
+      child: Material(
+        color: cs.surface,
+        child: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            children: [
+              const SizedBox(height: 24),
+              Icon(CupertinoIcons.lock_shield, size: 64, color: cs.primary),
+              const SizedBox(height: 20),
+              Text(
+                '欢迎回来',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: cs.onSurface,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Demo：任意非空账号密码即可进入',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: cs.onSurfaceVariant,
+                  height: 1.35,
+                ),
+              ),
+              const SizedBox(height: 28),
+              CupertinoFormSection.insetGrouped(
+                backgroundColor: cs.surfaceContainerHigh,
+                decoration: BoxDecoration(
+                  color: cs.surfaceContainerHigh,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                margin: EdgeInsets.zero,
+                children: [
+                  CupertinoTextField(
+                    controller: _accountCtrl,
+                    placeholder: '账号',
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    autofocus: false,
+                    textInputAction: TextInputAction.next,
+                    autofillHints: const [AutofillHints.username],
+                  ),
+                  Container(
+                    height: 1,
+                    margin: const EdgeInsets.only(left: 16),
+                    color: cs.outlineVariant,
+                  ),
+                  CupertinoTextField(
+                    controller: _passwordCtrl,
+                    placeholder: '密码',
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    obscureText: true,
+                    onSubmitted: (_) => _submit(),
+                    autofillHints: const [AutofillHints.password],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 28),
+              CupertinoButton.filled(
+                onPressed: _busy ? null : _submit,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                borderRadius: BorderRadius.circular(10),
+                child: _busy
+                    ? const CupertinoActivityIndicator(
+                        color: CupertinoColors.white)
+                    : const Text('登录'),
+              ),
+            ],
           ),
         ),
       ),

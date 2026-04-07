@@ -7,12 +7,17 @@ import 'package:get/get.dart';
 ///
 /// - 语言：`localeTag == null` 表示 [MaterialApp.locale] 为 null，即跟随系统。
 /// - 主题：`system` / `light` / `dark`。
+/// - 设计规范：`apple`（Human Interface Guidelines）| `google`（Material Design 3）。
 /// - 同步 [Get.updateLocale] 以便 GetX 组件与 [MaterialApp] 一致。
 class LocaleThemeController extends GetxController {
   static LocaleThemeController get to => Get.find<LocaleThemeController>();
 
   static const _kLang = 'prefs_app_language';
   static const _kTheme = 'prefs_app_theme';
+  static const _kDesignSystem = 'prefs_app_design_system';
+
+  static const designApple = 'apple';
+  static const designGoogle = 'google';
 
   static const supportedLangCodes = ['en', 'zh', 'ja', 'fr', 'es', 'de', 'ko'];
 
@@ -21,6 +26,12 @@ class LocaleThemeController extends GetxController {
 
   /// `system` | `light` | `dark`
   final RxString themeTag = 'system'.obs;
+
+  /// `apple` | `google`
+  final RxString designSystemTag = designApple.obs;
+
+  /// 是否使用 Apple Human Interface 规范（否则为 Google Material 3）。
+  bool get isAppleDesign => designSystemTag.value == designApple;
 
   /// 传入 [GetMaterialApp.locale]：`null` = 使用设备语言。
   Locale? get appMaterialLocale {
@@ -48,6 +59,9 @@ class LocaleThemeController extends GetxController {
       localeTag.value = lang;
     }
     themeTag.value = await SPUtil.getString(_kTheme, defaultValue: 'system');
+    final ds = await SPUtil.getString(_kDesignSystem, defaultValue: designApple);
+    designSystemTag.value =
+        (ds == designGoogle || ds == designApple) ? ds : designApple;
     _syncGetLocale();
   }
 
@@ -67,6 +81,13 @@ class LocaleThemeController extends GetxController {
   Future<void> setTheme(String code) async {
     themeTag.value = code;
     await SPUtil.putString(_kTheme, code);
+  }
+
+  /// [tag]：[designApple] / [designGoogle]
+  Future<void> setDesignSystem(String tag) async {
+    final v = tag == designGoogle ? designGoogle : designApple;
+    designSystemTag.value = v;
+    await SPUtil.putString(_kDesignSystem, v);
   }
 
   void _syncGetLocale() {

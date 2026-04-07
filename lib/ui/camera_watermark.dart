@@ -1,13 +1,7 @@
 import 'dart:io';
-import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:common_core/base/mvvm/base_vm_stateful_widget.dart';
-import 'package:common_core/helpter/widget_ext_helper.dart';
-import 'package:common_core/widget/common_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_commonlib/ui/vm/watermark_vm.dart';
 import 'package:get/get.dart';
 
@@ -18,184 +12,279 @@ class WatermarkPage extends StatefulWidget {
 
 class _WatermarkPage
     extends BaseVMStatefulWidget<WatermarkPage, WatermarkViewModel> {
-  // 提取常量
-  static const double _buttonHeight = 50.0;
-  static const double _buttonRadius = 10.0;
-  static const double _buttonElevation = 2.0;
-  static const EdgeInsets _buttonPadding = EdgeInsets.only(
-    bottom: 15,
-    left: 15,
-    right: 15,
-  );
-  static const TextStyle _buttonTextStyle = TextStyle(
-    color: Colors.white,
-    fontSize: 16,
-  );
-  static const TextStyle _watermarkTextStyle = TextStyle(
-    color: Colors.red,
-    fontSize: 15,
-  );
+  static TextStyle _watermarkOverlayStyle(ColorScheme cs) {
+    return TextStyle(
+      color: Colors.white,
+      fontSize: 15,
+      fontWeight: FontWeight.w600,
+      shadows: [
+        Shadow(
+          color: Colors.black.withValues(alpha: 0.55),
+          blurRadius: 6,
+          offset: const Offset(0, 1),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget buildPageContent(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
+
     return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 28),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _buildImagePreview(),
-          SizedBox(height: 15),
           Text(
-            "拍照打水印成功后的预览：",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+            '拍照后在预览图上叠加水印，可导出带水印图片；也可走后台拍照加水印流程。',
+            style: tt.bodyMedium?.copyWith(
+              color: cs.onSurfaceVariant,
+              height: 1.45,
             ),
-          ).paddingSymmetric(horizontal: 16),
+          ),
+          const SizedBox(height: 22),
+          _sectionHeader(context, cs, Icons.photo_camera_outlined, '拍照预览'),
+          const SizedBox(height: 10),
+          _buildImagePreview(context, cs),
+          const SizedBox(height: 22),
+          _sectionHeader(
+            context,
+            cs,
+            Icons.branding_watermark_outlined,
+            '导出结果',
+          ),
+          const SizedBox(height: 10),
           Text(
-            "生成的图片：",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ).paddingSymmetric(horizontal: 16),
-          SizedBox(height: 10),
+            '带水印导出（显示预览）',
+            style: tt.labelLarge?.copyWith(color: cs.onSurfaceVariant),
+          ),
+          const SizedBox(height: 8),
           ObxValue(
             (data) => data.value.isNotEmpty
-                ? Image.file(File(data.value)).paddingSymmetric(horizontal: 16)
-                : SizedBox.shrink(),
+                ? _resultImageCard(context, cs, File(data.value))
+                : _emptyResultHint(cs, '尚未生成'),
             viewModel.saveImagePath1,
           ),
-          SizedBox(height: 15),
-          _buildActionButtons(),
+          const SizedBox(height: 18),
+          Text(
+            '后台拍照加水印（不经过上方预览）',
+            style: tt.labelLarge?.copyWith(color: cs.onSurfaceVariant),
+          ),
+          const SizedBox(height: 8),
           ObxValue(
-                (data) => data.value.isNotEmpty
-                ? Image.file(File(data.value)).paddingSymmetric(horizontal: 16)
-                : SizedBox.shrink(),
+            (data) => data.value.isNotEmpty
+                ? _resultImageCard(context, cs, File(data.value))
+                : _emptyResultHint(cs, '尚未生成'),
             viewModel.saveImagePath2,
           ),
+          const SizedBox(height: 20),
+          _buildActionButtons(context, cs),
         ],
       ),
     );
   }
 
-  /// 构建图片预览区域
-  Widget _buildImagePreview() {
-    return Column(
+  Widget _sectionHeader(
+    BuildContext context,
+    ColorScheme cs,
+    IconData icon,
+    String label,
+  ) {
+    return Row(
       children: [
+        Icon(icon, size: 22, color: cs.primary),
+        const SizedBox(width: 8),
         Text(
-          "拍照预览：",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ).paddingSymmetric(horizontal: 16),
-        SizedBox(height: 15),
-        Obx(() {
-          if (viewModel.pickImage.value.isEmpty) return SizedBox();
-          return RepaintBoundary(
-            key: viewModel.globalKey,
-            child: Stack(
-              children: [
-                Image.file(File(viewModel.pickImage.value)),
-                Positioned(
-                  bottom: 15,
-                  right: 15,
-                  child: Text("我是水印", style: _watermarkTextStyle),
-                ),
-              ],
-            ),
-          );
-        }),
+          label,
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+        ),
       ],
-    ).paddingSymmetric(horizontal: 16);
-  }
-
-  /// 构建操作按钮
-  Widget _buildActionButtons() {
-    return Obx(
-      () => Column(
-        children: [
-          _buildButton(
-            text: viewModel.isLoading.value ? "处理中..." : "拍照",
-            onPressed: () => _handleTakePhoto(),
-          ),
-          _buildButton(
-            text: viewModel.isLoading.value ? "处理中..." : "添加水印",
-            onPressed: () => _handleAddWatermark(),
-          ),
-          _buildButton(
-            text: viewModel.isLoading.value ? "处理中..." : "不显示照片打水印",
-            onPressed: () => _handleAddWatermarkWithoutDisplay(),
-          ),
-          if (viewModel.hasImage)
-            _buildButton(
-              text: "清除图片",
-              onPressed: () => _handleClearImage(),
-              backgroundColor: Colors.red,
-            ),
-        ],
-      ),
     );
   }
 
-  /// 构建通用按钮
-  Widget _buildButton({
-    required String text,
-    required VoidCallback onPressed,
-    Color? backgroundColor,
-  }) {
-    return CommonButton(
-      elevation: _buttonElevation,
-      circular: _buttonRadius,
-      backgroundColor: backgroundColor ?? Colors.blue,
-      width: double.infinity,
-      height: _buttonHeight,
-      onPressed: onPressed,
+  Widget _emptyResultHint(ColorScheme cs, String text) {
+    return Container(
+      height: 120,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: cs.surfaceContainerHighest.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.5)),
+      ),
       child: Text(
         text,
-        style: _buttonTextStyle.copyWith(color: _buttonTextStyle.color),
+        style: TextStyle(color: cs.onSurfaceVariant),
       ),
-    ).withPadding(_buttonPadding);
+    );
   }
 
-  /// 处理拍照
+  Widget _resultImageCard(BuildContext context, ColorScheme cs, File file) {
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      elevation: 0,
+      color: cs.surfaceContainerHighest.withValues(alpha: 0.45),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Image.file(
+          file,
+          fit: BoxFit.cover,
+          width: double.infinity,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImagePreview(BuildContext context, ColorScheme cs) {
+    return Obx(() {
+      if (viewModel.pickImage.value.isEmpty) {
+        return Container(
+          height: 200,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: cs.surfaceContainerHighest.withValues(alpha: 0.55),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: cs.outlineVariant.withValues(alpha: 0.45),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.add_a_photo_outlined,
+                size: 40,
+                color: cs.outline,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                '点击下方「拍照」开始',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: cs.onSurfaceVariant,
+                    ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      return Material(
+        color: cs.surfaceContainerHighest.withValues(alpha: 0.35),
+        borderRadius: BorderRadius.circular(16),
+        clipBehavior: Clip.antiAlias,
+        child: RepaintBoundary(
+          key: viewModel.globalKey,
+          child: Stack(
+            children: [
+              Image.file(
+                File(viewModel.pickImage.value),
+                width: double.infinity,
+                fit: BoxFit.fitWidth,
+              ),
+              Positioned(
+                bottom: 16,
+                right: 16,
+                child: Text(
+                  '我是水印',
+                  style: _watermarkOverlayStyle(cs),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
+  Widget _buildActionButtons(BuildContext context, ColorScheme cs) {
+    return Obx(
+      () {
+        final busy = viewModel.isLoading.value;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            FilledButton.icon(
+              onPressed: busy ? null : () => _handleTakePhoto(),
+              icon: busy
+                  ? SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: cs.onPrimary,
+                      ),
+                    )
+                  : const Icon(Icons.camera_alt_rounded),
+              label: Text(busy ? '处理中…' : '拍照'),
+            ),
+            const SizedBox(height: 10),
+            FilledButton.tonalIcon(
+              onPressed: busy ? null : () => _handleAddWatermark(),
+              icon: const Icon(Icons.layers_outlined),
+              label: Text(busy ? '处理中…' : '添加水印并保存'),
+            ),
+            const SizedBox(height: 10),
+            OutlinedButton.icon(
+              onPressed: busy ? null : () => _handleAddWatermarkWithoutDisplay(),
+              icon: const Icon(Icons.offline_bolt_outlined),
+              label: Text(busy ? '处理中…' : '不显示预览 · 直接加水印'),
+            ),
+            if (viewModel.hasImage) ...[
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: cs.error,
+                  side: BorderSide(color: cs.error.withValues(alpha: 0.6)),
+                ),
+                onPressed: busy ? null : () => _handleClearImage(),
+                icon: const Icon(Icons.delete_outline_rounded),
+                label: const Text('清除预览与已导出图'),
+              ),
+            ],
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _handleTakePhoto() async {
     try {
       await viewModel.getImage();
     } catch (e) {
-      _showErrorToast("拍照失败: $e");
+      _showErrorToast('拍照失败: $e');
     }
   }
 
-  /// 处理添加水印
   void _handleAddWatermark() {
     if (viewModel.pickImage.value.isEmpty) {
-      _showErrorToast("请先拍照");
+      _showErrorToast('请先拍照');
       return;
     }
 
     try {
       viewModel.generateImage();
     } catch (e) {
-      _showErrorToast("添加水印失败: $e");
+      _showErrorToast('添加水印失败: $e');
     }
   }
 
-  /// 处理不显示照片添加水印
   void _handleAddWatermarkWithoutDisplay() {
     try {
       viewModel.getImageToImage(context);
     } catch (e) {
-      _showErrorToast("处理失败: $e");
+      _showErrorToast('处理失败: $e');
     }
   }
 
-  /// 处理清除图片
   void _handleClearImage() {
     viewModel.clearImage();
-    _showErrorToast("图片已清除");
+    _showErrorToast('图片已清除');
   }
 
-  /// 显示错误提示
   void _showErrorToast(String message) {
     showToast(message);
   }
